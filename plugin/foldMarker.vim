@@ -1,7 +1,7 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 10, Fri | 16:33:24 | 2015
+" Last Update: Apr 10, Fri | 16:53:23 | 2015
 
-" Version: 0.9.0
+" Version: 0.9.1
 " License: GPLv3
 " Author: Bozar
 
@@ -52,11 +52,11 @@ endfunction "}}}2
 function! s:ExpandFold(when) "{{{2
 
     if a:when ==# 0
-        let s:foldlevel = &foldlevel
+        let s:FoldLevel = &foldlevel
         let &foldlevel = 20
     endif
     if a:when ==# 1
-        let &foldlevel = s:foldlevel
+        let &foldlevel = s:FoldLevel
     endif
 
 endfunction "}}}2
