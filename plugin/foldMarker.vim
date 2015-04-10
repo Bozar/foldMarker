@@ -1,7 +1,7 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 09, Thu | 11:39:04 | 2015
+" Last Update: Apr 10, Fri | 16:02:26 | 2015
 
-" Version: 0.8.0
+" Version: 0.8.1
 " License: GPLv3
 " Author: Bozar
 
@@ -100,60 +100,79 @@ function! s:CreatMarker(where) "{{{2
 
 endfunction "}}}2
 
-function! s:CreatLevel() "{{{2
+function! s:CreatLevel(mode,creat) "{{{2
 
-    call moveCursor#GotoFoldBegin()
-    if foldlevel('.') ==# 0
-        s/$/1/
-    else
-        execute 's/$/' . foldlevel('.') . '/'
-    endif
-    normal! ]z
-    if foldlevel('.') ==# 0
-        s/$/1/
-    else
-        execute 's/$/' . foldlevel('.') . '/'
-    endif
-
-endfunction "}}}2
-
-function! s:ChangeLevel() "{{{2
-
-    if line("'<") <# 1 ||
-    \ line("'<") ># line('$') ||
+    if a:mode ==# 'v' &&
+    \ (
+    \ line("'<") <# 1 ||
     \ line("'>") <# 1 ||
+    \ line("'<") ># line('$') ||
     \ line("'>") ># line('$')
+    \ )
         echom 'ERROR: Visual block not found!'
         return
     endif
 
-    let l:BeginNum =
+    " new search pattern
+    let l:numBegin =
     \ substitute(s:FoldBegin,'{0,2}','+','')
-    let l:BeginNoNum =
+    let l:noNumBegin =
     \ substitute(s:FoldBegin,'{0,2}','{0}','')
-    let l:EndNum =
+    let l:numEnd =
     \ substitute(s:FoldEnd,'{0,2}','+','')
-    let l:EndNoNum =
+    let l:noNumEnd =
     \ substitute(s:FoldEnd,'{0,2}','{0}','')
 
-    normal! '<
+    " command range
+    if a:mode ==# 'n'
+        call moveCursor#SetLineJKFold()
+    elseif a:mode ==# 'v'
+        call moveCursor#SetLineNr("'<",'J')
+        call moveCursor#SetLineNr("'>",'K')
+    endif
+
+    " always delete fold level, begin
+    execute moveCursor#TakeLineNr('J','')
     normal! 0
-    if search(l:BeginNoNum,'cnW',line("'>"))
-        execute "'<,'>" . 'g/' . l:BeginNoNum .
-        \ '/s/\v\s*$/\=foldlevel(".")/'
-    elseif search(l:BeginNum,'cnW',line("'>"))
-        execute "'<,'>" . 'g/' . l:BeginNum .
+    if exists('a:creat') &&
+    \ search(l:numBegin,'cnW',
+    \ moveCursor#TakeLineNr('K',''))
+        execute moveCursor#TakeLineNr('J','K') .
+        \ 'g/' . l:numBegin .
         \ '/s//\1 \2' . s:Bra . '/'
     endif
 
-    normal! '<
+    " always delete fold level, end
+    execute moveCursor#TakeLineNr('J','')
     normal! 0
-    if search(l:EndNoNum,'cnW',line("'>"))
-        execute "'<,'>" . 'g/' . l:EndNoNum .
-        \ '/s/\v\s*$/\=foldlevel(".")/'
-    elseif search(l:EndNum,'cnW',line("'>"))
-        execute "'<,'>" . 'g/' . l:EndNum .
+    if exists('a:creat') &&
+    \ search(l:numEnd,'cnW',
+    \ moveCursor#TakeLineNr('K',''))
+        execute moveCursor#TakeLineNr('J','K') .
+        \ 'g/' . l:numEnd .
         \ '/s//\1' . s:Ket . '/'
+    endif
+
+    " creat fold level, begin
+    execute moveCursor#TakeLineNr('J','')
+    normal! 0
+    if a:creat ># 0 &&
+    \ search(l:noNumBegin,'cnW',
+    \ moveCursor#TakeLineNr('K',''))
+        execute moveCursor#TakeLineNr('J','K') .
+        \ 'g/' . l:noNumBegin .
+        \ '/s/\v\s*$/\=foldlevel(".")/'
+    endif
+
+    " creat fold level, end
+    execute moveCursor#TakeLineNr('J','')
+    normal! 0
+    if a:creat ># 0 &&
+    \ search(l:noNumEnd,'cnW',
+    \ moveCursor#TakeLineNr('K',''))
+        execute moveCursor#TakeLineNr('J','K') .
+        \ 'g/' . l:noNumEnd .
+        \ '/s/\v\s*$/\=foldlevel(".")/'
     endif
 
 endfunction "}}}2
@@ -169,7 +188,8 @@ function! s:Help() "{{{2
 	echom 'b: (B)efore current fold block'
 	echom 's: (S)urround selected lines'
 	echom '------------------------------'
-	echom 'e: change fold l(E)vel'
+	echom 'c: (C)reat fold level'
+	echom 'd: (D)elete fold level'
 	echom '------------------------------'
 
 endfunction "}}}2
@@ -206,21 +226,27 @@ function! s:FoldMarker(where) "{{{2
         call <sid>CreatMarker(2)
     endif
 
-    call <sid>CreatLevel()
+    call <sid>CreatLevel('n',1)
     normal! [z
     call <sid>ExpandFold(1)
     normal! zz
 
 endfunction "}}}2
 
-function! s:FoldLevel() "{{{2
+function! s:FoldLevel(creat) "{{{2
 
 	if <sid>DetectFoldMethod() ==# 1
         return
     endif
     call <sid>LoadVars()
     call <sid>ExpandFold(0)
-    call <sid>ChangeLevel()
+
+    if a:creat ==# 0
+        call <sid>CreatLevel('v',0)
+    elseif a:creat ==# 1
+        call <sid>CreatLevel('v',1)
+    endif
+
     call <sid>ExpandFold(1)
 
 endfunction "}}}2
@@ -235,8 +261,10 @@ function! s:SelectFuns(...) "{{{2
         call <sid>FoldMarker('after')
 	elseif a:1 ==# 's'
         call <sid>FoldMarker('surround')
-	elseif a:1 ==# 'e'
-        call <sid>FoldLevel()
+	elseif a:1 ==# 'd'
+        call <sid>FoldLevel(0)
+	elseif a:1 ==# 'c'
+        call <sid>FoldLevel(1)
     else
         call <sid>Help()
     endif
