@@ -1,9 +1,25 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 10, Fri | 16:02:26 | 2015
+" Last Update: Apr 10, Fri | 16:33:24 | 2015
 
-" Version: 0.8.1
+" Version: 0.9.0
 " License: GPLv3
 " Author: Bozar
+
+" load once
+if !exists('g:loaded_foldMarker')
+    let g:loaded_foldMarker = 0
+endif
+if g:loaded_foldMarker ># 0
+    finish
+endif
+let g:loaded_foldMarker = 1
+
+" nocpoptions
+let s:Save_cpo = &cpoptions
+set cpoptions&vim
+
+" BEGIN
+" ==============================
 
 let s:Title = 'FOLDMARKER'
 
@@ -183,7 +199,7 @@ function! s:Help() "{{{2
 	echom 'FoldMarker [args]'
 	echom '------------------------------'
 	echom 'Create new foldmarker...'
-	echom '[blank] or i: after current l(I)ne'
+	echom '[blank] or l: after current (L)ine'
 	echom 'a: (A)fter current fold block'
 	echom 'b: (B)efore current fold block'
 	echom 's: (S)urround selected lines'
@@ -253,7 +269,7 @@ endfunction "}}}2
 
 function! s:SelectFuns(...) "{{{2
 
-	if !exists('a:1') || a:1 ==# 'i'
+	if !exists('a:1') || a:1 ==# 'l'
         call <sid>FoldMarker('line')
 	elseif a:1 ==# 'b'
         call <sid>FoldMarker('before')
@@ -281,5 +297,12 @@ function! s:Commands() "{{{2
 endfunction "}}}2
 
 call <sid>Commands()
+
+" END
+" ==============================
+
+" nocpoptions
+let &cpoptions = s:Save_cpo
+unlet s:Save_cpo
 
 " vim: set fdm=marker fdl=20 cc=50 "}}}1
