@@ -1,7 +1,7 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 10, Fri | 16:53:23 | 2015
+" Last Update: Apr 14, Tue | 23:46:42 | 2015
 
-" Version: 0.9.1
+" Version: 0.9.2-nightly
 " License: GPLv3
 " Author: Bozar
 
@@ -28,6 +28,18 @@ function! s:DetectFoldMethod() "{{{2
 	if &foldmethod !=# 'marker'
         echom "ERROR: 'foldmethod' is NOT" .
         \ " 'marker'!"
+        return 1
+    endif
+
+endfunction "}}}2
+
+function! s:DetectVisualBlock() "{{{2
+
+    if line("'<") <# 1 ||
+    \ line("'>") <# 1 ||
+    \ line("'<") ># line('$') ||
+    \ line("'>") ># line('$')
+        echom 'ERROR: Visual block not found!'
         return 1
     endif
 
@@ -119,14 +131,8 @@ endfunction "}}}2
 function! s:CreatLevel(mode,creat) "{{{2
 
     if a:mode ==# 'v' &&
-    \ (
-    \ line("'<") <# 1 ||
-    \ line("'>") <# 1 ||
-    \ line("'<") ># line('$') ||
-    \ line("'>") ># line('$')
-    \ )
-        echom 'ERROR: Visual block not found!'
-        return
+    \ <sid>DetectVisualBlock() ==# 1
+        return 1
     endif
 
     " new search pattern
@@ -214,7 +220,7 @@ endfunction "}}}2
 function! s:FoldMarker(where) "{{{2
 
 	if <sid>DetectFoldMethod() ==# 1
-        return
+        return 1
     endif
     call <sid>LoadVars()
     call <sid>ExpandFold(0)
@@ -223,23 +229,44 @@ function! s:FoldMarker(where) "{{{2
     if a:where ==# 'line'
         call <sid>CreatMarker(1)
     endif
+
     if a:where ==# 'before'
         call moveCursor#GotoFoldBegin()
         call <sid>CreatMarker(0)
     endif
+
     if a:where ==# 'after'
         call moveCursor#GotoFoldBegin()
         normal! ]z
         call <sid>CreatMarker(1)
     endif
+
     if a:where ==# 'surround'
-        if line("'<") ==# line("'>") ||
-        \ getline(line("'<")) =~# s:FoldBegin ||
-        \ getline(line("'>")) =~# s:FoldEnd
+
+        if <sid>DetectVisualBlock() ==# 1
             call <sid>ExpandFold(1)
-            return
+            return 2
         endif
+
+        if line("'<") ==# line("'>")
+            echom 'ERROR: Visual block only' .
+            \ ' has one line!'
+            call <sid>ExpandFold(1)
+            return 3
+        endif
+
+        if getline(line("'<")) =~# s:FoldBegin ||
+        \ getline(line("'<")) =~# s:FoldEnd ||
+        \ getline(line("'>")) =~# s:FoldBegin ||
+        \ getline(line("'>")) =~# s:FoldEnd
+            echom 'ERROR: Visual block already' .
+            \ 'has fold marker!'
+            call <sid>ExpandFold(1)
+            return 4
+        endif
+
         call <sid>CreatMarker(2)
+
     endif
 
     call <sid>CreatLevel('n',1)
@@ -252,7 +279,7 @@ endfunction "}}}2
 function! s:FoldLevel(creat) "{{{2
 
 	if <sid>DetectFoldMethod() ==# 1
-        return
+        return 1
     endif
     call <sid>LoadVars()
     call <sid>ExpandFold(0)
