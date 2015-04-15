@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 14, Tue | 23:46:42 | 2015
+" Last Update: Apr 15, Wed | 09:16:47 | 2015
 
 " Version: 0.9.2-nightly
 " License: GPLv3
@@ -260,7 +260,7 @@ function! s:FoldMarker(where) "{{{2
         \ getline(line("'>")) =~# s:FoldBegin ||
         \ getline(line("'>")) =~# s:FoldEnd
             echom 'ERROR: Visual block already' .
-            \ 'has fold marker!'
+            \ ' has fold marker!'
             call <sid>ExpandFold(1)
             return 4
         endif
