@@ -5,7 +5,9 @@ foldMarker.vim
 *   下载插件
 *   新增命令
 *   错误提示
-    +   visual block
+    +   visual block, not found
+    +   visual block, one line
+    +   visual block, fold marker
     +   foldmethod
     +   detect fold
     +   command exists
