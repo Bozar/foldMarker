@@ -1,4 +1,5 @@
 # foldMarker
+
 foldMarker.vim
 
 *   下载插件
@@ -14,3 +15,8 @@ foldMarker.vim
     +   zz
     +   （？）折叠标记前后都有注释符号
 
+## version history
+
+*   0.9.2   (nightly) echom error msgs s:FoldMarker('surround')
+*   0.9.1   change s:var names
+*   0.9.0   first stable version
