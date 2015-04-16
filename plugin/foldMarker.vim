@@ -1,7 +1,7 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 15, Wed | 21:42:42 | 2015
+" Last Update: Apr 16, Thu | 21:43:33 | 2015
 
-" Version: 0.9.2
+" Version: 0.9.3-nightly
 " License: GPLv3
 " Author: Bozar
 
@@ -332,4 +332,4 @@ call <sid>Commands()
 let &cpoptions = s:Save_cpo
 unlet s:Save_cpo
 
-" vim: set fdm=marker fdl=20 cc=50 "}}}1
+" vim: set fdm=marker fdl=20 tw=50 "}}}1
