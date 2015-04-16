@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 16, Thu | 21:43:33 | 2015
+" Last Update: Apr 16, Thu | 21:52:07 | 2015
 
 " Version: 0.9.3-nightly
 " License: GPLv3
@@ -318,6 +318,9 @@ function! s:Commands() "{{{2
 
 	if !exists(':FoldMarker')
 		command -range -nargs=? FoldMarker
+        \ call <sid>SelectFuns(<f-args>)
+	elseif !exists(':FoldMarkerAlt')
+		command -range -nargs=? FoldMarkerAlt
         \ call <sid>SelectFuns(<f-args>)
     endif
 
