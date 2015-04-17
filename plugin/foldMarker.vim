@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 17, Fri | 12:30:42 | 2015
+" Last Update: Apr 17, Fri | 12:45:16 | 2015
 
 " Version: 0.9.3-nightly
 " License: GPLv3
@@ -25,7 +25,7 @@ let s:Title = 'FOLDMARKER'
 
 function! s:DetectFoldMethod() "{{{2
 
-	if &foldmethod !=# 'marker'
+    if &foldmethod !=# 'marker'
         echom "ERROR: 'foldmethod' is NOT" .
         \ " 'marker'!"
         return 1
@@ -201,25 +201,25 @@ endfunction "}}}2
 
 function! s:Help() "{{{2
 
-	echom '------------------------------'
-	echom s:ComName . ' [args]'
-	echom '------------------------------'
-	echom 'Create new foldmarker...'
-	echom '[blank] or l: after current (L)ine'
-	echom 'a: (A)fter current fold block'
-	echom 'b: (B)efore current fold block'
-	echom 's: (S)urround selected lines'
-	echom '------------------------------'
-	echom 'c: (C)reat fold level'
-	echom 'd: (D)elete fold level'
-	echom '------------------------------'
+    echom '------------------------------'
+    echom s:ComName . ' [args]'
+    echom '------------------------------'
+    echom 'Create new foldmarker...'
+    echom '[blank] or l: after current (L)ine'
+    echom 'a: (A)fter current fold block'
+    echom 'b: (B)efore current fold block'
+    echom 's: (S)urround selected lines'
+    echom '------------------------------'
+    echom 'c: (C)reat fold level'
+    echom 'd: (D)elete fold level'
+    echom '------------------------------'
 
 endfunction "}}}2
 
 " main function
 function! s:FoldMarker(where) "{{{2
 
-	if <sid>DetectFoldMethod() ==# 1
+    if <sid>DetectFoldMethod() ==# 1
         return 1
     endif
     call <sid>LoadVars()
@@ -278,7 +278,7 @@ endfunction "}}}2
 
 function! s:FoldLevel(creat) "{{{2
 
-	if <sid>DetectFoldMethod() ==# 1
+    if <sid>DetectFoldMethod() ==# 1
         return 1
     endif
     call <sid>LoadVars()
@@ -296,17 +296,17 @@ endfunction "}}}2
 
 function! s:SelectFuns(...) "{{{2
 
-	if !exists('a:1') || a:1 ==# 'l'
+    if !exists('a:1') || a:1 ==# 'l'
         call <sid>FoldMarker('line')
-	elseif a:1 ==# 'b'
+    elseif a:1 ==# 'b'
         call <sid>FoldMarker('before')
-	elseif a:1 ==# 'a'
+    elseif a:1 ==# 'a'
         call <sid>FoldMarker('after')
-	elseif a:1 ==# 's'
+    elseif a:1 ==# 's'
         call <sid>FoldMarker('surround')
-	elseif a:1 ==# 'd'
+    elseif a:1 ==# 'd'
         call <sid>FoldLevel(0)
-	elseif a:1 ==# 'c'
+    elseif a:1 ==# 'c'
         call <sid>FoldLevel(1)
     else
         call <sid>Help()
@@ -316,9 +316,9 @@ endfunction "}}}2
 
 function! s:Commands() "{{{2
 
-	if !exists(':FoldMarker')
+    if !exists(':FoldMarker')
         let s:ComName = 'FoldMarker'
-	elseif exists(':FoldMarker') &&
+    elseif exists(':FoldMarker') &&
     \ exists('g:ComName_FoldMarker') &&
     \ g:ComName_FoldMarker !=# ''
         let s:ComName = g:ComName_FoldMarker
@@ -326,11 +326,11 @@ function! s:Commands() "{{{2
         let s:ComName = ''
     endif
 
-	if s:ComName !=# ''
-		execute 'command -range -nargs=?' . ' ' .
+    if s:ComName !=# ''
+        execute 'command -range -nargs=?' . ' ' .
         \ s:ComName .
         \ ' call <sid>SelectFuns(<f-args>)'
-	else
+    else
         return 1
     endif
 
