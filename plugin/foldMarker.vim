@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 16, Thu | 21:52:07 | 2015
+" Last Update: Apr 17, Fri | 09:54:04 | 2015
 
 " Version: 0.9.3-nightly
 " License: GPLv3
@@ -22,6 +22,22 @@ set cpoptions&vim
 " ==============================
 
 let s:Title = 'FOLDMARKER'
+
+function! s:UserDefinedComName() "{{{2
+
+	if !exists(':FoldMarker')
+        let s:ComName = 'FoldMarker'
+	elseif exists(':FoldMarker') &&
+    \ exists('g:ComName_FoldMarker') &&
+    \ g:ComName_FoldMarker !=# ''
+        let s:ComName = g:ComName_FoldMarker
+    else
+        let s:ComName = ''
+    endif
+
+endfunction "}}}2
+
+call <sid>UserDefinedComName()
 
 function! s:DetectFoldMethod() "{{{2
 
@@ -202,7 +218,7 @@ endfunction "}}}2
 function! s:Help() "{{{2
 
 	echom '------------------------------'
-	echom 'FoldMarker [args]'
+	echom s:ComName . ' [args]'
 	echom '------------------------------'
 	echom 'Create new foldmarker...'
 	echom '[blank] or l: after current (L)ine'
@@ -316,12 +332,12 @@ endfunction "}}}2
 
 function! s:Commands() "{{{2
 
-	if !exists(':FoldMarker')
-		command -range -nargs=? FoldMarker
-        \ call <sid>SelectFuns(<f-args>)
-	elseif !exists(':FoldMarkerAlt')
-		command -range -nargs=? FoldMarkerAlt
-        \ call <sid>SelectFuns(<f-args>)
+	if s:ComName !=# ''
+		execute 'command -range -nargs=?' . ' ' .
+        \ s:ComName .
+        \ ' call <sid>SelectFuns(<f-args>)'
+	else
+        return 1
     endif
 
 endfunction "}}}2
