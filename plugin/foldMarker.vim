@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 17, Fri | 09:54:04 | 2015
+" Last Update: Apr 17, Fri | 12:30:42 | 2015
 
 " Version: 0.9.3-nightly
 " License: GPLv3
@@ -22,22 +22,6 @@ set cpoptions&vim
 " ==============================
 
 let s:Title = 'FOLDMARKER'
-
-function! s:UserDefinedComName() "{{{2
-
-	if !exists(':FoldMarker')
-        let s:ComName = 'FoldMarker'
-	elseif exists(':FoldMarker') &&
-    \ exists('g:ComName_FoldMarker') &&
-    \ g:ComName_FoldMarker !=# ''
-        let s:ComName = g:ComName_FoldMarker
-    else
-        let s:ComName = ''
-    endif
-
-endfunction "}}}2
-
-call <sid>UserDefinedComName()
 
 function! s:DetectFoldMethod() "{{{2
 
@@ -331,6 +315,16 @@ function! s:SelectFuns(...) "{{{2
 endfunction "}}}2
 
 function! s:Commands() "{{{2
+
+	if !exists(':FoldMarker')
+        let s:ComName = 'FoldMarker'
+	elseif exists(':FoldMarker') &&
+    \ exists('g:ComName_FoldMarker') &&
+    \ g:ComName_FoldMarker !=# ''
+        let s:ComName = g:ComName_FoldMarker
+    else
+        let s:ComName = ''
+    endif
 
 	if s:ComName !=# ''
 		execute 'command -range -nargs=?' . ' ' .
