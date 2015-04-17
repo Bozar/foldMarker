@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 17, Fri | 12:45:16 | 2015
+" Last Update: Apr 17, Fri | 21:40:20 | 2015
 
 " Version: 0.9.3-nightly
 " License: GPLv3
@@ -316,12 +316,11 @@ endfunction "}}}2
 
 function! s:Commands() "{{{2
 
-    if !exists(':FoldMarker')
-        let s:ComName = 'FoldMarker'
-    elseif exists(':FoldMarker') &&
-    \ exists('g:ComName_FoldMarker') &&
+    if exists('g:ComName_FoldMarker') &&
     \ g:ComName_FoldMarker !=# ''
         let s:ComName = g:ComName_FoldMarker
+    elseif !exists(':FoldMarker')
+        let s:ComName = 'FoldMarker'
     else
         let s:ComName = ''
     endif
