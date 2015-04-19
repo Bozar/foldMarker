@@ -163,7 +163,7 @@ https://github.com/Bozar/foldMarker
 *   选中至少两行
 *   FoldMarker s
 *   在选中区域的首行和尾行的结尾处添加 fold_marker
-*   只要 `<` 和 `>` 这两个 mark 存在，并且不在同一行，即使处于 normal_mode 也能使用该命令
+*   只要 `'<` 和 `'>` 这两个 mark 存在，并且不在同一行，即使处于 normal_mode 也能使用该命令
 
 *   示例（之前）
 *   1 []
@@ -346,13 +346,13 @@ https://github.com/Bozar/foldMarker
 ### visual block, not found
 
 *   按 V 进入 visual mode，选中区域
-*   Vim 在该区域的首行和尾行添加 mark：`<` 和 `>`
+*   Vim 在该区域的首行和尾行添加 mark：`'<` 和 `'>`
 *   缺少任何一个 mark 都会报错
 *   适用于以下参数：
     +   FoldMarker s
     +   FoldMarker c
     +   FoldMarker d
-*   测试 1：新建一个文本文件（此时 `<` 和 `>` 这两个 mark 尚不存在）
+*   测试 1：新建一个文本文件（此时 `'<` 和 `'>` 这两个 mark 尚不存在）
 *   测试 2：用 :delmark 删除 mark
 *   测试 3：
     +   文本共 10 行
