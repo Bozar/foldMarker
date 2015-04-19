@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 17, Fri | 21:40:20 | 2015
+" Last Update: Apr 19, Sun | 11:37:22 | 2015
 
 " Version: 0.9.3-nightly
 " License: GPLv3
@@ -33,13 +33,13 @@ function! s:DetectFoldMethod() "{{{2
 
 endfunction "}}}2
 
-function! s:DetectVisualBlock() "{{{2
+function! s:DetectVisualArea() "{{{2
 
     if line("'<") <# 1 ||
     \ line("'>") <# 1 ||
     \ line("'<") ># line('$') ||
     \ line("'>") ># line('$')
-        echom 'ERROR: Visual block not found!'
+        echom 'ERROR: Visual area not found!'
         return 1
     endif
 
@@ -110,7 +110,7 @@ function! s:CreatMarker(where) "{{{2
         \ '\r\r\r' . l:end . '/'
     endif
 
-    " wrap visual block
+    " wrap visual area
     if a:where ==# 2
         if getline("'<") =~# '\v^\s*$'
             execute "'<" . 's/$/' . s:Title .
@@ -131,7 +131,7 @@ endfunction "}}}2
 function! s:CreatLevel(mode,creat) "{{{2
 
     if a:mode ==# 'v' &&
-    \ <sid>DetectVisualBlock() ==# 1
+    \ <sid>DetectVisualArea() ==# 1
         return 1
     endif
 
@@ -206,8 +206,8 @@ function! s:Help() "{{{2
     echom '------------------------------'
     echom 'Create new foldmarker...'
     echom '[blank] or l: after current (L)ine'
-    echom 'a: (A)fter current fold block'
-    echom 'b: (B)efore current fold block'
+    echom 'a: (A)fter current fold area'
+    echom 'b: (B)efore current fold area'
     echom 's: (S)urround selected lines'
     echom '------------------------------'
     echom 'c: (C)reat fold level'
@@ -243,13 +243,13 @@ function! s:FoldMarker(where) "{{{2
 
     if a:where ==# 'surround'
 
-        if <sid>DetectVisualBlock() ==# 1
+        if <sid>DetectVisualArea() ==# 1
             call <sid>ExpandFold(1)
             return 2
         endif
 
         if line("'<") ==# line("'>")
-            echom 'ERROR: Visual block only' .
+            echom 'ERROR: Visual area only' .
             \ ' has one line!'
             call <sid>ExpandFold(1)
             return 3
@@ -259,7 +259,7 @@ function! s:FoldMarker(where) "{{{2
         \ getline(line("'<")) =~# s:FoldEnd ||
         \ getline(line("'>")) =~# s:FoldBegin ||
         \ getline(line("'>")) =~# s:FoldEnd
-            echom 'ERROR: Visual block already' .
+            echom 'ERROR: Visual area already' .
             \ ' has fold marker!'
             call <sid>ExpandFold(1)
             return 4
