@@ -1,7 +1,7 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 19, Sun | 11:37:22 | 2015
+" Last Update: Apr 19, Sun | 21:17:05 | 2015
 
-" Version: 0.9.3-nightly
+" Version: 0.9.3
 " License: GPLv3
 " Author: Bozar
 
