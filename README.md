@@ -1,459 +1,429 @@
-# foldMarker.vim 插件使用说明
-
-## version history
-
-*   0.9.2   echom error msgs s:FoldMarker('surround')
-*   0.9.1   change s:var names
-*   0.9.0   first stable version
+# foldMarker.vim 使用说明
 
 ## 目录
 
-*   下载插件
-    +   仓库地址
-    +   下载文件
-    +   首先确保没有重名文件
-    +   然后复制到 .vim/ 目录下
-    +   重启 Vim
-*   新增命令
-    +   第一次输入命令
-    +   正确效果
-    +   报错
-    +   正确与错误的参数
-    +   l/a/b/s/d/c
-    +   调整 fold_level
-    +   fold_marker 的格式
-*   错误提示
-    +   E117，E15，E121
-    +   FoldMarker 命令无效
-    +   foldmethod
-    +   visual block, not found
-    +   visual block, one line
-    +   visual block, fold marker
-*   自定义命令和键映射
-    +   在哪里添加设置
-    +   设置内容
-    +   如果设置了 g:var，这里也要相应地修改命令名
-    +   新的命令和键映射避免与现有设置冲突
-*   待办事项
-    +   高优先级，zz
-    +   中优先级：没有 fold_level
-    +   折叠标记前后都有注释符号
-    +   删除折叠标记（最外层标记，所有标记）
-
-## 下载插件
-
-### 仓库地址
-
-https://github.com/Bozar/foldMarker
-
-### 复制文件
-
-*   autoload
-*   plugin
-
-## 确保没有重名文件
-
-### Vundle
-
-未经测试
-
-## 新增命令
-
-### 目录
-
-*   参数
-*   FoldMarker l
-*   FoldMarker a
-*   FoldMarker b
-*   FoldMarker s
-*   FoldMarker d
-*   FoldMarker c
-    +   特殊用法：调整 fold_level
-*   fold_marker 的格式
-
-### 参数
-
-*   第一个命令，无参数
-    +   输入命令
-    +   输出效果
-*   参数
-    +   正确的参数
-    +   错误的参数
-    +   查看帮助
-    +   FoldMarker h
-
-### FoldMarker l
-
-*   在光标所在行之后添加一对 fold_marker
-
-*   示例（之前）
-*   1
-*   2 []
-*   3
-*   4
-*   5
-
-*   示例（说明和操作）
-*   [] 代表光标的位置
-*   :FoldMarker
-*   :FoldMarker l
-*   用 [[[ 和 ]]] 代替 Vim 默认的 fold_marker
-
-*   示例（之后）
-*   1
-*   2 [F]OLDMARKER [[[1
-*   3
-*   4
-*   5 ]]]1
-
-### FoldMarker a
-
-*   光标在 fold 区域之外
-    +   作用相当于 FoldMarker l
-*   光标在 fold 区域之内
-    +   在当前 fold 区域之后添加一对 fold_marker
-
-*   示例（之前，光标在第 1 行）
-*   1 []
-*   2 Title [[[1
-*   3
-*   4
-*   5 ]]]1
-
-*   示例（之后）
-*   1
-*   2 [F]OLDMARKER [[[1
-*   3
-*   4
-*   5 ]]]1
-*   6 Title [[[1
-*   7
-*   8
-*   9 ]]]1
-
-*   示例（之前，光标在第 3 行）
-*   1
-*   2 Title [[[1
-*   3 []
-*   4
-*   5 ]]]1
-
-*   示例（之后）
-*   1
-*   2 Title [[[1
-*   3
-*   4
-*   5 ]]]1
-*   6 [F]OLDMARKER [[[1
-*   7
-*   8
-*   9 ]]]1
-
-### FoldMarker b
-
-*   类似 FoldMarker a
-*   光标在 fold 区域之外
-    +   在光标所在行之前添加一对 fold_marker
-*   光标在 fold 区域之内
-    +   在当前 fold 区域之前添加一对 fold_marker
-
-### FoldMarker s
-
-*   按 v 或 V 进入 visual_mode
-*   选中至少两行
-*   FoldMarker s
-*   在选中区域的首行和尾行的结尾处添加 fold_marker
-*   只要 `'<` 和 `'>` 这两个 mark 存在，并且不在同一行，即使处于 normal_mode 也能使用该命令
-
-*   示例（之前）
-*   1 []
-*   2 Title
-*   3
-*   4
-*   5
-
-*   示例（之后，选中第 2-5 行）
-*   1
-*   2 [T]itle [[[1
-*   3
-*   4
-*   5 ]]]1
-
-*   示例（之后，选中第 3-5 行）
-*   1
-*   2 Title
-*   3 [F]OLDMARKER [[[1
-*   4
-*   5 ]]]1
-
-### FoldMarker d
-
-*   按 v 或 V 进入 visual_mode
-*   选中一块区域
-*   :FoldMarker d
-*   删除区域内所有 fold_marker 之后的 fold_level
-*   如果出现以下情况，脚本
-    +   不会报错
-    +   也不会处理文本
-*   选中的区域内没有 fold_marker
-*   fold_marker 之后没有 fold_level
-*   fold_marker 格式错误（见下文）
-
-*   示例（之前）
-*   1 Title [[[1
-*   2 SubTitle [[[2
-*   3
-*   4 ]]]2
-*   5 ]]]1
-
-*   示例（之后，选中第 1-4 行）
-*   1 Title [[[
-*   2 SubTitle [[[
-*   3
-*   4 ]]]
-*   5 ]]]1
-
-### FoldMarker c
-
-*   按 v 或 V 进入 visual_mode
-*   选中一块区域
-*   :FoldMarker c
-*   先执行 :FoldMarker d
-*   然后在区域内所有 fold_marker 之后添加 fold_level
-*   始终不会报错
-*   不会编辑文本
-    +   没有 fold_marker
-    +   仅包含格式错误的 fold_marker
-*   会编辑文本
-    +   包含 fold_marker，无论后面是否跟着 fold_level
-
-*   参考前例
-*   逆向操作，从“之后”到“之前”
-
-*   特殊用法：增减 fold_level
-*   以前有命令直接增减 fold_level
-*   现在取消了
-*   先复制/删除 fold_marker，再使用 FoldMarker c 命令增减 fold_level
-
-*   示例（增加）
-*   1 Title [[[1
-*   2
-*   3
-*   4 ]]]1
-
-*   ggyyp
-*   ggVG
-*   :FoldMarker c
-*   ggdd
-
-*   示例（结果）
-*   1 Title [[[2
-*   2
-*   3
-*   4 ]]]2
-
-*   为什么取消直接修改 fold_level 的命令
-*   不常用
-*   需要写判断条件，让插件变得更复杂
-    +   fold_level `>` 20
-    +   fold_level `<`= 1
-    +   没有 fold_level
-
-### fold_marker 的格式
-
-*   为了确保 :FoldMarker 命令工作正常，即
-    +   a/b/l/s 可以在正确的位置生成新的 fold_marker
-    +   c/d 可以新增/删除 fold_level
-*   现有的 fold_marker 和 fold_level 需要符合以下格式
-*   `<`blank`>` . [comment] . `<`fold_marker`>` . [fold_level] . [blank] . `<`$`>`
-*   `<`必需`>`，[可选]
-*   各个部分之间不能插入其它任何字符
-
-*   使用 a/b/l/s 生成的新 fold_marker 符合以下格式
-*   `<`blank`>` . [comment] . `<`fold_marker`>` . `<`fold_level`>` . `<`$`>`
-
-*   blank
-    +   空白字符，包括半角空格和制表符
-*   fold_marker
-    +   :echo &foldmarker 查看当前设定的 fold_marker
-*   fold_level
-    +   1-20
-    +   如果超出范围
-    +   c/d 正确工作
-    +   a/b/l/s 可能无法在正确的位置生成新的 fold_marker
-*   $
-    +   行末（end of line）标记
-    +   建议不要在 fold_marker 或 fold_level 之后插入空白字符
-
-*   comment
-    +   注释符号，比如："，#，%
-    +   不能包含空白字符
-    +   非空白字符的数量不限
-*   c/d：不会改动 comment
-*   a/b/l/s：在新生成的 fold_marker 前添加 comment
-
-*   示例
-*   1 fun! s:Test() "[[[1
-*   2   if 1
-*   3       echo 'hello'
-*   4   endif
-*   5 endfun "]]]1
-
-*   选中第 2-4 行
-*   :FoldMarker s
-
-*   示例（结果）
-*   1 fun! s:Test() "[[[1
-*   2   if 1 "[[[2
-*   3       echo 'hello'
-*   4   endif "]]]2
-*   5 endfun "]]]1
-
-*   如果 fold_marker 之后出现除了数字以外的非空白字符
-*   不会报错，但是命令无法正常工作
-*   错误格式如下
-*   `<`blank 1`>` . [comment 1] . `<`fold_marker`>` . [comment 2] . [fold_level] . [comment 3] . [blank 2] . [comment 4] . `<`$`>`
-
-*   a/b/l/s 生成的新 fold_marker
-*   删除 comment 1-4，blank 2
-*   `<`blank`>` . `<`fold_marker`>` . `<`fold_level`>` . `<`$`>`
-
-*   c/d
-*   格式错误的 fold_marker 之后不会增加或删除 fold_level
-
-## 错误提示
-
-### E117，E15，E121
-
-*   .vim/autoload/moveCursor.vim
-
-*   是否存在？
-*   是否被修改？
-
-### FoldMarker 命令无效
-
-*   现象：FoldMarker 命令没有生成一对折叠标记
-*   原因：其它插件可能已经定义了这个命令
-*   解决办法：
-    +   向 .vimrc 内添加一行
-    +   let g:ComName_FoldMarker = '{New Command Name}'
-    +   命令名字必须以大写字母开头
-
-### foldmethod
-
-*   set foldmethod=marker
-
-### visual block, not found
-
-*   按 V 进入 visual mode，选中区域
-*   Vim 在该区域的首行和尾行添加 mark：`'<` 和 `'>`
-*   缺少任何一个 mark 都会报错
-*   适用于以下参数：
-    +   FoldMarker s
-    +   FoldMarker c
-    +   FoldMarker d
-*   测试 1：新建一个文本文件（此时 `'<` 和 `'>` 这两个 mark 尚不存在）
-*   测试 2：用 :delmark 删除 mark
-*   测试 3：
-    +   文本共 10 行
-    +   先选中第 7-10 行，再返回 normal mode
-    +   删除第 10 行
-
-### visual block, one line
-
-进入 visual mode 后只选中一行
-
-### visual block, fold marker
-
-*   进入 visual mode 选中一块区域
-*   该区域的首行和/或尾行含有 fold marker
-    +   1
-    +   2 开头 [[[5
-    +   3
-    +   4
-    +   5 结尾 ]]]5
-    +   6
-*   报错：
-    +   选中第 2-5 行
-    +   选中第 1-2 行
-    +   选中第 5-6 行
-*   不报错：
-    +   选中第 1-3 行
-    +   选中第 3-4 行
-    +   选中第 3-6 行
-
-## 自定义命令和键映射
+*   1. 下载插件
+*   2. 新命令 `:FoldMarker`
+*   3. 错误提示
+*   4. 自定义命令和键映射
+*   5. 待办事项
+*   6. 版本历史
+
+foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接受六个参数，用来在指定位置生成 fold marker 以及调整 fold level。
+
+## 1. 下载并安装插件
+
+进入[GitHub 仓库](https://github.com/Bozar/foldMarker)下载插件。
+
+把下面这两个文件复制到 `~/.vim/` 目录下（Windows 用户把文件复制到 `/vimfiles/` 目录下）：
+
+*   /autoload/moveCursor.vim
+*   /plugin/foldMarker.vim
+
+请确保该插件不会覆盖现有的同名文件。
+
+重启 Vim。
+
+## 2. 新命令 :FoldMarker
+
+### 2.1 第一次输入命令
+
+输入命令 `:FoldMarker`，在 cursor line 之下应该出现一对 fold markers。
+
+示例（之前）：
+
+    1   []
+    2
+    3
+    4
+
+示例（之后）：
+
+    1
+    2   [F]OLDMARKER {1
+    3
+    4
+    5   }1
+
+`[]` 代表光标的位置。我用 `{` 和 `}` 代替 Vim 默认的 fold marker。
+
+如果出现错误 E117、E15 或 E121，请查阅 3.1（Autoload 函数）。
+
+如果出现错误——
+
+    ERROR: 'foldmethod' is NOT 'marker'!
+
+请查阅 3.2（`foldmethod`）。
+
+如果 `:FoldMarker` 没有生成一对 fold markers，请查阅 3.3（`:FoldMarker` 命令已存在）。
+
+### 2.2 命令参数
+
+`:FoldMarker` 可以接受六个小写字母作为参数： `l/a/b/s/c/d` ，也可以不接受参数直接执行，此时效果和 `l` 参数相同。
+
+*   `l`：在 cursor line 之下生成一对 fold markers。
+*   `a`：在 fold area 之下生成一对 fold markers。
+*   `b`：在 fold area 之上生成一对 fold markers。
+*   `s`：在 Visual area 周围生成一对 fold markers。
+*   `c`：添加 fold level。
+*   `d`：删除 fold level。
+
+如果输入错误的参数，比如 `:FoldMarker h`，插件将显示简单的说明。
+
+### 2.3 参数 `l`
+
+`:FoldMarker l` 在 cursor line 之下生成一对 fold markers。示例见上文，2.1。
+
+### 2.4 参数 `a`
+
+如果光标在 fold area 之外，那么 `:FoldMarker a` 在 cursor line 之下生成一对 fold markers，效果和 `:FoldMarker l` 相同。
+
+如果光标在 fold area 之内，那么 `:FoldMarker a` 在 fold area 之下生成一对 fold markers。
+
+示例（之前）：
+
+    1   Title {1
+    2   []
+    3
+    4   }1
+
+示例（之后）：
+
+    1   Title {1
+    2
+    3
+    4   }1
+    5   [F]OLDMARKER {1
+    6
+    7
+    8   }1
+
+### 2.5 参数 `b`
+
+`:FoldMarker b` 的作用和 `:FoldMarker a` 类似，即在 cursor line 之上，或者在 fold area 之上生成一对 fold markers。
+
+### 2.6 参数 `s`
+
+按 v/V/`<`ctrl-v`>` 进入 Visual mode，选中至少两行，`:FoldMarker s` 将在 Visual area 的首行和尾行添加一对 fold markers。
+
+只要 `'<` 和 `'>` 这两个 mark 存在，并且不在同一行，即使处于 Normal mode 也能使用 `:FoldMarker s`。
+
+示例（之前）：
+
+    1   Title
+    2
+    3
+    4
+
+执行命令：
+
+    ggVG<esc>
+    :FoldMarker s<cr>
+
+示例（之后）：
+
+    1   [T]itle {1
+    2
+    3
+    4   }1
+
+如果执行命令：
+
+    ggjVG<esc>
+    :FoldMarker s<cr>
+
+效果略有不同：
+
+    1   Title
+    2   [F]OLDMARKER {1
+    3
+    4   }1
+
+如果出现错误——
+
+    ERROR: Visual area not found!
+
+请查阅 3.4（Mark `'<` 和 `'>`）。
+
+如果出现错误——
+
+    ERROR: Visual area only has one line!
+
+请查阅 3.5（Visual area 的行数）。
+
+如果出现错误——
+
+    ERROR: Visual area already has fold marker!
+
+请查阅 3.6（Visual area 包含 fold marker）。
+
+### 2.7 参数 `d`
+
+上述四个参数 `l/a/b/s/c/d` 能在指定位置生成一对 fold markers，参数 `c/d` 的作用是在 fold marker 之后添加 fold level，或者删除已有的 fold level。先来讨论命令 `:FoldMarker d`。
+
+按 v/V/`<`ctrl-v`>` 进入 Visual mode，选中含有 fold marker 的文本，`:FoldMarker d` 将删除 fold marker 之后的 fold level。
+
+示例（之前）：
+
+    1   Title {1
+    2   SubTitle {2
+    3
+    4   }2
+    5   }1
+
+输入命令：
+
+    ggV3j<esc>
+    :FoldMarker d<cr>
+
+示例（之后）：
+
+    1   Title {
+    2   SubTitle {
+    3
+    4   }
+    5   }1
+
+如果 fold marker 格式错误，见下文 2.10（fold marker 的格式），那么 fold marker 之后的 fold level 不会被删除。
+
+### 2.8 参数 `c`
+
+按 v/V/`<`ctrl-v`>` 进入 Visual mode，选中含有 fold marker 的文本，`:FoldMarker c` 将执行两步操作：
+
+*   执行命令 `:FoldMarker d`。
+*   在 fold marker 之后添加 fold level。
+
+### 2.9 调整 fold level
+
+`:FoldMarker c` 还能调整 fold level。
+
+示例（之前）：
+
+    1   Title {1
+    2
+    3
+    4   }1
+
+如果要把 1 级 fold 变成 2 级，可以执行以下命令：
+
+    ggyyp
+    ggVG<esc>
+    :FoldMarker c<cr>
+    ggdd
+
+示例（之后）：
+
+    1   Title {2
+    2
+    3
+    4   }2
+
+如果要把 2 级 fold 变回 1 级，可以这么做：
+
+    ggVG<esc>
+    :FoldMarker c<cr>
+
+### 2.10 fold marker 的格式
+
+为了确保 `:FoldMarker` 正常工作，即：
+
+*   `l/a/b/s` 可以在正确的位置生成新的 fold marker
+*   `c/d` 可以增加/删除 fold level
+
+用户输入的 fold marker 和 fold level 需要符合以下格式：
+
+*   `<`blank`>` . `[comment]` . `<`fold marker`>` . `[fold level]` . `[blank]` . `<`$`>`
+
+符号说明：
+
+*   `<``>`：必需的内容
+*   `[]`：可选的内容
+*   `.`：两个部分之间不能插入其它字符
+
+`l/a/b/s` 生成的新 fold marker 符合以下格式：
+
+*   `<`blank`>` . `[comment]` . `<`fold marker`>` . `<`fold level`>` . `<`$`>`
+
+接下来逐一说明各部分的含义。
+
+`<`blank`>`。空白字符 `\s`，包括半角空格和制表符。
+
+`<`fold marker`>`。用命令 `:set foldmarker` 来查看当前设定的 fold marker。
+
+`<`fold level`>`。1-20 之间的数字。
+
+`<`$`>`。行末标记。建议不要在 fold level 之后插入空白字符。
+
+`[comment]`。注释符号，比如 `"`、`#` 或 `%`。 `[comment]` 内不能包含空白字符，但是可以包含多个非空白字符。`c/d` 不会改动 `[comment]`， `l/a/b/s` 会在新生成的 fold marker 前添加 `[comment]`。
+
+示例（之前）：
+
+    1   Title "{1
+    2   []
+    3
+    4   "}1
+
+执行命令：
+
+    :FoldMarker a<cr>
+
+示例（之后）：
+
+    1   Title "{1
+    2
+    3
+    4   "}1
+    5   [F]OLDMARKER "{1
+    6
+    7
+    8   "}1
+
+如果 fold marker 之后出现除了数字以外的非空白字符，比如：
+
+*   `<`blank 1`>` . `[comment 1]` . `<`fold marker`>` . `[comment 2]` . `[fold level]` . `[comment 3]` . `[blank 2]` . `[comment 4]` . `<`$`>`
+
+`l/a/b/s` 生成的新 fold marker 将删除 `[comment 1-4]` 和 `[blank 2]`。
+
+*   `<`blank`>` . `<`fold marker`>` . `<`fold level`>` . `<`$`>`
+
+`c/d` 不会添加或删除格式错误的 fold marker 之后的 fold level。
+
+## 3. 错误提示
+
+### 3.1 Autoload 函数
+
+如果出现错误 E117、E15 或 E121，请确认 `~/.vim/autoload/` 或者 `/vimfiles/autoload/` 目录下是否存在 `moveCursor.vim` 这个文件。
+
+### 3.2 `foldmethod`
+
+如果出现错误——
+
+    ERROR: 'foldmethod' is NOT 'marker'!
+
+请用命令 `:set foldmethod` 来查看当前设定的 fold marker。如果当前的 fold method 不是 `marker`，请调整设置：
+
+    :set foldmethod=marker<cr>
+
+### 3.3 `:FoldMarker` 命令已存在
+
+如果 `:FoldMarker` 没有生成一对 fold markers，可能是因为其它插件已经定义了这个命令。
+
+请向 `.vimrc` 内添加一行，设置新的命令名：
+
+    let g:ComName_FoldMarker = '{New Command Name}'
+
+命令名必须以大写字母开头。
+
+### 3.4 Mark `'<` 和 `'>`
+
+如果出现错误——
+
+    ERROR: Visual area not found!
+
+这表明 mark `'<` 和 `'>` 当中至少有一个不存在或者已被删除。参考 Vim 文档，`:h E19`。
+
+该错误会在三种情况下出现。
+
+mark 不存在：
+
+    :new test<cr>
+    :FoldMarker s<cr>
+
+mark 被删除：
+
+    ggVG<esc>
+    :delmarks <<cr>
+    :FoldMarker s<cr>
+
+mark 所在行被删除：
+
+    ggVG<esc>
+    Gdd
+    :FoldMarker s<cr>
+
+### 3.5 Visual area 的行数
+
+如果出现错误——
+
+    ERROR: Visual area only has one line!
+
+这表明先前进入 Visual mode 后只选中了一行。请选中至少两行，这样 `:FoldMarker s` 才能正常工作。
+
+### 3.6 Visual area 包含 fold marker
+
+如果出现错误——
+
+    ERROR: Visual area already has fold marker!
+
+这表明 Visual area 的首行和/或尾行含有 fold marker。
+
+对于以下文本：
+
+    1
+    2   Head {5
+    3
+    4
+    5   Tail }5
+    6
+
+会报错的情况包括：
+
+*   选中第 2-5 行
+*   选中第 1-2 行
+*   选中第 5-6 行
+
+不报错的情况包括：
+
+*   选中第 1-3 行
+*   选中第 3-4 行
+*   选中第 3-6 行
+
+## 4. 自定义命令和键映射
 
 我向 .vimrc 添加了以下命令和键映射：
 
-*   " foldMarker.vim
+    command! -range FmAfter FoldMarker a
+    command! -range FmBefore FoldMarker b
+    command! -range FmLine FoldMarker l
+    command! -range FmSurround FoldMarker s
+    command! -range FmCreLevel FoldMarker c
+    command! -range FmDelLevel FoldMarker d
 
-*   command! -range FmAfter FoldMarker a
-*   command! -range FmBefore FoldMarker b
-*   command! -range FmLine FoldMarker l
-*   command! -range FmSurround FoldMarker s
-*   command! -range FmCreLevel FoldMarker c
-*   command! -range FmDelLevel FoldMarker d
+    nnoremap <silent> <tab> :FoldMarker a<cr>
+    nnoremap <silent> <s-tab> :FoldMarker b<cr>
+    nnoremap <silent> <c-tab> :FoldMarker l<cr>
+    vnoremap <silent> <c-tab> :FoldMarker s<cr>
 
-*   nnoremap `<`silent`>` `<`tab`>` :FoldMarker a`<`cr`>`
-*   nnoremap `<`silent`>` `<`s-tab`>` :FoldMarker b`<`cr`>`
-*   nnoremap `<`silent`>` `<`c-tab`>` :FoldMarker l`<`cr`>`
-*   vnoremap `<`silent`>` `<`c-tab`>` :FoldMarker s`<`cr`>`
+    nnoremap <silent> <a-=> :FoldMarker c<cr>
+    nnoremap <silent> <a--> :FoldMarker d<cr>
+    vnoremap <silent> <a-=> :FoldMarker c<cr>
+    vnoremap <silent> <a--> :FoldMarker d<cr>
 
-*   nnoremap `<`silent`>` `<`a-=`>` :FoldMarker c`<`cr`>`
-*   nnoremap `<`silent`>` `<`a--`>` :FoldMarker d`<`cr`>`
-*   vnoremap `<`silent`>` `<`a-=`>` :FoldMarker c`<`cr`>`
-*   vnoremap `<`silent`>` `<`a--`>` :FoldMarker d`<`cr`>`
+## 5. 待办事项
 
-## 待办事项
+### 5.1 移动新 fold area 的位置
 
-### zz
+执行命令 `:FoldMarker l/a/b/s` 以后，光标会停留在新 fold area 的首行，然后执行命令 `normal!  zz`。
 
-*   使用以下命令：
-    +   FoldMarker l
-    +   FoldMarker b
-    +   FoldMarker a
-    +   FoldMarker s
-*   光标停留在新的 fold 区域首行
-*   normal! zz
-*   考虑：是否有必要把光标所在行移动到屏幕中间？
-*   是否可以选择：
-    +   不移动（除非 fold 的首行或尾行超出屏幕边缘）
-    +   zz
-    +   zt
-    +   zb
-*   高优先级
-*   可能等到 1.0.0 版以后增加
+是否有必要把 cursor line 移动到屏幕中间？或许可以增加几个选项：
 
-### 生成没有 fold_level 的 fold_marker
+*   不移动（除非 fold area 的首行或尾行超出屏幕边缘）
+*   zz
+*   zt
+*   zb
 
-*   作用相当于 FoldMarker ld
-*   预留四个参数：A/B/L/S
+### 5.2 生成没有 fold level 的 fold marker
 
-### 折叠标记前后都有注释符号
+新增几个命令，作用相当于：
 
-*   fold marker 之后含有除了数字以外的非空白字符
-*   FoldMarker c/d
-    +   fold level 不会更新
-*   FoldMarker a/b/l/s
-    +   删除 fold marker 前、后除了数字以外的非空白字符
-*   考虑：是否让插件识别被注释“包围”的 fold marker？
-*   低优先级
-*   目前我只在写 HTML 时遇到这个问题
-*   根据缩进来折叠复杂的文档
-    +   set foldmethod=indent
-*   改写正则表达式有点麻烦
+    :FoldMarker l/a/b/s<cr>
+    :FoldMarker d<cr>
 
-### 删除折叠标记（最外层标记，所有标记）
+预留四个参数：`A/B/L/S`。
 
-*   进入 visual mode 选中区域
-*   新增两个参数：
-    +   删除首行/尾行的折叠标记
-    +   删除区域内所有折叠标记
-*   低优先级
-*   如果需要把带有 fold marker 的文本转换成其它格式：
-    +   markdown
-    +   BBCode
-    +   HTML
-*   建议直接写脚本，批量替换 fold marker
+## 6. 版本历史
 
+*   0.9.3   新增全局变量 `g:ComName_FoldMarker` ，用来自定义命令名。
+*   0.9.2   `s:FoldMarker('surround')` 会显示更多错误提示。
+*   0.9.1   更改脚本变量名。
+*   0.9.0   第一个稳定版本。
