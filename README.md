@@ -79,7 +79,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ### 2.4 参数 `a`
 
-如果光标在 fold area 之外，那么 `:FoldMarker a` 在 cursor line 之上生成一对 fold markers，效果和 `:FoldMarker l` 相同。
+如果光标在 fold area 之外，那么 `:FoldMarker a` 在 cursor line 之上生成一对 fold markers。
 
 如果光标在 fold area 之内，那么 `:FoldMarker a` 在 fold area 之上生成一对 fold markers。
 
