@@ -1,7 +1,7 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 19, Sun | 21:17:05 | 2015
+" Last Update: Apr 21, Tue | 08:58:50 | 2015
 
-" Version: 0.9.3
+" Version: 0.10.0-nightly
 " License: GPLv3
 " Author: Bozar
 
@@ -205,9 +205,9 @@ function! s:Help() "{{{2
     echom s:ComName . ' [args]'
     echom '------------------------------'
     echom 'Create new foldmarker...'
-    echom '[blank] or l: after current (L)ine'
-    echom 'a: (A)fter current fold area'
-    echom 'b: (B)efore current fold area'
+    echom '[blank] or l: below current (L)ine'
+    echom 'a: (A)bove current fold area'
+    echom 'b: (B)elow current fold area'
     echom 's: (S)urround selected lines'
     echom '------------------------------'
     echom 'c: (C)reat fold level'
@@ -230,12 +230,12 @@ function! s:FoldMarker(where) "{{{2
         call <sid>CreatMarker(1)
     endif
 
-    if a:where ==# 'before'
+    if a:where ==# 'above'
         call moveCursor#GotoFoldBegin()
         call <sid>CreatMarker(0)
     endif
 
-    if a:where ==# 'after'
+    if a:where ==# 'below'
         call moveCursor#GotoFoldBegin()
         normal! ]z
         call <sid>CreatMarker(1)
@@ -272,6 +272,7 @@ function! s:FoldMarker(where) "{{{2
     call <sid>CreatLevel('n',1)
     normal! [z
     call <sid>ExpandFold(1)
+    " 1.1.0, g:PosFoldHead_FoldMarker
     normal! zz
 
 endfunction "}}}2
@@ -298,16 +299,16 @@ function! s:SelectFuns(...) "{{{2
 
     if !exists('a:1') || a:1 ==# 'l'
         call <sid>FoldMarker('line')
-    elseif a:1 ==# 'b'
-        call <sid>FoldMarker('before')
     elseif a:1 ==# 'a'
-        call <sid>FoldMarker('after')
+        call <sid>FoldMarker('above')
+    elseif a:1 ==# 'b'
+        call <sid>FoldMarker('below')
     elseif a:1 ==# 's'
         call <sid>FoldMarker('surround')
-    elseif a:1 ==# 'd'
-        call <sid>FoldLevel(0)
     elseif a:1 ==# 'c'
         call <sid>FoldLevel(1)
+    elseif a:1 ==# 'd'
+        call <sid>FoldLevel(0)
     else
         call <sid>Help()
     endif
