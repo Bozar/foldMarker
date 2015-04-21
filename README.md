@@ -1,5 +1,8 @@
 # foldMarker.vim 使用说明
 
+*   版本：0.10.0
+*   协议：GPLv3
+
 ## 目录
 
 1. 下载插件
@@ -8,9 +11,6 @@
 4. 自定义命令和键映射
 5. 待办事项
 6. 版本历史
-
-*   版本：0.10.0
-*   协议：GPLv3
 
 foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接受六个参数，用来在指定位置生成 fold marker 以及调整 fold level。
 
