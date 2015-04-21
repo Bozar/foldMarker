@@ -9,11 +9,14 @@
 5. 待办事项
 6. 版本历史
 
+*   版本：0.10.0
+*   协议：GPLv3
+
 foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接受六个参数，用来在指定位置生成 fold marker 以及调整 fold level。
 
 ## 1. 下载并安装插件
 
-进入[GitHub 仓库](https://github.com/Bozar/foldMarker)下载插件。
+进入 [GitHub 仓库](https://github.com/Bozar/foldMarker)下载插件。
 
 把下面这两个文件复制到 `~/.vim/` 目录下（Windows 用户把文件复制到 `/vimfiles/` 目录下）：
 
@@ -61,12 +64,12 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 `:FoldMarker` 可以接受六个小写字母作为参数： `l/a/b/s/c/d` ，也可以不接受参数直接执行，此时效果和 `l` 参数相同。
 
-*   `l`：在 cursor line 之下生成一对 fold markers。
-*   `a`：在 fold area 之下生成一对 fold markers。
-*   `b`：在 fold area 之上生成一对 fold markers。
-*   `s`：在 Visual area 周围生成一对 fold markers。
-*   `c`：添加 fold level。
-*   `d`：删除 fold level。
+*   `l`：在 cursor line 之下（`Line`）生成一对 fold markers。
+*   `a`：在 fold area 之上（`Above`）生成一对 fold markers。
+*   `b`：在 fold area 之下（`Below`）生成一对 fold markers。
+*   `s`：在 Visual area 周围（`Surround`）生成一对 fold markers。
+*   `c`：添加（`Creat`）fold level。
+*   `d`：删除（`Delete`）fold level。
 
 如果输入错误的参数，比如 `:FoldMarker h`，插件将显示简单的说明。
 
@@ -76,9 +79,9 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ### 2.4 参数 `a`
 
-如果光标在 fold area 之外，那么 `:FoldMarker a` 在 cursor line 之下生成一对 fold markers，效果和 `:FoldMarker l` 相同。
+如果光标在 fold area 之外，那么 `:FoldMarker a` 在 cursor line 之上生成一对 fold markers，效果和 `:FoldMarker l` 相同。
 
-如果光标在 fold area 之内，那么 `:FoldMarker a` 在 fold area 之下生成一对 fold markers。
+如果光标在 fold area 之内，那么 `:FoldMarker a` 在 fold area 之上生成一对 fold markers。
 
 示例（之前）：
 
@@ -89,18 +92,18 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 示例（之后）：
 
-    1   Title {1
+    1   [F]OLDMARKER {1
     2
     3
     4   }1
-    5   [F]OLDMARKER {1
+    5   Title {1
     6
     7
     8   }1
 
 ### 2.5 参数 `b`
 
-`:FoldMarker b` 的作用和 `:FoldMarker a` 类似，即在 cursor line 之上，或者在 fold area 之上生成一对 fold markers。
+`:FoldMarker b` 的作用和 `:FoldMarker a` 类似，即在 cursor line 之下，或者在 fold area 之下生成一对 fold markers。
 
 ### 2.6 参数 `s`
 
@@ -236,7 +239,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 符号说明：
 
-*   `<``>`：必需的内容
+*   `<>`：必需的内容
 *   `[]`：可选的内容
 *   `.`：两个部分之间不能插入其它字符
 
@@ -382,15 +385,15 @@ mark 所在行被删除：
 
 我向 .vimrc 添加了以下命令和键映射：
 
-    command! -range FmAfter FoldMarker a
-    command! -range FmBefore FoldMarker b
+    command! -range FmAbove FoldMarker a
+    command! -range FmBelow FoldMarker b
     command! -range FmLine FoldMarker l
     command! -range FmSurround FoldMarker s
     command! -range FmCreLevel FoldMarker c
     command! -range FmDelLevel FoldMarker d
 
-    nnoremap <silent> <tab> :FoldMarker a<cr>
-    nnoremap <silent> <s-tab> :FoldMarker b<cr>
+    nnoremap <silent> <tab> :FoldMarker b<cr>
+    nnoremap <silent> <s-tab> :FoldMarker a<cr>
     nnoremap <silent> <c-tab> :FoldMarker l<cr>
     vnoremap <silent> <c-tab> :FoldMarker s<cr>
 
@@ -421,9 +424,43 @@ mark 所在行被删除：
 
 预留四个参数：`A/B/L/S`。
 
+### 5.3 使用 Visual area 内的 fold level
+
+添加 fold level 时，从 Visual area 内的第一个 fold level 开始计数。
+
+示例（之前）：
+
+    1   Title {3
+    2   SubTitle {2
+    3
+    4   }2
+    5   }1
+
+输入命令：
+
+    :FoldMarker C<cr>
+
+示例（之后）：
+
+    1   Title {3
+    2   SubTitle {4
+    3
+    4   }4
+    5   }3
+
+预留参数：`C`。
+
+### 5.4 删除 Visual area 内的 fold marker
+
+*   删除首行和尾行的 fold marker。
+*   删除所有 fold marker。
+
+预留参数：`D`。
+
 ## 6. 版本历史
 
-*   0.9.3   新增全局变量 `g:ComName_FoldMarker` ，用来自定义命令名。
+*   0.10.0  交换变量 `a` 和 `b` 的功能。
+*   0.9.3   新增全局变量 `g:ComName_FoldMarker`，用来自定义命令名。
 *   0.9.2   `s:FoldMarker('surround')` 会显示更多错误提示。
 *   0.9.1   更改脚本变量名。
 *   0.9.0   第一个稳定版本。
