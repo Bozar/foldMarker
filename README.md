@@ -5,14 +5,22 @@
 
 ## 目录
 
+0. 版本历史
 1. 下载插件
 2. 新命令 `:FoldMarker`
 3. 错误提示
 4. 自定义命令和键映射
 5. 待办事项
-6. 版本历史
 
 foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接受六个参数，用来在指定位置生成 fold marker 以及调整 fold level。
+
+## 0. 版本历史
+
+*   0.10.0  交换变量 `a` 和 `b` 的功能。
+*   0.9.3   新增全局变量 `g:ComName_FoldMarker`，用来自定义命令名。
+*   0.9.2   `s:FoldMarker('surround')` 会显示更多错误提示。
+*   0.9.1   更改脚本变量名。
+*   0.9.0   第一个稳定版本。
 
 ## 1. 下载并安装插件
 
@@ -335,7 +343,7 @@ mark 不存在：
 mark 被删除：
 
     ggVG<esc>
-    :delmarks <<cr>
+    :delmarks < <cr>
     :FoldMarker s<cr>
 
 mark 所在行被删除：
@@ -422,7 +430,7 @@ mark 所在行被删除：
     :FoldMarker l/a/b/s<cr>
     :FoldMarker d<cr>
 
-预留四个参数：`A/B/L/S`。
+预留四个参数：`L/A/B/S`。
 
 ### 5.3 使用 Visual area 内的 fold level
 
@@ -456,11 +464,3 @@ mark 所在行被删除：
 *   删除所有 fold marker。
 
 预留参数：`D`。
-
-## 6. 版本历史
-
-*   0.10.0  交换变量 `a` 和 `b` 的功能。
-*   0.9.3   新增全局变量 `g:ComName_FoldMarker`，用来自定义命令名。
-*   0.9.2   `s:FoldMarker('surround')` 会显示更多错误提示。
-*   0.9.1   更改脚本变量名。
-*   0.9.0   第一个稳定版本。
