@@ -275,7 +275,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 执行命令：
 
-    :FoldMarker a<cr>
+    :FoldMarker b<cr>
 
 示例（之后）：
 
