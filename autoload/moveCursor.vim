@@ -1,5 +1,5 @@
 " moveCursor.vim "{{{1
-" Last Update: Apr 23, Thu | 13:33:03 | 2015
+" Last Update: Apr 23, Thu | 21:30:27 | 2015
 
 " Version: 0.7.1-nightly
 " License: GPLv3
@@ -204,4 +204,4 @@ function moveCursor#SetLineJKWhole(...) "{{{2
 
 endfunction "}}}2
 
-" vim: set fdm=marker fdl=20 cc=50 "}}}1
+" vim: set fdm=marker fdl=20 tw=50 "}}}1
