@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 21, Tue | 08:58:50 | 2015
+" Last Update: Apr 23, Thu | 13:29:55 | 2015
 
 " Version: 0.10.0-nightly
 " License: GPLv3
@@ -35,10 +35,8 @@ endfunction "}}}2
 
 function! s:DetectVisualArea() "{{{2
 
-    if line("'<") <# 1 ||
-    \ line("'>") <# 1 ||
-    \ line("'<") ># line('$') ||
-    \ line("'>") ># line('$')
+    if moveCursor#DetectMark('<') ==# 1 ||
+    \ moveCursor#DetectMark('>') ==# 1
         echom 'ERROR: Visual area not found!'
         return 1
     endif
