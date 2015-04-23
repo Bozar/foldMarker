@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 23, Thu | 13:29:55 | 2015
+" Last Update: Apr 23, Thu | 13:56:10 | 2015
 
 " Version: 0.10.0-nightly
 " License: GPLv3
@@ -202,7 +202,7 @@ function! s:Help() "{{{2
     echom '------------------------------'
     echom s:ComName . ' [args]'
     echom '------------------------------'
-    echom 'Create new foldmarker...'
+    echom 'Create new fold marker...'
     echom '[blank] or l: below current (L)ine'
     echom 'a: (A)bove current fold area'
     echom 'b: (B)elow current fold area'
