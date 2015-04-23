@@ -25,10 +25,10 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 进入 [GitHub 仓库](https://github.com/Bozar/foldMarker)下载插件。
 
-把下面这两个文件复制到 `~/.vim/` 目录下（Windows 用户把文件复制到 `/vimfiles/` 目录下）：
+把下面这两个文件复制到 `~/.vim/` 目录下（Windows 用户把文件复制到 `vimfiles/` 目录下）：
 
-    /autoload/moveCursor.vim
-    /plugin/foldMarker.vim
+    autoload/moveCursor.vim
+    plugin/foldMarker.vim
 
 请确保该插件不会覆盖现有的同名文件。
 
