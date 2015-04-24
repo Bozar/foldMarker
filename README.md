@@ -302,7 +302,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ### 3.1 Autoload 函数
 
-如果出现错误 E117、E15 或 E121，请确认 `~/.vim/autoload/` 或者 `/vimfiles/autoload/` 目录下是否存在 `moveCursor.vim` 这个文件。
+如果出现错误 E117、E15 或 E121，请确认 `~/.vim/autoload/` 或者 `vimfiles/autoload/` 目录下是否存在 `moveCursor.vim` 这个文件。
 
 ### 3.2 `foldmethod`
 
