@@ -107,7 +107,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ### 2.6 参数 `s`
 
-按 v/V/`<`ctrl-v`>` 进入 Visual mode，选中至少两行，`:FoldMarker s` 将在 Visual area 的首行和尾行添加一对 fold markers。
+进入 Visual mode，选中至少两行，`:FoldMarker s` 将在 Visual area 的首行和尾行添加一对 fold markers。
 
 只要 `'<` 和 `'>` 这两个 mark 存在，并且不在同一行，即使处于 Normal mode 也能使用 `:FoldMarker s`。
 
@@ -162,9 +162,9 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ### 2.7 参数 `d`
 
-上述四个参数 `l/a/b/s/c/d` 能在指定位置生成一对 fold markers，参数 `c/d` 的作用是在 fold marker 之后添加 fold level，或者删除已有的 fold level。先来讨论命令 `:FoldMarker d`。
+上述四个参数 `l/a/b/s` 能在指定位置生成一对 fold markers，参数 `c/d` 的作用是在 fold marker 之后添加 fold level，或者删除已有的 fold level。先来讨论命令 `:FoldMarker d`。
 
-按 v/V/`<`ctrl-v`>` 进入 Visual mode，选中含有 fold marker 的文本，`:FoldMarker d` 将删除 fold marker 之后的 fold level。
+进入 Visual mode，选中含有 fold marker 的文本，`:FoldMarker d` 将删除 fold marker 之后的 fold level。
 
 示例（之前）：
 
@@ -191,7 +191,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ### 2.8 参数 `c`
 
-按 v/V/`<`ctrl-v`>` 进入 Visual mode，选中含有 fold marker 的文本，`:FoldMarker c` 将执行两步操作：
+进入 Visual mode，选中含有 fold marker 的文本，`:FoldMarker c` 将执行两步操作：
 
 *   执行命令 `:FoldMarker d`。
 *   在 fold marker 之后添加 fold level。
