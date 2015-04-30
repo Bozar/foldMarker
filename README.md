@@ -257,7 +257,9 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 `<`$`>`。行末标记。建议不要在 fold level 之后插入空白字符。
 
-`[comment]`。注释符号，比如 `"`、`#` 或 `%`。 `[comment]` 内不能包含空白字符，但是可以包含多个非空白字符。`c/d` 不会改动 `[comment]`， `l/a/b/s` 会在新生成的 fold marker 前添加 `[comment]`。
+`[comment]`。注释符号，比如 `"`、`#` 或 `%`。 `[comment]` 内不能包含空白字符，但是可以包含多个非空白字符。
+
+`c/d` 不会改动 `[comment]`， `l/a/b/s` 会在新生成的 fold marker 前添加 `[comment]`。
 
 示例（之前）：
 
@@ -411,9 +413,9 @@ mark 所在行被删除：
 是否有必要把 cursor line 移动到屏幕中间？或许可以增加几个选项：
 
 *   不移动（除非 fold area 的首行或尾行超出屏幕边缘）
-*   zz
-*   zt
-*   zb
+*   `normal! zz`
+*   `normal! zt`
+*   `normal! zb`
 
 ### 5.2 生成没有 fold level 的 fold marker
 
