@@ -197,7 +197,7 @@ If fold markers have wrong formats, refer to 2.10(Fold marker pattern), fold lev
 
 First enter Visual mode, then choose text containing fold markers.  Execute `:FoldMarker c`, which will do two things:
 
-*   Execute commands `:FoldMarker d`.
+*   Execute command `:FoldMarker d`.
 *   Creat fold levels after fold markers.
 
 ### 2.9 Change fold level
@@ -253,15 +253,15 @@ New fold markers created by `l/a/b/s` match the following pattern:
 
 Let's discuss every part in detail.
 
-`<`blank`>`--Blank character `\s`, including half-width space and tab.
+`<`blank`>`: Blank character `\s`, including half-width space and tab.
 
-`<`fold marker`>`--Check current fold markers by executing `:set foldmarker`.
+`<`fold marker`>`: Check current fold markers by executing `:set foldmarker`.
 
-`<`fold level`>`--Numbers between 1 to 20.
+`<`fold level`>`: Numbers between 1 to 20.
 
-`<`$`>`--End of line.  It is recommened not to add any more blank characters after fold level.
+`<`$`>`: End of line.  It is recommened not to add any more blank characters after fold level.
 
-`[comment]`--Comments such as `"`, `#` and `%`.  There should not be blank characters inside `[comment]`, but more than one non-blank characters are allowed.
+`[comment]`: Comments such as `"`, `#` and `%`.  There should not be blank characters inside `[comment]`, but more than one non-blank characters are allowed.
 
 `c/d` will not modify `[comment]`.  `l/a/b/s` will creat new `[comment]` before fold markers.
 
