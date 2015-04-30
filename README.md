@@ -14,6 +14,8 @@
 
 foldMarker.vim defines a new command `:FoldMarker`, which can accpet six arguments to creat fold marker and adjust fold level.
 
+Here is [the Simplified Chinese readme](https://github.com/Bozar/foldMarker/blob/develop/README_CN.md).
+
 ## 1. Download and install plugin
 
 Download the plugin from [GitHub Repository](https://github.com/Bozar/foldMarker).
