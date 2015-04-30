@@ -1,46 +1,46 @@
-# foldMarker.vim 使用说明
+# foldMarker.vim
 
-*   版本：1.0.0
-*   协议：GPLv3
+*   Version: 1.0.0
+*   License: GPLv3
 
-## 目录
+## Table of contents
 
-1. 下载并安装插件
-2. 新命令 `:FoldMarker`
-3. 错误提示
-4. 自定义命令和键映射
-5. 待办事项
-6. 版本历史
+1. Download and install plugin
+2. New command `:FoldMarker`
+3. Error messages
+4. User-defined commands and key mappings
+5. TODO list
+6. Version history
 
-foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接受六个参数，用来在指定位置生成 fold marker 以及调整 fold level。
+foldMarker.vim defines a new command `:FoldMarker`, which can accpet six arguments to creat fold marker and adjust fold level.
 
-## 1. 下载并安装插件
+## 1. Download and install plugin
 
-进入 [GitHub 仓库](https://github.com/Bozar/foldMarker)下载插件。
+Download the plugin from [GitHub Repository](https://github.com/Bozar/foldMarker).
 
-把下面这两个文件复制到 `~/.vim/` 目录下（Windows 用户把文件复制到 `vimfiles/` 目录下）：
+Copy the following two files to `~/.vim/`(`vimfiles/` for Windows users) :
 
     autoload/moveCursor.vim
     plugin/foldMarker.vim
 
-请确保该插件不会覆盖现有的同名文件。
+Please be sure the plugin will not overwrite existing files.
 
-重启 Vim。
+Restart Vim.
 
-## 2. 新命令 `:FoldMarker`
+## 2. New command `:FoldMarker`
 
-### 2.1 第一次输入命令
+### 2.1 Your first command
 
-输入命令 `:FoldMarker`，在 cursor line 之下应该出现一对 fold markers。
+Execute command `:FoldMarker`.  The plugin should creat a pair of fold markers under cursor line .
 
-示例（之前）：
+Example(before):
 
     1   []
     2
     3
     4
 
-示例（之后）：
+Example(after):
 
     1
     2   [F]OLDMARKER {1
@@ -48,49 +48,49 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
     4
     5   }1
 
-`[]` 代表光标的位置。我用 `{` 和 `}` 代替 Vim 默认的 fold marker。
+`[]` represents cursor position.  `{` and `}` represent Vim's default fold markers.
 
-如果出现错误 E117、E15 或 E121，请查阅 3.1（Autoload 函数）。
+If Vim reports error: E117, E15 or E121, refer to 3.1(Autoload functions).
 
-如果出现错误——
+If plugin reports error:
 
     ERROR: 'foldmethod' is NOT 'marker'!
 
-请查阅 3.2（`foldmethod`）。
+Refer to 3.2(`foldmethod`).
 
-如果 `:FoldMarker` 没有生成一对 fold markers，请查阅 3.3（`:FoldMarker` 命令已存在）。
+If `:FoldMarker` does not creat a pair of fold markers, refer to 3.3(`:FoldMarker` already exists).
 
-### 2.2 命令参数
+### 2.2 Command arguments
 
-`:FoldMarker` 可以接受六个小写字母作为参数： `l/a/b/s/c/d` ，也可以不接受参数直接执行，此时效果和 `l` 参数相同。
+`:FoldMarker` can accept six lower case alphabets as arguments: `l/a/b/s/c/d`.  It can also be executed with no argument, just as being executed with argument `l`.
 
-*   `l`：在 cursor line 之下（`Line`）生成一对 fold markers。
-*   `a`：在 fold area 之上（`Above`）生成一对 fold markers。
-*   `b`：在 fold area 之下（`Below`）生成一对 fold markers。
-*   `s`：在 Visual area 周围（`Surround`）生成一对 fold markers。
-*   `c`：添加（`Creat`）fold level。
-*   `d`：删除（`Delete`）fold level。
+*   `l`: creat a pair of fold markers under cursor `Line`
+*   `a`: creat a pair of fold markers `Above` fold area
+*   `b`: creat a pair of fold markers `Below` fold area
+*   `s`: creat a pair of fold markers `Surrounding` Visual area
+*   `c`: `Creat` fold level
+*   `d`: `Delete` fold level
 
-如果输入错误的参数，比如 `:FoldMarker h`，插件将显示简单的说明。
+The plugin will show a breif help when the command is executed with a wrong argument, such as `:FoldMarker h`.
 
-### 2.3 参数 `l`
+### 2.3 Argument `l`
 
-`:FoldMarker l` 在 cursor line 之下生成一对 fold markers。示例见上文，2.1。
+`:FoldMarker l` will creat a pair of fold markers under cursor line.  See above, 2.1.
 
-### 2.4 参数 `a`
+### 2.4 Argument `a`
 
-如果光标在 fold area 之外，那么 `:FoldMarker a` 在 cursor line 之上生成一对 fold markers。
+If cursor is outside fold area, then `:FoldMarker a` will creat a pair of fold markers above cursor line.
 
-如果光标在 fold area 之内，那么 `:FoldMarker a` 在 fold area 之上生成一对 fold markers。
+If cursor is inside fold area, then `:FoldMarker a` will creat a pair of fold markers above fold area.
 
-示例（之前）：
+Example(before):
 
     1   Title {1
     2   []
     3
     4   }1
 
-示例（之后）：
+Example(after):
 
     1   [F]OLDMARKER {1
     2
@@ -101,72 +101,74 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
     7
     8   }1
 
-### 2.5 参数 `b`
+### 2.5 Argument `b`
 
-`:FoldMarker b` 的作用和 `:FoldMarker a` 类似，即在 cursor line 之下，或者在 fold area 之下生成一对 fold markers。
+`:FoldMarker b` works like `:FoldMarker a`, that is, creat a pair of fold markers below cursor line or fold area.
 
-### 2.6 参数 `s`
+### 2.6 Argument `s`
 
-进入 Visual mode，选中至少两行，`:FoldMarker s` 将在 Visual area 的首行和尾行添加一对 fold markers。
+First enter Visual mode, then choose at least two lines.  Execute `:FoldMarker s`, which will creat a pair of fold markers in the first and last line of Visual area.
 
-只要 `'<` 和 `'>` 这两个 mark 存在，并且不在同一行，即使处于 Normal mode 也能使用 `:FoldMarker s`。
+As long as markers `'<` and `'>` exist, and they are not in the same line, `:FoldMarker s` can also be executed in Normal mode.
 
-示例（之前）：
+Example(before):
 
     1   Title
     2
     3
     4
 
-执行命令：
+Execute commands:
 
     ggVG<esc>
     :FoldMarker s<cr>
 
-示例（之后）：
+Example(after):
 
     1   [T]itle {1
     2
     3
     4   }1
 
-如果执行命令：
+Execute commands:
 
     ggjVG<esc>
     :FoldMarker s<cr>
 
-效果略有不同：
+A new fold title will be created:
 
     1   Title
     2   [F]OLDMARKER {1
     3
     4   }1
 
-如果出现错误——
+If plugin reports error:
 
     ERROR: Visual area not found!
 
-请查阅 3.4（Mark `'<` 和 `'>`）。
+Refer to 3.4(Mark `'<` and `'>`).
 
-如果出现错误——
+If plugin reports error:
 
     ERROR: Visual area only has one line!
 
-请查阅 3.5（Visual area 的行数）。
+Refer to 3.5(Number of lines in Visual area).
 
-如果出现错误——
+If plugin reports error:
 
     ERROR: Visual area already has fold marker!
 
-请查阅 3.6（Visual area 包含 fold marker）。
+Refer to 3.6(Visual area contains fold markers).
 
-### 2.7 参数 `d`
+### 2.7 Argument `d`
 
-上述四个参数 `l/a/b/s` 能在指定位置生成一对 fold markers，参数 `c/d` 的作用是在 fold marker 之后添加 fold level，或者删除已有的 fold level。先来讨论命令 `:FoldMarker d`。
+Arguments `l/a/b/s/` will creat a pair of fold markers in the specific position.  Argument `c/d` will creat or delete fold level after fold markers.
 
-进入 Visual mode，选中含有 fold marker 的文本，`:FoldMarker d` 将删除 fold marker 之后的 fold level。
+First let's discuss `:FoldMarker d`.
 
-示例（之前）：
+First enter Visual mode, then choose text containing fold markers.  Execute `:FoldMarker d`, which will delete fold levels after fold markers.
+
+Example(before):
 
     1   Title {1
     2   SubTitle {2
@@ -174,12 +176,12 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
     4   }2
     5   }1
 
-输入命令：
+Execute commands:
 
     ggV3j<esc>
     :FoldMarker d<cr>
 
-示例（之后）：
+Example(after):
 
     1   Title {
     2   SubTitle {
@@ -187,92 +189,92 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
     4   }
     5   }1
 
-如果 fold marker 格式错误，见下文 2.10（fold marker 的格式），那么 fold marker 之后的 fold level 不会被删除。
+If fold markers have wrong formats, refer to 2.10(Fold marker pattern), fold levels after such markers will not be deleted.
 
-### 2.8 参数 `c`
+### 2.8 Argument `c`
 
-进入 Visual mode，选中含有 fold marker 的文本，`:FoldMarker c` 将执行两步操作：
+First enter Visual mode, then choose text containing fold markers.  Execute `:FoldMarker c`, which will do two things:
 
-*   执行命令 `:FoldMarker d`。
-*   在 fold marker 之后添加 fold level。
+*   Execute commands `:FoldMarker d`.
+*   Creat fold levels after fold markers.
 
-### 2.9 调整 fold level
+### 2.9 Change fold level
 
-`:FoldMarker c` 还能调整 fold level。
+`:FoldMarker c` can be used to change fold level.
 
-示例（之前）：
+Example(before):
 
     1   Title {1
     2
     3
     4   }1
 
-如果要把 1 级 fold 变成 2 级，可以执行以下命令：
+Execute these commands to change a level one fold into level two:
 
     ggyyp
     ggVG<esc>
     :FoldMarker c<cr>
     ggdd
 
-示例（之后）：
+Example(after):
 
     1   Title {2
     2
     3
     4   }2
 
-如果要把 2 级 fold 变回 1 级，可以这么做：
+Execute these commands to change a level two fold back to level one:
 
     ggVG<esc>
     :FoldMarker c<cr>
 
-### 2.10 fold marker 的格式
+### 2.10 Fold marker pattern
 
-为了确保 `:FoldMarker` 正常工作，即：
+In order to make sure `:FoldMarker` to work properly, that is to say:
 
-*   `l/a/b/s` 可以在正确的位置生成新的 fold marker
-*   `c/d` 可以增加/删除 fold level
+*   `l/a/b/s` will creat a pair of fold markers in the right position
+*   `c/d` will creat/delete fold levels
 
-用户输入的 fold marker 和 fold level 需要符合以下格式：
+Fold markers and fold levels inserted by users should match the following pattern:
 
 *   `<`blank`>` . `[comment]` . `<`fold marker`>` . `[fold level]` . `[blank]` . `<`$`>`
 
-符号说明：
+Brief summary for markers:
 
-*   `<>`：必需的内容
-*   `[]`：可选的内容
-*   `.`：两个部分之间不能插入其它字符
+*   `<>`: must-have content
+*   `[]`: optional content
+*   `.`: join two parts without inserting any other characters
 
-`l/a/b/s` 生成的新 fold marker 符合以下格式：
+New fold markers created by `l/a/b/s` match the following pattern:
 
 *   `<`blank`>` . `[comment]` . `<`fold marker`>` . `<`fold level`>` . `<`$`>`
 
-接下来逐一说明各部分的含义。
+Let's discuss every part in detail.
 
-`<`blank`>`。空白字符 `\s`，包括半角空格和制表符。
+`<`blank`>`--Blank character `\s`, including half-width space and tab.
 
-`<`fold marker`>`。用命令 `:set foldmarker` 来查看当前设定的 fold marker。
+`<`fold marker`>`--Check current fold markers by executing `:set foldmarker`.
 
-`<`fold level`>`。1-20 之间的数字。
+`<`fold level`>`--Numbers between 1 to 20.
 
-`<`$`>`。行末标记。建议不要在 fold level 之后插入空白字符。
+`<`$`>`--End of line.  It is recommened not to add any more blank characters after fold level.
 
-`[comment]`。注释符号，比如 `"`、`#` 或 `%`。 `[comment]` 内不能包含空白字符，但是可以包含多个非空白字符。
+`[comment]`--Comments such as `"`, `#` and `%`.  There should not be blank characters inside `[comment]`, but more than one non-blank characters are allowed.
 
-`c/d` 不会改动 `[comment]`， `l/a/b/s` 会在新生成的 fold marker 前添加 `[comment]`。
+`c/d` will not modify `[comment]`.  `l/a/b/s` will creat new `[comment]` before fold markers.
 
-示例（之前）：
+Example(before):
 
     1   Title "{1
     2   []
     3
     4   "}1
 
-执行命令：
+Execute commands:
 
     :FoldMarker b<cr>
 
-示例（之后）：
+Example(after):
 
     1   Title "{1
     2
@@ -283,86 +285,86 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
     7
     8   "}1
 
-如果 fold marker 之后出现除了数字以外的非空白字符，比如：
+If there exist non-blank characters other than numbers after fold markers, such as:
 
 *   `<`blank 1`>` . `[comment 1]` . `<`fold marker`>` . `[comment 2]` . `[fold level]` . `[comment 3]` . `[blank 2]` . `[comment 4]` . `<`$`>`
 
-`l/a/b/s` 生成的新 fold marker 将删除 `[comment 1-4]` 和 `[blank 2]`。
+`l/a/b/s` will creat new fold markers without `[comment 1-4]` and `[blank 2]`.
 
 *   `<`blank`>` . `<`fold marker`>` . `<`fold level`>` . `<`$`>`
 
-`c/d` 不会添加或删除格式错误的 fold marker 之后的 fold level。
+`c/d` will not creat or delete fold levels after fold markers which have wrong pattern.
 
-## 3. 错误提示
+## 3. Error messages
 
-### 3.1 Autoload 函数
+### 3.1 Autoload functions
 
-如果出现错误 E117、E15 或 E121，请确认 `~/.vim/autoload/` 或者 `vimfiles/autoload/` 目录下是否存在 `moveCursor.vim` 这个文件。
+If Vim reports error E117, E15 or E121, please confirm if `moveCursor.vim` exists in `~/.vim/autoload/` or `vimfiles/autoload/`.
 
 ### 3.2 `foldmethod`
 
-如果出现错误——
+If plugin reports error:
 
     ERROR: 'foldmethod' is NOT 'marker'!
 
-请用命令 `:set foldmethod` 来查看当前设定的 fold marker。如果当前的 fold method 不是 `marker`，请调整设置：
+Check current fold method by executing `:set foldmethod`.  Change fold method to `marker` by executing command:
 
     :set foldmethod=marker<cr>
 
-### 3.3 `:FoldMarker` 命令已存在
+### 3.3 `:FoldMarker` already exists
 
-如果 `:FoldMarker` 没有生成一对 fold markers，可能是因为其它插件已经定义了这个命令。
+If `:FoldMarker` does not creat a pair of fold markers, perhaps other plugins have already defined this command.
 
-请向 `.vimrc` 内添加一行，设置新的命令名：
+Add a new line to `.vimrc` to define new command name:
 
     let g:ComName_FoldMarker = '{New Command Name}'
 
-命令名必须以大写字母开头。
+The new command name must begin with capital alphabet.
 
-### 3.4 Mark `'<` 和 `'>`
+### 3.4 Mark `'<` and `'>`
 
-如果出现错误——
+If plugin reports error:
 
     ERROR: Visual area not found!
 
-这表明 mark `'<` 和 `'>` 当中至少有一个不存在或者已被删除。参考 Vim 文档，`:h E19`。
+It means mark `'<` and `'>` does not exist or has already been deleted.  Refer to  Vim help, `:h E19`.
 
-该错误会在三种情况下出现。
+This error will appear in three circumstances.
 
-mark 不存在：
+marks do not exist:
 
     :new test<cr>
     :FoldMarker s<cr>
 
-mark 被删除：
+marks have been deleted:
 
     ggVG<esc>
     :delmarks < <cr>
     :FoldMarker s<cr>
 
-mark 所在行被删除：
+lines containing marks have been deleted:
 
     ggVG<esc>
     Gdd
     :FoldMarker s<cr>
 
-### 3.5 Visual area 的行数
+### 3.5 Number of lines in Visual area
 
-如果出现错误——
+If plugin reports error:
 
     ERROR: Visual area only has one line!
 
-这表明先前进入 Visual mode 后只选中了一行。请选中至少两行，这样 `:FoldMarker s` 才能正常工作。
+It means you have chosen only one line in Visual mode.  Choose at least two lines for `:FoldMarker s` to work properly.
 
-### 3.6 Visual area 包含 fold marker
+### 3.6 Visual area contains fold markers
 
-如果出现错误——
+If plugin reports error:
 
     ERROR: Visual area already has fold marker!
 
-这表明 Visual area 的首行和/或尾行含有 fold marker。
+It means there exists fold markers in the first or last line of Visual area.
 
-对于以下文本：
+For example:
 
     1
     2   Head {5
@@ -371,21 +373,21 @@ mark 所在行被删除：
     5   Tail }5
     6
 
-会报错的情况包括：
+The plugin will report error when you choose:
 
-*   选中第 2-5 行
-*   选中第 1-2 行
-*   选中第 5-6 行
+*   Line 2-5
+*   Line 1-2
+*   Line 5-6
 
-不报错的情况包括：
+The plugin will NOT report error when you choose:
 
-*   选中第 1-3 行
-*   选中第 3-4 行
-*   选中第 3-6 行
+*   Line 1-3
+*   Line 3-4
+*   Line 3-6
 
-## 4. 自定义命令和键映射
+## 4. User-defiend commands and key mappings
 
-我向 .vimrc 添加了以下命令和键映射：
+You can define your own commands and key mappings by adding such lines into .vimrc:
 
     command! -range FmAbove FoldMarker a
     command! -range FmBelow FoldMarker b
@@ -404,33 +406,33 @@ mark 所在行被删除：
     vnoremap <silent> <a-=> :FoldMarker c<cr>
     vnoremap <silent> <a--> :FoldMarker d<cr>
 
-## 5. 待办事项
+## 5. TODO list
 
-### 5.1 移动新 fold area 的位置
+### 5.1 Do not move cursor line
 
-执行命令 `:FoldMarker l/a/b/s` 以后，光标会停留在新 fold area 的首行，然后执行命令 `normal!  zz`。
+After executing commands `:FoldMarker l/a/b/s`, the cursor will stay in the first line of new fold area, then execute this command, `normal! zz`.
 
-是否有必要把 cursor line 移动到屏幕中间？或许可以增加几个选项：
+I wonder if it is necessary to move cursor line to the middle of screen.  I plan to add more options by providing a new global variable:
 
-*   不移动（除非 fold area 的首行或尾行超出屏幕边缘）
+*   Do not move cursor line(unless the first line or last line of new fold area is outside screen)
 *   `normal! zz`
 *   `normal! zt`
 *   `normal! zb`
 
-### 5.2 生成没有 fold level 的 fold marker
+### 5.2 Creat fold levels containing no fold markers
 
-新增几个命令，作用相当于：
+Add four new arguments, which work like:
 
     :FoldMarker l/a/b/s<cr>
     :FoldMarker d<cr>
 
-预留四个参数：`L/A/B/S`。
+Preserve four arguments: `L/A/B/S`.
 
-### 5.3 使用 Visual area 内的 fold level
+### 5.3 Use fold levels inside Visual area
 
-添加 fold level 时，从 Visual area 内的第一个 fold level 开始计数。
+When creating new fold levels, count fold levels from fold markers inside Visual area.
 
-示例（之前）：
+Example(before):
 
     1   Title {3
     2   SubTitle {2
@@ -438,11 +440,11 @@ mark 所在行被删除：
     4   }2
     5   }1
 
-输入命令：
+Execute commands:
 
     :FoldMarker C<cr>
 
-示例（之后）：
+Example(after):
 
     1   Title {3
     2   SubTitle {4
@@ -450,20 +452,20 @@ mark 所在行被删除：
     4   }4
     5   }3
 
-预留参数：`C`。
+Preserve argument: `C`.
 
-### 5.4 删除 Visual area 内的 fold marker
+### 5.4 Delete fold markers inside Visual area
 
-*   删除首行和尾行的 fold marker。
-*   删除所有 fold marker。
+*   Delete fold markers in the first and last line inside Visual area
+*   Delete all fold markers
 
-预留参数：`D`。
+Preserve argument: `D`.
 
-## 6. 版本历史
+## 6. Version history
 
-*   1.0.0——新增英文说明文档。
-*   0.10.0——交换参数 `a` 和 `b` 的功能。
-*   0.9.3——新增全局变量 `g:ComName_FoldMarker`，用来自定义命令名。
-*   0.9.2——`s:FoldMarker('surround')` 会显示更多错误提示。
-*   0.9.1——更改脚本变量名。
-*   0.9.0——第一个稳定版本。
+*   1.0.0--Creat English readme
+*   0.10.0--Switch arguments `a` and `b`
+*   0.9.3--Add new global variable `g:ComName_FoldMarker` to customize command name
+*   0.9.2--`s:FoldMarker('surround')` will echo more error messages
+*   0.9.1--Change names for script variables
+*   0.9.0--The first stable version
