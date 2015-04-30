@@ -1,3 +1,8 @@
+# foldMarker.vim
+
+*   Version: 1.0.0
+*   License: GPLv3
+
 ## Table of contents
 
 1. Download and install plugin
@@ -6,9 +11,6 @@
 4. User-defined commands and key mappings
 5. TODO list
 6. Version history
-
-*   Version: 1.0.0
-*   License: GPLv3
 
 foldMarker.vim defines a new command `:FoldMarker`, which can accpet six arguments to creat fold marker and adjust fold level.
 
