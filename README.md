@@ -73,7 +73,7 @@ If `:FoldMarker` does not creat a pair of fold markers, refer to 3.3(`:FoldMarke
 *   `c`: `Creat` fold level
 *   `d`: `Delete` fold level
 
-The plugin will show a breif help when the command is executed with a wrong argument, such as `:FoldMarker h`.
+The plugin will show a brief help when the command is executed with a wrong argument, such as `:FoldMarker h`.
 
 ### 2.3 Argument `l`
 
