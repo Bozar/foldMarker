@@ -16,7 +16,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ## 1. 下载并安装插件
 
-进入 [GitHub 仓库](https://github.com/Bozar/foldMarker)或[Vim 官网](http://www.vim.org/scripts/script.php?script_id=5166)下载插件。
+进入 [GitHub 仓库](https://github.com/Bozar/foldMarker)或 [Vim 官网](http://www.vim.org/scripts/script.php?script_id=5166)下载插件。
 
 把下面这两个文件复制到 `~/.vim/` 目录下（Windows 用户把文件复制到 `vimfiles/` 目录下）：
 
