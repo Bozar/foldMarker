@@ -18,7 +18,7 @@ Here is [the Simplified Chinese readme](https://github.com/Bozar/foldMarker/blob
 
 ## 1. Download and install plugin
 
-Download the plugin from [GitHub Repository](https://github.com/Bozar/foldMarker).
+Download the plugin from [GitHub Repository](https://github.com/Bozar/foldMarker) or [Vim home](http://www.vim.org/scripts/script.php?script_id=5166).
 
 Copy the following two files to `~/.vim/`(`vimfiles/` for Windows users) :
 
