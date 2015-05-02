@@ -1,9 +1,14 @@
 " foldMarker.vim "{{{1
-" Last Update: Apr 30, Thu | 21:31:33 | 2015
+" Last Update: May 02, Sat | 12:57:12 | 2015
 
-" Version: 1.0.0
+" Version: 1.1.0-nightly
 " License: GPLv3
 " Author: Bozar
+
+" DONE:
+" fix: fold marker pattern
+
+" TODO:
 
 " load once
 if !exists('g:loaded_foldMarker')
@@ -53,9 +58,9 @@ function! s:LoadVars() "{{{2
     \ '')
 
     let s:FoldBegin = '\v^(.*)\s(\S{-})' .
-    \ '\M' . s:Bra . '\v(\d{0,2})\s*$'
+    \ '\V' . s:Bra . '\v(\d{0,2})\s*$'
     let s:FoldEnd = '\v^(.*)' .
-    \ '\M' . s:Ket . '\v(\d{0,2})\s*$'
+    \ '\V' . s:Ket . '\v(\d{0,2})\s*$'
 
 endfunction "}}}2
 
