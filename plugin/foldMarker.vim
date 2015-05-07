@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 07, Thu | 18:41:39 | 2015
+" Last Update: May 07, Thu | 20:12:16 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -248,7 +248,9 @@ endfunction "}}}2
 function! s:Help() "{{{2
 
     echom '------------------------------'
-    echom s:ComName . ' [args]'
+    echom s:ComName . ' [arg 1]' . ' [arg 2]'
+    echom '------------------------------'
+    echom '[arg 1]: l/a/b/s/c/d'
     echom '------------------------------'
     echom 'Create new fold marker...'
     echom '[blank] or l: below current (L)ine'
@@ -259,11 +261,16 @@ function! s:Help() "{{{2
     echom 'c: (C)reat fold level'
     echom 'd: (D)elete fold level'
     echom '------------------------------'
+    echom '[arg 2]: n/N'
+    echom '------------------------------'
+    echom 'n: add (N)umber as fold level'
+    echom 'N: do (N)OT add number as fold level'
+    echom '------------------------------'
 
 endfunction "}}}2
 
 " main function
-function! s:FoldMarker(where) "{{{2
+function! s:FoldMarker(where,level) "{{{2
 
     if <sid>DetectFoldMethod() ==# 1
         return 1
@@ -316,7 +323,8 @@ function! s:FoldMarker(where) "{{{2
 
     endif
 
-    call <sid>CreatLevel('n',1)
+    call <sid>CreatLevel('n',a:level)
+    "call <sid>CreatLevel('n',0)
     execute 'normal! [z'
     call <sid>ExpandFold(1)
     call <sid>MoveFold(1,a:where)
@@ -343,14 +351,26 @@ endfunction "}}}2
 
 function! s:SelectFuns(...) "{{{2
 
-    if !exists('a:1') || a:1 ==# 'l'
-        call <sid>FoldMarker('line')
+    if !exists('a:2')
+        let l:level = 1
+    elseif a:2 ==# 'n'
+        let l:level = 1
+    elseif a:2 ==# 'N'
+        let l:level = 0
+    else
+        let l:level = 2
+    endif
+
+    if l:level ==# 2
+        call <sid>Help()
+    elseif !exists('a:1') || a:1 ==# 'l'
+        call <sid>FoldMarker('line',l:level)
     elseif a:1 ==# 'a'
-        call <sid>FoldMarker('above')
+        call <sid>FoldMarker('above',l:level)
     elseif a:1 ==# 'b'
-        call <sid>FoldMarker('below')
+        call <sid>FoldMarker('below',l:level)
     elseif a:1 ==# 's'
-        call <sid>FoldMarker('surround')
+        call <sid>FoldMarker('surround',l:level)
     elseif a:1 ==# 'c'
         call <sid>FoldLevel(1)
     elseif a:1 ==# 'd'
@@ -373,7 +393,7 @@ function! s:Commands() "{{{2
     endif
 
     if s:ComName !=# ''
-        execute 'command -range -nargs=?' . ' ' .
+        execute 'command -range -nargs=*' . ' ' .
         \ s:ComName .
         \ ' call <sid>SelectFuns(<f-args>)'
     else
