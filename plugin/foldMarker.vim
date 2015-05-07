@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 07, Thu | 11:41:46 | 2015
+" Last Update: May 07, Thu | 14:32:57 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -8,8 +8,10 @@
 " DONE:
 " fix: fold marker pattern
 
-" TODO:
+" WORKING:
 " move fold head
+
+" TODO:
 
 " load once
 if !exists('g:loaded_foldMarker')
@@ -63,15 +65,41 @@ function! s:LoadVars() "{{{2
     let s:FoldEnd = '\v^(.*)' .
     \ '\V' . s:Ket . '\v(\d{0,2})\s*$'
 
-    if exists('g:MoveFoldHead_FoldMarker') ==# 0
-        let s:MoveFoldHead = 0
-    elseif g:MoveFoldHead_FoldMarker =~# '^\d$'
-    \ && g:MoveFoldHead_FoldMarker >=# 0
-    \ && g:MoveFoldHead_FoldMarker <=# 3
-        let s:MoveFoldHead =
-        \ g:MoveFoldHead_FoldMarker
+    if exists('g:MoveFold_FoldMarker') ==# 0
+        let s:MoveFold = 0
+    elseif g:MoveFold_FoldMarker =~# '^\d$'
+    \ && g:MoveFold_FoldMarker >=# 0
+    \ && g:MoveFold_FoldMarker <=# 3
+        let s:MoveFold =
+        \ g:MoveFold_FoldMarker
     else
-        let s:MoveFoldHead = 0
+        let s:MoveFold = 0
+    endif
+
+endfunction "}}}2
+
+function! s:MoveFold(when,where) "{{{2
+
+    if a:where ==# 'above'
+        let l:keep = 0
+    elseif a:where ==# 'line' ||
+    \ a:where ==# 'below' ||
+    \ a:where ==# 'surround'
+        let l:keep = 1
+    endif
+
+    call moveCursor#KeepPos(a:when,l:keep)
+
+    if a:when ==# 1
+        if s:MoveFold ==# 0
+            execute 'normal! ]z[z'
+        elseif s:MoveFold ==# 1
+            execute 'normal! zt'
+        elseif s:MoveFold ==# 2
+            execute 'normal! zz'
+        elseif s:MoveFold ==# 3
+            execute 'normal! ]zzb[z'
+        endif
     endif
 
 endfunction "}}}2
@@ -171,8 +199,7 @@ function! s:CreatLevel(mode,creat) "{{{2
     " always delete fold level, begin
     execute moveCursor#TakeLineNr('J','')
     normal! 0
-    if exists('a:creat') &&
-    \ search(l:numBegin,'cnW',
+    if search(l:numBegin,'cnW',
     \ moveCursor#TakeLineNr('K',''))
         execute moveCursor#TakeLineNr('J','K') .
         \ 'g/' . l:numBegin .
@@ -182,8 +209,7 @@ function! s:CreatLevel(mode,creat) "{{{2
     " always delete fold level, end
     execute moveCursor#TakeLineNr('J','')
     normal! 0
-    if exists('a:creat') &&
-    \ search(l:numEnd,'cnW',
+    if search(l:numEnd,'cnW',
     \ moveCursor#TakeLineNr('K',''))
         execute moveCursor#TakeLineNr('J','K') .
         \ 'g/' . l:numEnd .
@@ -238,6 +264,7 @@ function! s:FoldMarker(where) "{{{2
         return 1
     endif
     call <sid>LoadVars()
+    call <sid>MoveFold(0,a:where)
     call <sid>ExpandFold(0)
     call <sid>GetFoldPrefix()
 
@@ -285,10 +312,11 @@ function! s:FoldMarker(where) "{{{2
     endif
 
     call <sid>CreatLevel('n',1)
-    normal! [z
     call <sid>ExpandFold(1)
+    normal! [z
+    call <sid>MoveFold(1,a:where)
     " 1.1.0, g:PosFoldHead_FoldMarker
-    normal! zz
+    "normal! zz
 
 endfunction "}}}2
 
