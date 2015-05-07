@@ -1,5 +1,5 @@
 " moveCursor.vim "{{{1
-" Last Update: Apr 23, Thu | 21:30:27 | 2015
+" Last Update: May 07, Thu | 14:29:19 | 2015
 
 " Version: 0.7.1-nightly
 " License: GPLv3
@@ -7,8 +7,9 @@
 
 " script variables
 " s:LineNr . [id]
-" s:PosCurrent
+" s:PosOrigin
 " s:PosTop
+" s:PosBot
 
 function moveCursor#DetectLineNr(id,...) "{{{2
 
@@ -102,16 +103,42 @@ function moveCursor#GotoFoldBegin() "{{{2
 
 endfunction "}}}2
 
-function moveCursor#KeepPos(when) "{{{2
+function moveCursor#KeepPos(when,...) "{{{2
+
+    " a:1 ==# 0, 'w0'
+    " a:1 ==# 1, 'w$'
+    " a:2 ># 0, get original cursor position
 
     if a:when ==# 0
-        let s:PosCurrent = getpos('.')
-        let s:PosTop = getpos('w0')
-        call setpos('.',s:PosCurrent)
+
+        " get original cursor position
+        let s:PosOrigin = getpos('.')
+
+        " get position in current window
+        if !exists('a:1') || a:1 ==# 0
+            let s:PosTop = getpos('w0')
+        elseif a:1 ==# 1
+            let s:PosBot = getpos('w$')
+        endif
+
     elseif a:when ==# 1
-        call setpos('.',s:PosTop)
-        execute 'normal! zt'
-        call setpos('.',s:PosCurrent)
+
+        " set position in current window
+        let l:posCurrent = getpos('.')
+        if !exists('a:1') || a:1 ==# 0
+            call setpos('.',s:PosTop)
+            execute 'normal! zt'
+        elseif a:1 ==# 1
+            call setpos('.',s:PosBot)
+            execute 'normal! zb'
+        endif
+        call setpos('.',l:posCurrent)
+
+        " set original cursor position
+        if exists('a:2') && a:2 ># 0
+            call setpos('.',s:PosOrigin)
+        endif
+
     endif
 
 endfunction "}}}2
