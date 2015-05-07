@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 07, Thu | 14:32:57 | 2015
+" Last Update: May 07, Thu | 15:20:49 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -80,11 +80,11 @@ endfunction "}}}2
 
 function! s:MoveFold(when,where) "{{{2
 
-    if a:where ==# 'above'
-        let l:keep = 0
-    elseif a:where ==# 'line' ||
+    if a:where ==# 'line' ||
     \ a:where ==# 'below' ||
     \ a:where ==# 'surround'
+        let l:keep = 0
+    elseif a:where ==# 'above'
         let l:keep = 1
     endif
 
