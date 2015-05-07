@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 07, Thu | 20:12:16 | 2015
+" Last Update: May 07, Thu | 21:34:34 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -11,9 +11,9 @@
 " DONE:
 " - fix: fold marker pattern
 " - move fold head
+" - creat fold marker without fold level
 
 " WORKING:
-" - creat fold marker without fold level
 
 " TODO:
 " - use existing fold level
@@ -250,6 +250,7 @@ function! s:Help() "{{{2
     echom '------------------------------'
     echom s:ComName . ' [arg 1]' . ' [arg 2]'
     echom '------------------------------'
+
     echom '[arg 1]: l/a/b/s/c/d'
     echom '------------------------------'
     echom 'Create new fold marker...'
@@ -261,6 +262,8 @@ function! s:Help() "{{{2
     echom 'c: (C)reat fold level'
     echom 'd: (D)elete fold level'
     echom '------------------------------'
+
+    echom '[arg 1]: l/a/b/s'
     echom '[arg 2]: n/N'
     echom '------------------------------'
     echom 'n: add (N)umber as fold level'
@@ -324,8 +327,7 @@ function! s:FoldMarker(where,level) "{{{2
     endif
 
     call <sid>CreatLevel('n',a:level)
-    "call <sid>CreatLevel('n',0)
-    execute 'normal! [z'
+    call moveCursor#GotoFoldBegin()
     call <sid>ExpandFold(1)
     call <sid>MoveFold(1,a:where)
 
@@ -361,19 +363,18 @@ function! s:SelectFuns(...) "{{{2
         let l:level = 2
     endif
 
-    if l:level ==# 2
-        call <sid>Help()
-    elseif !exists('a:1') || a:1 ==# 'l'
+    if (!exists('a:1') || a:1 ==# 'l') &&
+    \ l:level <# 2
         call <sid>FoldMarker('line',l:level)
-    elseif a:1 ==# 'a'
+    elseif a:1 ==# 'a' && l:level <# 2
         call <sid>FoldMarker('above',l:level)
-    elseif a:1 ==# 'b'
+    elseif a:1 ==# 'b' && l:level <# 2
         call <sid>FoldMarker('below',l:level)
-    elseif a:1 ==# 's'
+    elseif a:1 ==# 's' && l:level <# 2
         call <sid>FoldMarker('surround',l:level)
-    elseif a:1 ==# 'c'
+    elseif a:1 ==# 'c' && !exists('a:2')
         call <sid>FoldLevel(1)
-    elseif a:1 ==# 'd'
+    elseif a:1 ==# 'd' && !exists('a:2')
         call <sid>FoldLevel(0)
     else
         call <sid>Help()
