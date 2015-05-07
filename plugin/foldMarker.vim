@@ -1,20 +1,23 @@
 " foldMarker.vim "{{{1
-" Last Update: May 07, Thu | 15:47:23 | 2015
+" Last Update: May 07, Thu | 18:41:39 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
 " Author: Bozar
 
+" STATUS:
+" - add new features
+
 " DONE:
-" fix: fold marker pattern
+" - fix: fold marker pattern
+" - move fold head
 
 " WORKING:
-" move fold head
+" - creat fold marker without fold level
 
 " TODO:
-" creat fold marker without fold level
-" use existing fold level
-" delete fold markers
+" - use existing fold level
+" - delete fold markers
 
 " load once
 if !exists('g:loaded_foldMarker')
@@ -68,13 +71,12 @@ function! s:LoadVars() "{{{2
     let s:FoldEnd = '\v^(.*)' .
     \ '\V' . s:Ket . '\v(\d{0,2})\s*$'
 
-    if exists('g:MoveFold_FoldMarker') ==# 0
+    if !exists('g:MoveFold_FoldMarker')
         let s:MoveFold = 0
     elseif g:MoveFold_FoldMarker =~# '^\d$'
     \ && g:MoveFold_FoldMarker >=# 0
     \ && g:MoveFold_FoldMarker <=# 3
-        let s:MoveFold =
-        \ g:MoveFold_FoldMarker
+        let s:MoveFold = g:MoveFold_FoldMarker
     else
         let s:MoveFold = 0
     endif
@@ -315,7 +317,7 @@ function! s:FoldMarker(where) "{{{2
     endif
 
     call <sid>CreatLevel('n',1)
-    normal! [z
+    execute 'normal! [z'
     call <sid>ExpandFold(1)
     call <sid>MoveFold(1,a:where)
 
