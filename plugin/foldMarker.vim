@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 02, Sat | 12:57:12 | 2015
+" Last Update: May 07, Thu | 11:41:46 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -9,6 +9,7 @@
 " fix: fold marker pattern
 
 " TODO:
+" move fold head
 
 " load once
 if !exists('g:loaded_foldMarker')
@@ -61,6 +62,17 @@ function! s:LoadVars() "{{{2
     \ '\V' . s:Bra . '\v(\d{0,2})\s*$'
     let s:FoldEnd = '\v^(.*)' .
     \ '\V' . s:Ket . '\v(\d{0,2})\s*$'
+
+    if exists('g:MoveFoldHead_FoldMarker') ==# 0
+        let s:MoveFoldHead = 0
+    elseif g:MoveFoldHead_FoldMarker =~# '^\d$'
+    \ && g:MoveFoldHead_FoldMarker >=# 0
+    \ && g:MoveFoldHead_FoldMarker <=# 3
+        let s:MoveFoldHead =
+        \ g:MoveFoldHead_FoldMarker
+    else
+        let s:MoveFoldHead = 0
+    endif
 
 endfunction "}}}2
 
