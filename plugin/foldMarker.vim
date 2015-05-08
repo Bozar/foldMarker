@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 08, Fri | 22:43:41 | 2015
+" Last Update: May 08, Fri | 22:47:18 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -253,8 +253,6 @@ endfunction "}}}2
 
 function! s:DeleteMarker(range) "{{{2
 
-    call <sid>LoadVars()
-
     call moveCursor#SetLineNr("'<",'J')
     call moveCursor#SetLineNr("'>",'K')
 
@@ -387,6 +385,22 @@ function! s:FoldLevel(creat) "{{{2
     call <sid>ExpandFold(0)
 
     call <sid>CreatLevel('v',a:creat)
+
+    call <sid>ExpandFold(1)
+    call moveCursor#KeepPos(1,0,1)
+
+endfunction "}}}2
+
+function! s:Remove(range) "{{{2
+
+    if <sid>DetectFoldMethod() ==# 1
+        return 1
+    endif
+    call <sid>LoadVars()
+    call moveCursor#KeepPos(0,0)
+    call <sid>ExpandFold(0)
+
+    call <sid>DeleteMarker(a:range)
 
     call <sid>ExpandFold(1)
     call moveCursor#KeepPos(1,0,1)
