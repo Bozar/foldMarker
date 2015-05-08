@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 07, Thu | 21:34:34 | 2015
+" Last Update: May 08, Fri | 14:31:48 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -87,7 +87,7 @@ function! s:MoveFold(when,where) "{{{2
 
     if a:where ==# 'line' ||
     \ a:where ==# 'below' ||
-    \ a:where ==# 'surround'
+    \ a:where ==# 'sur'
         let l:keep = 0
     elseif a:where ==# 'above'
         let l:keep = 1
@@ -95,16 +95,18 @@ function! s:MoveFold(when,where) "{{{2
 
     call moveCursor#KeepPos(a:when,l:keep)
 
-    if a:when ==# 1
-        if s:MoveFold ==# 0
-            execute 'normal! ]z[z'
-        elseif s:MoveFold ==# 1
-            execute 'normal! zt'
-        elseif s:MoveFold ==# 2
-            execute 'normal! zz'
-        elseif s:MoveFold ==# 3
-            execute 'normal! ]zzb[z'
-        endif
+    if a:when !=# 1
+        return 1
+    endif
+
+    if s:MoveFold ==# 0
+        execute 'normal! ]z[z'
+    elseif s:MoveFold ==# 1
+        execute 'normal! zt'
+    elseif s:MoveFold ==# 2
+        execute 'normal! zz'
+    elseif s:MoveFold ==# 3
+        execute 'normal! ]zzb[z'
     endif
 
 endfunction "}}}2
@@ -251,7 +253,9 @@ function! s:Help() "{{{2
     echom s:ComName . ' [arg 1]' . ' [arg 2]'
     echom '------------------------------'
 
-    echom '[arg 1]: l/a/b/s/c/d'
+    echom '[arg 1]: l/a/b/s/c/d/h'
+    echom '------------------------------'
+    echom 'h: show (H)elp'
     echom '------------------------------'
     echom 'Create new fold marker...'
     echom '[blank] or l: below current (L)ine'
@@ -298,7 +302,8 @@ function! s:FoldMarker(where,level) "{{{2
         call <sid>CreatMarker(1)
     endif
 
-    if a:where ==# 'surround'
+    " surround
+    if a:where ==# 'sur'
 
         if <sid>DetectVisualArea() ==# 1
             call <sid>ExpandFold(1)
@@ -363,21 +368,29 @@ function! s:SelectFuns(...) "{{{2
         let l:level = 2
     endif
 
-    if (!exists('a:1') || a:1 ==# 'l') &&
-    \ l:level <# 2
+    if (!exists('a:1') || a:1 ==# 'l')
+    \ && l:level <# 2 && !exists('a:3')
         call <sid>FoldMarker('line',l:level)
-    elseif a:1 ==# 'a' && l:level <# 2
+    elseif a:1 ==# 'a'
+    \ && l:level <# 2 && !exists('a:3')
         call <sid>FoldMarker('above',l:level)
-    elseif a:1 ==# 'b' && l:level <# 2
+    elseif a:1 ==# 'b'
+    \ && l:level <# 2 && !exists('a:3')
         call <sid>FoldMarker('below',l:level)
-    elseif a:1 ==# 's' && l:level <# 2
-        call <sid>FoldMarker('surround',l:level)
-    elseif a:1 ==# 'c' && !exists('a:2')
+    elseif a:1 ==# 's'
+    \ && l:level <# 2 && !exists('a:3')
+        call <sid>FoldMarker('sur',l:level)
+    elseif a:1 ==# 'c'
+    \ && !exists('a:2')
         call <sid>FoldLevel(1)
-    elseif a:1 ==# 'd' && !exists('a:2')
+    elseif a:1 ==# 'd'
+    \ && !exists('a:2')
         call <sid>FoldLevel(0)
-    else
+    elseif a:1 ==# 'h'
+    \ && !exists('a:2')
         call <sid>Help()
+    else
+        return 1
     endif
 
 endfunction "}}}2
