@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 08, Fri | 22:50:48 | 2015
+" Last Update: May 08, Fri | 22:58:55 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -290,7 +290,7 @@ function! s:Help() "{{{2
     echom s:ComName . ' [arg 1]' . ' [arg 2]'
     echom '------------------------------'
 
-    echom '[arg 1]: l/a/b/s/c/d/h'
+    echom '[arg 1]: l/a/b/s/c/d/r/R/h'
     echom '------------------------------'
     echom 'h: show (H)elp'
     echom '------------------------------'
@@ -303,9 +303,12 @@ function! s:Help() "{{{2
     echom 'c: (C)reat fold level'
     echom 'd: (D)elete fold level'
     echom '------------------------------'
+    echom 'r: (R)emove the outermost fold' .
+    \ ' marker(s)'
+    echom 'R: (R)emove all fold marker(s)'
+    echom '------------------------------'
 
-    echom '[arg 1]: l/a/b/s'
-    echom '[arg 2]: n/N'
+    echom '[arg 1]: l/a/b/s, [arg 2]: n/N'
     echom '------------------------------'
     echom 'n: add (N)umber as fold level'
     echom 'N: do (N)OT add number as fold level'
