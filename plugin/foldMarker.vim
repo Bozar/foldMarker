@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 08, Fri | 14:31:48 | 2015
+" Last Update: May 08, Fri | 14:54:16 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -10,14 +10,15 @@
 
 " DONE:
 " - fix: fold marker pattern
-" - move fold head
-" - creat fold marker without fold level
+" - add: move fold head
+" - add: creat fold marker without fold level
 
 " WORKING:
 
 " TODO:
 " - use existing fold level
 " - delete fold markers
+" - accept command range other than `'<` and `'>`
 
 " load once
 if !exists('g:loaded_foldMarker')
