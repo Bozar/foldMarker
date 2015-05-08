@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 08, Fri | 22:15:26 | 2015
+" Last Update: May 08, Fri | 22:35:06 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -383,6 +383,7 @@ function! s:FoldLevel(creat) "{{{2
         return 1
     endif
     call <sid>LoadVars()
+    call moveCursor#KeepPos(0,0)
     call <sid>ExpandFold(0)
 
     if a:creat ==# 0
@@ -392,6 +393,7 @@ function! s:FoldLevel(creat) "{{{2
     endif
 
     call <sid>ExpandFold(1)
+    call moveCursor#KeepPos(1,0,1)
 
 endfunction "}}}2
 
