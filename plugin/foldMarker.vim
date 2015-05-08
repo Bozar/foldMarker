@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 08, Fri | 21:18:48 | 2015
+" Last Update: May 08, Fri | 22:15:26 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -247,6 +247,41 @@ function! s:CreatLevel(mode,creat) "{{{2
         execute moveCursor#TakeLineNr('J','K') .
         \ 'g/' . l:noNumEnd .
         \ '/s/\v\s*$/\=foldlevel(".")/'
+    endif
+
+endfunction "}}}2
+
+function! s:DeleteMarker(range) "{{{2
+
+    call <sid>LoadVars()
+
+    call moveCursor#SetLineNr("'<",'J')
+    call moveCursor#SetLineNr("'>",'K')
+
+    execute moveCursor#TakeLineNr('J','')
+    normal! 0
+    if search(s:FoldBegin,'cW',
+    \ moveCursor#TakeLineNr('K',''))
+        if a:range ==# 0
+            execute 's/' . s:FoldBegin . '/\1/'
+        elseif a:range ==# 1
+            execute
+            \ moveCursor#TakeLineNr('J','K') .
+            \ 's/' . s:FoldBegin . '/\1/'
+        endif
+    endif
+
+    execute moveCursor#TakeLineNr('K','')
+    normal! $
+    if search(s:FoldEnd,'bcW',
+    \ moveCursor#TakeLineNr('J',''))
+        if a:range ==# 0
+            execute 's/' . s:FoldEnd . '/\3/'
+        elseif a:range ==# 1
+            execute
+            \ moveCursor#TakeLineNr('J','K') .
+            \ 's/' . s:FoldEnd . '/\3/'
+        endif
     endif
 
 endfunction "}}}2
