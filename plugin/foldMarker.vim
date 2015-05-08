@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 08, Fri | 14:54:16 | 2015
+" Last Update: May 08, Fri | 21:18:48 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -14,10 +14,10 @@
 " - add: creat fold marker without fold level
 
 " WORKING:
+" - delete fold markers
 
 " TODO:
 " - use existing fold level
-" - delete fold markers
 " - accept command range other than `'<` and `'>`
 
 " load once
@@ -60,17 +60,20 @@ endfunction "}}}2
 
 function! s:LoadVars() "{{{2
 
-    let s:Bra =
-    \ substitute(&foldmarker,'\v(.*)(,.*)','\1',
-    \ '')
-    let s:Ket =
-    \ substitute(&foldmarker,'\v(.*,)(.*)','\2',
-    \ '')
+    let s:Bra = substitute(
+    \ &foldmarker,'\v(.*)(,.*)','\1','')
+    let s:Ket = substitute(
+    \ &foldmarker,'\v(.*,)(.*)','\2','')
 
-    let s:FoldBegin = '\v^(.*)\s(\S{-})' .
+    let s:FoldBegin = '\v^' .
+    \ '(.*)\s(\S{-})' .
     \ '\V' . s:Bra . '\v(\d{0,2})\s*$'
-    let s:FoldEnd = '\v^(.*)' .
+    let s:FoldEnd = '\v^' . '(' .
+    \ '((.*)\s(\S{-}))' . '|' .
+    \ '(\S{-})' . ')' .
     \ '\V' . s:Ket . '\v(\d{0,2})\s*$'
+    "let s:FoldEnd = '\v^(.*)' .
+    "\ '\V' . s:Ket . '\v(\d{0,2})\s*$'
 
     if !exists('g:MoveFold_FoldMarker')
         let s:MoveFold = 0
@@ -221,7 +224,7 @@ function! s:CreatLevel(mode,creat) "{{{2
     \ moveCursor#TakeLineNr('K',''))
         execute moveCursor#TakeLineNr('J','K') .
         \ 'g/' . l:numEnd .
-        \ '/s//\1' . s:Ket . '/'
+        \ '/s//\3' . s:Ket . '/'
     endif
 
     " creat fold level, begin
