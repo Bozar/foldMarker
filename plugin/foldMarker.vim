@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 08, Fri | 22:47:18 | 2015
+" Last Update: May 08, Fri | 22:50:48 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -431,15 +431,25 @@ function! s:SelectFuns(...) "{{{2
     elseif a:1 ==# 's'
     \ && l:level <# 2 && !exists('a:3')
         call <sid>FoldMarker('sur',l:level)
+
     elseif a:1 ==# 'c'
     \ && !exists('a:2')
         call <sid>FoldLevel(1)
     elseif a:1 ==# 'd'
     \ && !exists('a:2')
         call <sid>FoldLevel(0)
+
+    elseif a:1 ==# 'r'
+    \ && !exists('a:2')
+        call <sid>Remove(0)
+    elseif a:1 ==# 'R'
+    \ && !exists('a:2')
+        call <sid>Remove(1)
+
     elseif a:1 ==# 'h'
     \ && !exists('a:2')
         call <sid>Help()
+
     else
         return 1
     endif
