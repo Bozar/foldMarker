@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 09, Sat | 08:46:20 | 2015
+" Last Update: May 09, Sat | 09:07:45 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -12,12 +12,12 @@
 " - fix: fold marker pattern
 " - add: move fold head
 " - add: creat fold marker without fold level
-
-" WORKING:
 " - delete fold markers
 
-" TODO:
+" WORKING:
 " - use existing fold level
+
+" TODO:
 " - accept command range other than `'<` and `'>`
 
 " load once
@@ -287,31 +287,33 @@ endfunction "}}}2
 function! s:Help() "{{{2
 
     echom '------------------------------'
-    echom s:ComName . ' [arg 1]' . ' [arg 2]'
+    echom s:ComName . ' [arg]'
+    echom '------------------------------'
+    echom 'lower case args: l/a/b/s/c/d/r/h'
+    echom 'upper case args: L/A/B/S/C/-/R/-'
     echom '------------------------------'
 
-    echom '[arg 1]: l/a/b/s/c/d/r/R/h'
-    echom '------------------------------'
     echom 'h: show (H)elp'
     echom '------------------------------'
-    echom 'Create new fold marker...'
-    echom '[blank] or l: below current (L)ine'
-    echom 'a: (A)bove current fold area'
-    echom 'b: (B)elow current fold area'
-    echom 's: (S)urround selected lines'
+    echom 'Create fold marker with(lower case' .
+    \ ' args)'
+    echom 'or without(upper case args) fold' .
+    \ ' level...'
     echom '------------------------------'
-    echom 'c: (C)reat fold level'
-    echom 'd: (D)elete fold level'
+    echom '[blank] or l/L: below current (L)ine'
+    echom 'a/A: (A)bove current fold area'
+    echom 'b/B: (B)elow current fold area'
+    echom 's/S: (S)urround selected lines'
     echom '------------------------------'
+
+    echom 'c: (C)reat absolute fold level(s)'
+    echom 'C: (C)reat relative fold level(s)'
+    echom 'd: (D)elete fold level(s)'
+    echom '------------------------------'
+
     echom 'r: (R)emove the outermost fold' .
     \ ' marker(s)'
     echom 'R: (R)emove all fold marker(s)'
-    echom '------------------------------'
-
-    echom '[arg 1]: l/a/b/s, [arg 2]: n/N'
-    echom '------------------------------'
-    echom 'n: add (N)umber as fold level'
-    echom 'N: do (N)OT add number as fold level'
     echom '------------------------------'
 
 endfunction "}}}2
