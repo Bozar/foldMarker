@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 08, Fri | 22:58:55 | 2015
+" Last Update: May 09, Sat | 08:46:20 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -412,45 +412,37 @@ endfunction "}}}2
 
 function! s:SelectFuns(...) "{{{2
 
-    if !exists('a:2')
-        let l:level = 1
-    elseif a:2 ==# 'n'
-        let l:level = 1
-    elseif a:2 ==# 'N'
-        let l:level = 0
-    else
-        let l:level = 2
-    endif
-
-    if (!exists('a:1') || a:1 ==# 'l')
-    \ && l:level <# 2 && !exists('a:3')
-        call <sid>FoldMarker('line',l:level)
+    if !exists('a:1')
+        call <sid>FoldMarker('line',1)
+    elseif a:1 ==# 'l'
+        call <sid>FoldMarker('line',1)
     elseif a:1 ==# 'a'
-    \ && l:level <# 2 && !exists('a:3')
-        call <sid>FoldMarker('above',l:level)
+        call <sid>FoldMarker('above',1)
     elseif a:1 ==# 'b'
-    \ && l:level <# 2 && !exists('a:3')
-        call <sid>FoldMarker('below',l:level)
+        call <sid>FoldMarker('below',1)
     elseif a:1 ==# 's'
-    \ && l:level <# 2 && !exists('a:3')
-        call <sid>FoldMarker('sur',l:level)
+        call <sid>FoldMarker('sur',1)
+
+    elseif a:1 ==# 'L'
+        call <sid>FoldMarker('line',0)
+    elseif a:1 ==# 'A'
+        call <sid>FoldMarker('above',0)
+    elseif a:1 ==# 'B'
+        call <sid>FoldMarker('below',0)
+    elseif a:1 ==# 'S'
+        call <sid>FoldMarker('sur',0)
 
     elseif a:1 ==# 'c'
-    \ && !exists('a:2')
         call <sid>FoldLevel(1)
     elseif a:1 ==# 'd'
-    \ && !exists('a:2')
         call <sid>FoldLevel(0)
 
     elseif a:1 ==# 'r'
-    \ && !exists('a:2')
         call <sid>Remove(0)
     elseif a:1 ==# 'R'
-    \ && !exists('a:2')
         call <sid>Remove(1)
 
     elseif a:1 ==# 'h'
-    \ && !exists('a:2')
         call <sid>Help()
 
     else
@@ -471,7 +463,7 @@ function! s:Commands() "{{{2
     endif
 
     if s:ComName !=# ''
-        execute 'command -range -nargs=*' . ' ' .
+        execute 'command -range -nargs=?' . ' ' .
         \ s:ComName .
         \ ' call <sid>SelectFuns(<f-args>)'
     else
