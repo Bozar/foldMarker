@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 09, Sat | 09:07:45 | 2015
+" Last Update: May 11, Mon | 13:15:42 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -191,11 +191,11 @@ function! s:CreatLevel(mode,creat) "{{{2
 
     " new search pattern
     let l:numBegin =
-    \ substitute(s:FoldBegin,'{0,2}','+','')
+    \ substitute(s:FoldBegin,'{0,2}','{1,2}','')
     let l:noNumBegin =
     \ substitute(s:FoldBegin,'{0,2}','{0}','')
     let l:numEnd =
-    \ substitute(s:FoldEnd,'{0,2}','+','')
+    \ substitute(s:FoldEnd,'{0,2}','{1,2}','')
     let l:noNumEnd =
     \ substitute(s:FoldEnd,'{0,2}','{0}','')
 
