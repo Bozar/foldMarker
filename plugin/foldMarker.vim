@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 11, Mon | 15:29:48 | 2015
+" Last Update: May 11, Mon | 16:46:35 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -210,12 +210,15 @@ function! s:CreatLevel(mode,creat) "{{{2
     " get relative fold level
     execute moveCursor#TakeLineNr('J','')
     normal! 0
-    if a:creat ==# 2 && search(s:FoldBegin,'cW',
+    if a:creat ==# 2 && search(l:numBegin,'cW',
     \ moveCursor#TakeLineNr('K',''))
         call moveCursor#SetLineNr('.','H')
         let l:newLevel =
-        \ substitute(getline('.'),s:FoldBegin,
+        \ substitute(getline('.'),l:numBegin,
         \ '\3','')
+        let l:relative = 1
+    else
+        let l:relative = 0
     endif
 
     " always delete fold level, begin
@@ -241,7 +244,7 @@ function! s:CreatLevel(mode,creat) "{{{2
     " creat absolute fold level, begin
     execute moveCursor#TakeLineNr('J','')
     normal! 0
-    if a:creat ># 0 &&
+    if a:creat ==# 1 &&
     \ search(l:noNumBegin,'cnW',
     \ moveCursor#TakeLineNr('K',''))
         execute moveCursor#TakeLineNr('J','K') .
@@ -252,12 +255,66 @@ function! s:CreatLevel(mode,creat) "{{{2
     " creat absolute fold level, end
     execute moveCursor#TakeLineNr('J','')
     normal! 0
-    if a:creat ># 0 &&
+    if a:creat ==# 1 &&
     \ search(l:noNumEnd,'cnW',
     \ moveCursor#TakeLineNr('K',''))
         execute moveCursor#TakeLineNr('J','K') .
         \ 'g/' . l:noNumEnd .
         \ '/s/\v\s*$/\=foldlevel(".")/'
+    endif
+
+    " return, unless creat relative level
+    if a:creat ==# 2 && l:relative ==# 1
+        let l:return = 0
+    else
+        let l:return = 1
+    endif
+    if l:return ==# 1
+        return
+    endif
+
+    " creat relative fold level, J-H, begin
+    execute moveCursor#TakeLineNr('J','')
+    normal! 0
+    if search(l:noNumBegin,'cnW',
+    \ moveCursor#TakeLineNr('H',''))
+        execute moveCursor#TakeLineNr('J','H') .
+        \ 'g/' . l:noNumBegin .
+        \ '/s/\v\s*$/\=foldlevel(".")/'
+    endif
+
+    " creat relative fold level, J-H, end
+    execute moveCursor#TakeLineNr('J','')
+    normal! 0
+    if search(l:noNumEnd,'cnW',
+    \ moveCursor#TakeLineNr('H',''))
+        execute moveCursor#TakeLineNr('J','H') .
+        \ 'g/' . l:noNumEnd .
+        \ '/s/\v\s*$/\=foldlevel(".")/'
+    endif
+
+    " creat relative fold level, H, begin
+    execute moveCursor#TakeLineNr('H','') .
+    \ 's/\v\d+$/' . l:newLevel . '/'
+
+    " creat relative fold level, H-K, begin
+    execute moveCursor#TakeLineNr('H','',1)
+    if line('.') <=# moveCursor#TakeLineNr('K','')
+    \ && search(l:noNumBegin,'cnW',
+    \ moveCursor#TakeLineNr('K',''))
+        execute moveCursor#TakeLineNr('H','K') .
+        \ 'g/' . l:noNumBegin .
+        \ '/s/$/\=foldlevel(".")/'
+    endif
+
+    " creat relative fold level, H-K, end
+    execute moveCursor#TakeLineNr('H','',1)
+    if line('.') <=# moveCursor#TakeLineNr('K','')
+    \ && search(l:noNumEnd,'cnW',
+    \ moveCursor#TakeLineNr('K',''))
+        execute moveCursor#TakeLineNr('H','K') .
+        \ 'g/' . l:noNumEnd .
+        \ '/s/$/\=foldlevel(".")/'
     endif
 
 endfunction "}}}2
@@ -447,6 +504,8 @@ function! s:SelectFuns(...) "{{{2
 
     elseif a:1 ==# 'c'
         call <sid>FoldLevel(1)
+    elseif a:1 ==# 'C'
+        call <sid>FoldLevel(2)
     elseif a:1 ==# 'd'
         call <sid>FoldLevel(0)
 
