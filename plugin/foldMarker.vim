@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 11, Mon | 13:15:42 | 2015
+" Last Update: May 11, Mon | 13:56:56 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -205,6 +205,17 @@ function! s:CreatLevel(mode,creat) "{{{2
     elseif a:mode ==# 'v'
         call moveCursor#SetLineNr("'<",'J')
         call moveCursor#SetLineNr("'>",'K')
+    endif
+
+    " get relative fold level
+    execute moveCursor#TakeLineNr('J','')
+    normal! 0
+    if a:creat ==# 2 && search(s:FoldBegin,'cW',
+    \ moveCursor#TakeLineNr('K',''))
+        call moveCursor#SetLineNr('.','H')
+        let l:newLevel =
+        \ substitute(getline('.'),s:FoldBegin,
+        \ '\3','')
     endif
 
     " always delete fold level, begin
