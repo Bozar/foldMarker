@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 12, Tue | 15:16:50 | 2015
+" Last Update: May 12, Tue | 16:11:27 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -156,17 +156,25 @@ function! s:CreatMarker(where) "{{{2
 
     " wrap visual area
     if a:where ==# 2
-        if getline("'<") =~# '\v^\s*$'
-            execute "'<" . 's/$/' . s:Title .
-            \ l:begin . '/'
+        if getline(moveCursor#TakeLineNr('J',''))
+        \ =~# '\v^\s*$'
+            execute
+            \ moveCursor#TakeLineNr('J','') .
+            \ 's/$/' . s:Title . l:begin . '/'
         else
-            execute "'<" . 's/$/' . l:begin . '/'
+            execute
+            \ moveCursor#TakeLineNr('J','') .
+            \ 's/$/' . l:begin . '/'
         endif
-        if getline("'>") =~# '\v^\s*$'
-            execute "'>" . 's/$/' . l:end . '/'
+        if getline(moveCursor#TakeLineNr('K',''))
+        \ =~# '\v^\s*$'
+            execute
+            \ moveCursor#TakeLineNr('K','') .
+            \ 's/$/' . l:end . '/'
         else
-            execute "'>" . 's/$/' . ' ' . l:end .
-            \ '/'
+            execute
+            \ moveCursor#TakeLineNr('K','') .
+            \'s/$/' . ' ' . l:end . '/'
         endif
     endif
 
@@ -408,21 +416,37 @@ function! s:FoldMarker(where,level,...) "{{{2
     " surround
     if a:where ==# 'sur'
 
-        if line("'<") ==# line("'>")
-            echom 'ERROR: Visual area only' .
+        if moveCursor#TakeLineNr('J','') ==#
+        \ moveCursor#TakeLineNr('K','')
+            echom 'ERROR: Command range only' .
             \ ' has one line!'
             call <sid>ExpandFold(1)
+            call <sid>MoveFold(1,a:where)
             return 2
         endif
 
-        if getline(line("'<")) =~# s:FoldBegin ||
-        \ getline(line("'<")) =~# s:FoldEnd ||
-        \ getline(line("'>")) =~# s:FoldBegin ||
-        \ getline(line("'>")) =~# s:FoldEnd
-            echom 'ERROR: Visual area already' .
+        if getline(moveCursor#TakeLineNr('J',''))
+        \ =~# s:FoldBegin ||
+        \ getline(moveCursor#TakeLineNr('J',''))
+        \ =~# s:FoldEnd
+            echom 'ERROR: Line' . ' ' .
+            \ moveCursor#TakeLineNr('J','') .
             \ ' has fold marker!'
             call <sid>ExpandFold(1)
+            call <sid>MoveFold(1,a:where)
             return 3
+        endif
+
+        if getline(moveCursor#TakeLineNr('K',''))
+        \ =~# s:FoldBegin ||
+        \ getline(moveCursor#TakeLineNr('K',''))
+        \ =~# s:FoldEnd
+            echom 'ERROR: Line' . ' ' .
+            \ moveCursor#TakeLineNr('K','') .
+            \ ' has fold marker!'
+            call <sid>ExpandFold(1)
+            call <sid>MoveFold(1,a:where)
+            return 4
         endif
 
         call <sid>CreatMarker(2)
