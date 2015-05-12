@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 12, Tue | 11:38:29 | 2015
+" Last Update: May 12, Tue | 12:42:37 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -484,37 +484,40 @@ endfunction "}}}2
 
 function! s:SelectFuns(...) "{{{2
 
+    " a:1, <line1>
+    " a:2, <line2>
+    " a:3, <f-args>
     if !exists('a:3')
-        call <sid>FoldMarker('line',1)
+        call <sid>FoldMarker('line',1,a:1)
     elseif a:3 ==# 'l'
-        call <sid>FoldMarker('line',1)
+        call <sid>FoldMarker('line',1,a:1)
     elseif a:3 ==# 'a'
-        call <sid>FoldMarker('above',1)
+        call <sid>FoldMarker('above',1,a:1)
     elseif a:3 ==# 'b'
-        call <sid>FoldMarker('below',1)
+        call <sid>FoldMarker('below',1,a:1)
     elseif a:3 ==# 's'
-        call <sid>FoldMarker('sur',1)
+        call <sid>FoldMarker('sur',1,a:1,a:2)
 
     elseif a:3 ==# 'L'
-        call <sid>FoldMarker('line',0)
+        call <sid>FoldMarker('line',0,a:1)
     elseif a:3 ==# 'A'
-        call <sid>FoldMarker('above',0)
+        call <sid>FoldMarker('above',0,a:1)
     elseif a:3 ==# 'B'
-        call <sid>FoldMarker('below',0)
+        call <sid>FoldMarker('below',0,a:1)
     elseif a:3 ==# 'S'
-        call <sid>FoldMarker('sur',0)
+        call <sid>FoldMarker('sur',0,a:1,a:2)
 
     elseif a:3 ==# 'c'
-        call <sid>FoldLevel(1)
+        call <sid>FoldLevel(1,a:1,a:2)
     elseif a:3 ==# 'C'
-        call <sid>FoldLevel(2)
+        call <sid>FoldLevel(2,a:1,a:2)
     elseif a:3 ==# 'd'
-        call <sid>FoldLevel(0)
+        call <sid>FoldLevel(0,a:1,a:2)
 
     elseif a:3 ==# 'r'
-        call <sid>Remove(0)
+        call <sid>Remove(0,a:1,a:2)
     elseif a:3 ==# 'R'
-        call <sid>Remove(1)
+        call <sid>Remove(1,a:1,a:2)
 
     elseif a:3 ==# 'h'
         call <sid>Help()
