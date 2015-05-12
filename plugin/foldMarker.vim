@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 12, Tue | 13:36:49 | 2015
+" Last Update: May 12, Tue | 13:58:23 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -146,7 +146,7 @@ function! s:GetFoldPrefix() "{{{2
 
 endfunction "}}}2
 
-function! s:CreatMarker(where,...) "{{{2
+function! s:CreatMarker(where) "{{{2
 
     let l:begin = ' ' . s:Prefix . s:Bra
     let l:end = s:Prefix . s:Ket
@@ -182,7 +182,7 @@ function! s:CreatMarker(where,...) "{{{2
 
 endfunction "}}}2
 
-function! s:CreatLevel(mode,creat,...) "{{{2
+function! s:CreatLevel(mode,creat) "{{{2
 
     if a:mode ==# 'v' &&
     \ <sid>DetectVisualArea() ==# 1
@@ -321,7 +321,7 @@ function! s:CreatLevel(mode,creat,...) "{{{2
 
 endfunction "}}}2
 
-function! s:DeleteMarker(range,...) "{{{2
+function! s:DeleteMarker(range) "{{{2
 
     call moveCursor#SetLineNr("'<",'J')
     call moveCursor#SetLineNr("'>",'K')
@@ -397,6 +397,8 @@ function! s:FoldMarker(where,level,...) "{{{2
     call <sid>LoadVars()
     call <sid>MoveFold(0,a:where)
     call <sid>ExpandFold(0)
+    " move cursor to <line1>
+    execute a:1
     call <sid>GetFoldPrefix()
 
     if a:where ==# 'line'
