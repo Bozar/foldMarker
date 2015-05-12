@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 12, Tue | 09:32:29 | 2015
+" Last Update: May 12, Tue | 10:04:25 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -521,6 +521,7 @@ function! s:SelectFuns(...) "{{{2
 
     else
         return 1
+
     endif
 
 endfunction "}}}2
@@ -539,7 +540,8 @@ function! s:Commands() "{{{2
     if s:ComName !=# ''
         execute 'command -range -nargs=?' . ' ' .
         \ s:ComName .
-        \ ' call <sid>SelectFuns(<f-args>)'
+        \ ' call <sid>SelectFuns(<f-args>,' .
+        \ '<line1>,<line2>)'
     else
         return 1
     endif
