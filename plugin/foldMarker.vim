@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 12, Tue | 14:49:42 | 2015
+" Last Update: May 12, Tue | 15:16:50 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -43,16 +43,6 @@ function! s:DetectFoldMethod() "{{{2
     if &foldmethod !=# 'marker'
         echom "ERROR: 'foldmethod' is NOT" .
         \ " 'marker'!"
-        return 1
-    endif
-
-endfunction "}}}2
-
-function! s:DetectComRange() "{{{2
-
-    if moveCursor#DetectMark('<') ==# 1 ||
-    \ moveCursor#DetectMark('>') ==# 1
-        echom 'ERROR: Invalid command range!'
         return 1
     endif
 
@@ -183,11 +173,6 @@ function! s:CreatMarker(where) "{{{2
 endfunction "}}}2
 
 function! s:CreatLevel(mode,creat) "{{{2
-
-    if a:mode ==# 'v' &&
-    \ <sid>DetectComRange() ==# 1
-        return 1
-    endif
 
     " new search pattern
     let l:numBegin =
@@ -423,16 +408,11 @@ function! s:FoldMarker(where,level,...) "{{{2
     " surround
     if a:where ==# 'sur'
 
-        if <sid>DetectComRange() ==# 1
-            call <sid>ExpandFold(1)
-            return 2
-        endif
-
         if line("'<") ==# line("'>")
             echom 'ERROR: Visual area only' .
             \ ' has one line!'
             call <sid>ExpandFold(1)
-            return 3
+            return 2
         endif
 
         if getline(line("'<")) =~# s:FoldBegin ||
@@ -442,7 +422,7 @@ function! s:FoldMarker(where,level,...) "{{{2
             echom 'ERROR: Visual area already' .
             \ ' has fold marker!'
             call <sid>ExpandFold(1)
-            return 4
+            return 3
         endif
 
         call <sid>CreatMarker(2)
