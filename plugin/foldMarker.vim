@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 12, Tue | 12:42:37 | 2015
+" Last Update: May 12, Tue | 13:36:49 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -146,7 +146,7 @@ function! s:GetFoldPrefix() "{{{2
 
 endfunction "}}}2
 
-function! s:CreatMarker(where) "{{{2
+function! s:CreatMarker(where,...) "{{{2
 
     let l:begin = ' ' . s:Prefix . s:Bra
     let l:end = s:Prefix . s:Ket
@@ -182,7 +182,7 @@ function! s:CreatMarker(where) "{{{2
 
 endfunction "}}}2
 
-function! s:CreatLevel(mode,creat) "{{{2
+function! s:CreatLevel(mode,creat,...) "{{{2
 
     if a:mode ==# 'v' &&
     \ <sid>DetectVisualArea() ==# 1
@@ -321,7 +321,7 @@ function! s:CreatLevel(mode,creat) "{{{2
 
 endfunction "}}}2
 
-function! s:DeleteMarker(range) "{{{2
+function! s:DeleteMarker(range,...) "{{{2
 
     call moveCursor#SetLineNr("'<",'J')
     call moveCursor#SetLineNr("'>",'K')
@@ -488,22 +488,22 @@ function! s:SelectFuns(...) "{{{2
     " a:2, <line2>
     " a:3, <f-args>
     if !exists('a:3')
-        call <sid>FoldMarker('line',1,a:1)
+        call <sid>FoldMarker('line',1,a:1,a:2)
     elseif a:3 ==# 'l'
-        call <sid>FoldMarker('line',1,a:1)
+        call <sid>FoldMarker('line',1,a:1,a:2)
     elseif a:3 ==# 'a'
-        call <sid>FoldMarker('above',1,a:1)
+        call <sid>FoldMarker('above',1,a:1,a:2)
     elseif a:3 ==# 'b'
-        call <sid>FoldMarker('below',1,a:1)
+        call <sid>FoldMarker('below',1,a:1,a:2)
     elseif a:3 ==# 's'
         call <sid>FoldMarker('sur',1,a:1,a:2)
 
     elseif a:3 ==# 'L'
-        call <sid>FoldMarker('line',0,a:1)
+        call <sid>FoldMarker('line',0,a:1,a:2)
     elseif a:3 ==# 'A'
-        call <sid>FoldMarker('above',0,a:1)
+        call <sid>FoldMarker('above',0,a:1,a:2)
     elseif a:3 ==# 'B'
-        call <sid>FoldMarker('below',0,a:1)
+        call <sid>FoldMarker('below',0,a:1,a:2)
     elseif a:3 ==# 'S'
         call <sid>FoldMarker('sur',0,a:1,a:2)
 
