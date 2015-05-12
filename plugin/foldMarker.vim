@@ -180,7 +180,7 @@ function! s:CreatMarker(where) "{{{2
 
 endfunction "}}}2
 
-function! s:CreatLevel(mode,creat) "{{{2
+function! s:CreatLevel(mode,creat,...) "{{{2
 
     " new search pattern
     let l:numBegin =
@@ -196,8 +196,8 @@ function! s:CreatLevel(mode,creat) "{{{2
     if a:mode ==# 'n'
         call moveCursor#SetLineJKFold()
     elseif a:mode ==# 'v'
-        call moveCursor#SetLineNr("'<",'J')
-        call moveCursor#SetLineNr("'>",'K')
+        call moveCursor#SetLineNr(a:1,'J')
+        call moveCursor#SetLineNr(a:2,'K')
     endif
 
     " get relative fold level
@@ -469,7 +469,7 @@ function! s:FoldLevel(creat,...) "{{{2
     call moveCursor#KeepPos(0,0)
     call <sid>ExpandFold(0)
 
-    call <sid>CreatLevel('v',a:creat)
+    call <sid>CreatLevel('v',a:creat,a:1,a:2)
 
     call <sid>ExpandFold(1)
     call moveCursor#KeepPos(1,0,1)
