@@ -1,5 +1,5 @@
 " foldMarker.vim "{{{1
-" Last Update: May 12, Tue | 14:17:56 | 2015
+" Last Update: May 12, Tue | 14:49:42 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -48,11 +48,11 @@ function! s:DetectFoldMethod() "{{{2
 
 endfunction "}}}2
 
-function! s:DetectVisualArea() "{{{2
+function! s:DetectComRange() "{{{2
 
     if moveCursor#DetectMark('<') ==# 1 ||
     \ moveCursor#DetectMark('>') ==# 1
-        echom 'ERROR: Visual area not found!'
+        echom 'ERROR: Invalid command range!'
         return 1
     endif
 
@@ -185,7 +185,7 @@ endfunction "}}}2
 function! s:CreatLevel(mode,creat) "{{{2
 
     if a:mode ==# 'v' &&
-    \ <sid>DetectVisualArea() ==# 1
+    \ <sid>DetectComRange() ==# 1
         return 1
     endif
 
@@ -423,7 +423,7 @@ function! s:FoldMarker(where,level,...) "{{{2
     " surround
     if a:where ==# 'sur'
 
-        if <sid>DetectVisualArea() ==# 1
+        if <sid>DetectComRange() ==# 1
             call <sid>ExpandFold(1)
             return 2
         endif
