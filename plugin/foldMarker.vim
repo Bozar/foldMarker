@@ -1,5 +1,5 @@
-" foldMarker.vim "{{{1
-" Last Update: May 13, Wed | 11:18:52 | 2015
+" foldMarker.vim
+" Last Update: May 13, Wed | 12:55:03 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -38,18 +38,15 @@ set cpoptions&vim
 
 let s:Title = 'FOLDMARKER'
 
-function! s:DetectFoldMethod() "{{{2
-
+function! s:DetectFoldMethod()
     if &foldmethod !=# 'marker'
         echom "ERROR: 'foldmethod' is NOT" .
         \ " 'marker'!"
         return 1
     endif
+endfunction
 
-endfunction "}}}2
-
-function! s:LoadVars() "{{{2
-
+function! s:LoadVars()
     let s:Bra = substitute(
     \ &foldmarker,'\v(.*)(,.*)','\1','')
     let s:Ket = substitute(
@@ -74,11 +71,9 @@ function! s:LoadVars() "{{{2
     else
         let s:MoveFold = 0
     endif
+endfunction
 
-endfunction "}}}2
-
-function! s:MoveFold(when,where) "{{{2
-
+function! s:MoveFold(when,where)
     if a:where ==# 'line' ||
     \ a:where ==# 'below' ||
     \ a:where ==# 'sur'
@@ -102,11 +97,9 @@ function! s:MoveFold(when,where) "{{{2
     elseif s:MoveFold ==# 3
         execute 'normal! ]zzb[z'
     endif
+endfunction
 
-endfunction "}}}2
-
-function! s:ExpandFold(when) "{{{2
-
+function! s:ExpandFold(when)
     if a:when ==# 0
         let s:FoldLevel = &foldlevel
         let &foldlevel = 20
@@ -114,11 +107,9 @@ function! s:ExpandFold(when) "{{{2
     if a:when ==# 1
         let &foldlevel = s:FoldLevel
     endif
+endfunction
 
-endfunction "}}}2
-
-function! s:GetFoldPrefix() "{{{2
-
+function! s:GetFoldPrefix()
     let l:pos = getpos('.')
     if moveCursor#DetectFold() ==# 2
         call moveCursor#GotoFoldBegin()
@@ -133,11 +124,9 @@ function! s:GetFoldPrefix() "{{{2
         let s:Prefix = ''
     endif
     call setpos('.',l:pos)
+endfunction
 
-endfunction "}}}2
-
-function! s:CreatMarker(where) "{{{2
-
+function! s:CreatMarker(where)
     let l:begin = ' ' . s:Prefix . s:Bra
     let l:end = s:Prefix . s:Ket
 
@@ -177,11 +166,9 @@ function! s:CreatMarker(where) "{{{2
             \'s/$/' . ' ' . l:end . '/'
         endif
     endif
+endfunction
 
-endfunction "}}}2
-
-function! s:CreatLevel(mode,creat,...) "{{{2
-
+function! s:CreatLevel(mode,creat,...)
     " new search pattern
     let l:numBegin =
     \ substitute(s:FoldBegin,'{0,2}','{1,2}','')
@@ -313,11 +300,9 @@ function! s:CreatLevel(mode,creat,...) "{{{2
         \ 'g/' . l:noNumEnd .
         \ '/s/$/\=foldlevel(".")/'
     endif
+endfunction
 
-endfunction "}}}2
-
-function! s:DeleteMarker(range,...) "{{{2
-
+function! s:DeleteMarker(range,...)
     call moveCursor#SetLineNr(a:1,'J')
     call moveCursor#SetLineNr(a:2,'K')
 
@@ -346,11 +331,9 @@ function! s:DeleteMarker(range,...) "{{{2
             \ 's/' . s:FoldEnd . '/\3/'
         endif
     endif
+endfunction
 
-endfunction "}}}2
-
-function! s:Help() "{{{2
-
+function! s:Help()
     echom '------------------------------'
     echom s:ComName . ' [arg]'
     echom '------------------------------'
@@ -380,12 +363,10 @@ function! s:Help() "{{{2
     \ ' marker(s)'
     echom 'R: (R)emove all fold marker(s)'
     echom '------------------------------'
-
-endfunction "}}}2
+endfunction
 
 " main function
-function! s:FoldMarker(where,level,...) "{{{2
-
+function! s:FoldMarker(where,level,...)
     if <sid>DetectFoldMethod() ==# 1
         return 1
     endif
@@ -417,7 +398,6 @@ function! s:FoldMarker(where,level,...) "{{{2
 
     " surround
     if a:where ==# 'sur'
-
         if moveCursor#TakeLineNr('J','') ==#
         \ moveCursor#TakeLineNr('K','')
             echom 'ERROR: Command range only' .
@@ -452,18 +432,15 @@ function! s:FoldMarker(where,level,...) "{{{2
         endif
 
         call <sid>CreatMarker(2)
-
     endif
 
     call <sid>CreatLevel('n',a:level)
     call moveCursor#GotoFoldBegin()
     call <sid>ExpandFold(1)
     call <sid>MoveFold(1,a:where)
+endfunction
 
-endfunction "}}}2
-
-function! s:FoldLevel(creat,...) "{{{2
-
+function! s:FoldLevel(creat,...)
     if <sid>DetectFoldMethod() ==# 1
         return 1
     endif
@@ -475,11 +452,9 @@ function! s:FoldLevel(creat,...) "{{{2
 
     call <sid>ExpandFold(1)
     call moveCursor#KeepPos(1,0,1)
+endfunction
 
-endfunction "}}}2
-
-function! s:Remove(range,...) "{{{2
-
+function! s:Remove(range,...)
     if <sid>DetectFoldMethod() ==# 1
         return 1
     endif
@@ -491,11 +466,9 @@ function! s:Remove(range,...) "{{{2
 
     call <sid>ExpandFold(1)
     call moveCursor#KeepPos(1,0,1)
+endfunction
 
-endfunction "}}}2
-
-function! s:SelectFuns(...) "{{{2
-
+function! s:SelectFuns(...)
     " a:1, <line1>
     " a:2, <line2>
     " a:3, <f-args>
@@ -536,13 +509,10 @@ function! s:SelectFuns(...) "{{{2
 
     else
         return 1
-
     endif
+endfunction
 
-endfunction "}}}2
-
-function! s:Commands() "{{{2
-
+function! s:Commands()
     if exists('g:ComName_FoldMarker') &&
     \ g:ComName_FoldMarker !=# ''
         let s:ComName = g:ComName_FoldMarker
@@ -560,8 +530,7 @@ function! s:Commands() "{{{2
     else
         return 1
     endif
-
-endfunction "}}}2
+endfunction
 
 call <sid>Commands()
 
@@ -572,4 +541,4 @@ call <sid>Commands()
 let &cpoptions = s:Save_cpo
 unlet s:Save_cpo
 
-" vim: set fdm=marker fdl=20 tw=50 "}}}1
+" vim: set fdm=indent fdl=20 tw=50:
