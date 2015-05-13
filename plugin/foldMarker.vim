@@ -1,5 +1,5 @@
 " foldMarker.vim
-" Last Update: May 13, Wed | 17:44:15 | 2015
+" Last Update: May 13, Wed | 18:09:09 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -187,6 +187,16 @@ function! s:CreatLevel(mode,creat,...)
         call moveCursor#SetLineNr(a:2,'K')
     endif
 
+    " get fold prefix
+    execute moveCursor#TakeLineNr('J','')
+    normal! 0
+    if search(s:FoldBegin,'cW',
+    \ moveCursor#TakeLineNr('K',''))
+        call <sid>GetFoldPrefix()
+    else
+        let s:Prefix = ''
+    endif
+
     " get relative fold level
     execute moveCursor#TakeLineNr('J','')
     normal! 0
@@ -218,7 +228,7 @@ function! s:CreatLevel(mode,creat,...)
     \ moveCursor#TakeLineNr('K',''))
         execute moveCursor#TakeLineNr('J','K') .
         \ 'g/' . l:numEnd .
-        \ '/s//\3' . ' ' . s:Ket . '/'
+        \ '/s//\3' . ' ' . s:Prefix . s:Ket . '/'
     endif
 
     " creat absolute fold level, begin
