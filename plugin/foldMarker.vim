@@ -1,5 +1,5 @@
 " foldMarker.vim
-" Last Update: May 13, Wed | 12:55:03 | 2015
+" Last Update: May 13, Wed | 17:23:51 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -335,7 +335,7 @@ endfunction
 
 function! s:Help()
     echom '------------------------------'
-    echom s:ComName . ' [arg]'
+    echom '[range]' . s:ComName . ' [arg]'
     echom '------------------------------'
     echom 'lower case args: l/a/b/s/c/d/r/h'
     echom 'upper case args: L/A/B/S/C/-/R/-'
