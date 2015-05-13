@@ -1,5 +1,5 @@
 " foldMarker.vim
-" Last Update: May 13, Wed | 18:09:09 | 2015
+" Last Update: May 13, Wed | 20:06:15 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -37,6 +37,7 @@ set cpoptions&vim
 " ==============================
 
 let s:Title = 'FOLDMARKER'
+let s:Place = 'PLACEHOLDER_FOR_FOLDMARKER'
 
 function! s:DetectFoldMethod()
     if &foldmethod !=# 'marker'
@@ -187,16 +188,6 @@ function! s:CreatLevel(mode,creat,...)
         call moveCursor#SetLineNr(a:2,'K')
     endif
 
-    " get fold prefix
-    execute moveCursor#TakeLineNr('J','')
-    normal! 0
-    if search(s:FoldBegin,'cW',
-    \ moveCursor#TakeLineNr('K',''))
-        call <sid>GetFoldPrefix()
-    else
-        let s:Prefix = ''
-    endif
-
     " get relative fold level
     execute moveCursor#TakeLineNr('J','')
     normal! 0
@@ -227,8 +218,24 @@ function! s:CreatLevel(mode,creat,...)
     if search(l:numEnd,'cnW',
     \ moveCursor#TakeLineNr('K',''))
         execute moveCursor#TakeLineNr('J','K') .
-        \ 'g/' . l:numEnd .
-        \ '/s//\3' . ' ' . s:Prefix . s:Ket . '/'
+        \ 'g/' . l:numEnd . '/s//\3' . s:Place .
+        \ s:Prefix . s:Ket . '/'
+    endif
+    " delete leading space
+    execute moveCursor#TakeLineNr('J','')
+    normal! 0
+    if search('^' . s:Place,'cnW',
+    \ moveCursor#TakeLineNr('K',''))
+        execute moveCursor#TakeLineNr('J','K') .
+        \ 's/^' . s:Place . '//'
+    endif
+    " replace place holder with space
+    execute moveCursor#TakeLineNr('J','')
+    normal! 0
+    if search(s:Place,'cnW',
+    \ moveCursor#TakeLineNr('K',''))
+        execute moveCursor#TakeLineNr('J','K') .
+        \ 's/' . s:Place . '/ /'
     endif
 
     " creat absolute fold level, begin
@@ -458,6 +465,7 @@ function! s:FoldLevel(creat,...)
     call moveCursor#KeepPos(0,0)
     call <sid>ExpandFold(0)
 
+    call <sid>GetFoldPrefix()
     call <sid>CreatLevel('v',a:creat,a:1,a:2)
 
     call <sid>ExpandFold(1)
