@@ -1,12 +1,12 @@
 " foldMarker.vim "{{{1
-" Last Update: May 12, Tue | 16:44:27 | 2015
+" Last Update: May 13, Wed | 11:18:52 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
 " Author: Bozar
 
 " STATUS:
-" - add new features
+" - fix bugs
 
 " DONE:
 " - fix: fold marker pattern
@@ -14,9 +14,9 @@
 " - add: creat fold marker without fold level
 " - delete fold markers
 " - use existing fold level
+" - accept command range other than `'<` and `'>`
 
 " WORKING:
-" - accept command range other than `'<` and `'>`
 
 " TODO:
 
@@ -141,14 +141,14 @@ function! s:CreatMarker(where) "{{{2
     let l:begin = ' ' . s:Prefix . s:Bra
     let l:end = s:Prefix . s:Ket
 
-    " before current line
+    " before cursor line
     if a:where ==# 0
         execute 's/^/' . s:Title . l:begin .
         \ '\r\r\r' . l:end . '\r/'
         -1
     endif
 
-    " after current line
+    " after cursor line
     if a:where ==# 1
         execute 's/$/\r' . s:Title . l:begin .
         \ '\r\r\r' . l:end . '/'
@@ -294,6 +294,7 @@ function! s:CreatLevel(mode,creat,...) "{{{2
 
     " creat relative fold level, H-K, begin
     execute moveCursor#TakeLineNr('H','',1)
+    normal! 0
     if line('.') <=# moveCursor#TakeLineNr('K','')
     \ && search(l:noNumBegin,'cnW',
     \ moveCursor#TakeLineNr('K',''))
@@ -304,6 +305,7 @@ function! s:CreatLevel(mode,creat,...) "{{{2
 
     " creat relative fold level, H-K, end
     execute moveCursor#TakeLineNr('H','',1)
+    normal! 0
     if line('.') <=# moveCursor#TakeLineNr('K','')
     \ && search(l:noNumEnd,'cnW',
     \ moveCursor#TakeLineNr('K',''))
