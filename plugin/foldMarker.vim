@@ -1,5 +1,5 @@
 " foldMarker.vim
-" Last Update: May 14, Thu | 09:15:43 | 2015
+" Last Update: May 14, Thu | 09:21:30 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -430,8 +430,7 @@ function! s:FoldMarker(where,level,...)
     if a:where ==# 'sur'
         if moveCursor#TakeLineNr('J','') ==#
         \ moveCursor#TakeLineNr('K','')
-            echom 'ERROR: Command range only' .
-            \ ' has one line!'
+            call <sid>ErrorMsg('comRange')
             call <sid>ExpandFold(1)
             call <sid>MoveFold(1,a:where)
             return 2
