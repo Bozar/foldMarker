@@ -1,5 +1,5 @@
 " foldMarker.vim
-" Last Update: May 13, Wed | 20:06:15 | 2015
+" Last Update: May 14, Thu | 09:11:36 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -38,6 +38,20 @@ set cpoptions&vim
 
 let s:Title = 'FOLDMARKER'
 let s:Place = 'PLACEHOLDER_FOR_FOLDMARKER'
+
+function! s:ErrorMsg(type,...)
+    if a:type ==# 'foldmethod'
+        echom "ERROR: 'foldmethod' is NOT" .
+        \ " 'marker'!"
+    elseif a:type ==# 'comRange'
+        echom 'ERROR: Command range only' .
+        \ ' has one line!'
+    elseif a:type ==# 'foldmarker'
+        echom 'ERROR: Line' . ' ' .
+        \ moveCursor#TakeLineNr(a:1,'') .
+        \ ' has fold marker!'
+    endif
+endfunction
 
 function! s:DetectFoldMethod()
     if &foldmethod !=# 'marker'
