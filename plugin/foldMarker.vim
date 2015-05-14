@@ -1,5 +1,5 @@
 " foldMarker.vim
-" Last Update: May 14, Thu | 09:11:36 | 2015
+" Last Update: May 14, Thu | 09:15:43 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -55,8 +55,6 @@ endfunction
 
 function! s:DetectFoldMethod()
     if &foldmethod !=# 'marker'
-        echom "ERROR: 'foldmethod' is NOT" .
-        \ " 'marker'!"
         return 1
     endif
 endfunction
@@ -399,6 +397,7 @@ endfunction
 " main function
 function! s:FoldMarker(where,level,...)
     if <sid>DetectFoldMethod() ==# 1
+        call <sid>ErrorMsg('foldmethod')
         return 1
     endif
     call <sid>LoadVars()
@@ -473,6 +472,7 @@ endfunction
 
 function! s:FoldLevel(creat,...)
     if <sid>DetectFoldMethod() ==# 1
+        call <sid>ErrorMsg('foldmethod')
         return 1
     endif
     call <sid>LoadVars()
@@ -488,6 +488,7 @@ endfunction
 
 function! s:Remove(range,...)
     if <sid>DetectFoldMethod() ==# 1
+        call <sid>ErrorMsg('foldmethod')
         return 1
     endif
     call <sid>LoadVars()
