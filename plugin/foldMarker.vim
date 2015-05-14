@@ -1,5 +1,5 @@
 " foldMarker.vim
-" Last Update: May 14, Thu | 09:21:30 | 2015
+" Last Update: May 14, Thu | 09:25:13 | 2015
 
 " Version: 1.1.0-nightly
 " License: GPLv3
@@ -440,9 +440,7 @@ function! s:FoldMarker(where,level,...)
         \ =~# s:FoldBegin ||
         \ getline(moveCursor#TakeLineNr('J',''))
         \ =~# s:FoldEnd
-            echom 'ERROR: Line' . ' ' .
-            \ moveCursor#TakeLineNr('J','') .
-            \ ' has fold marker!'
+            call <sid>ErrorMsg('foldmarker','J')
             call <sid>ExpandFold(1)
             call <sid>MoveFold(1,a:where)
             return 3
@@ -452,9 +450,7 @@ function! s:FoldMarker(where,level,...)
         \ =~# s:FoldBegin ||
         \ getline(moveCursor#TakeLineNr('K',''))
         \ =~# s:FoldEnd
-            echom 'ERROR: Line' . ' ' .
-            \ moveCursor#TakeLineNr('K','') .
-            \ ' has fold marker!'
+            call <sid>ErrorMsg('foldmarker','K')
             call <sid>ExpandFold(1)
             call <sid>MoveFold(1,a:where)
             return 4
