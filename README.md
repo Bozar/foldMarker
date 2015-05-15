@@ -1,26 +1,28 @@
 # foldMarker.vim
 
-*   Version: 1.0.0
+*   Version: 1.1.0
 *   License: GPLv3
 
 ## Table of contents
 
-1. Download and install plugin
-2. New command `:FoldMarker`
-3. Error messages
-4. User-defined commands and key mappings
-5. TODO list
+1. Introduction
+2. Download and install plugin
+3. New command `:FoldMarker`
+4. Error messages
+5. User-defined commands and key mappings
 6. Version history
 
-foldMarker.vim defines a new command `:FoldMarker`, which can accpet six arguments to creat fold marker and adjust fold level.
+## 1. Introduction
+
+foldMarker.vim defines a new command `:FoldMarker`, which can accpet fourteen arguments to creat/delete fold marker and fold level.
 
 Here is [the Simplified Chinese readme](https://github.com/Bozar/foldMarker/blob/master/README_CN.md).
 
-## 1. Download and install plugin
+## 2. Download and install plugin
 
 Download the plugin from [GitHub Repository](https://github.com/Bozar/foldMarker) or [Vim home](http://www.vim.org/scripts/script.php?script_id=5166).
 
-Copy the following two files to `~/.vim/`(`vimfiles/` for Windows users) :
+Copy the following two files to `~/.vim/`( `vimfiles/` for Windows users) :
 
     autoload/moveCursor.vim
     plugin/foldMarker.vim
@@ -29,9 +31,9 @@ Please be sure the plugin will not overwrite existing files.
 
 Restart Vim.
 
-## 2. New command `:FoldMarker`
+## 3. New command `:FoldMarker`
 
-### 2.1 Your first command
+### 3.1 Your first command
 
 Execute command `:FoldMarker`.  The plugin should creat a pair of fold markers under cursor line .
 
@@ -52,34 +54,52 @@ Example(after):
 
 `[]` represents cursor position.  `{` and `}` represent Vim's default fold markers.
 
-If Vim reports error: E117, E15 or E121, refer to 3.1(Autoload functions).
+If Vim reports error: E117, E15 or E121, refer to 4.1(Autoload functions).
 
 If plugin reports error:
 
     ERROR: 'foldmethod' is NOT 'marker'!
 
-Refer to 3.2(`foldmethod`).
+Refer to 4.2(`foldmethod`).
 
-If `:FoldMarker` does not creat a pair of fold markers, refer to 3.3(`:FoldMarker` already exists).
+If `:FoldMarker` does not creat a pair of fold markers, refer to 4.3(`:FoldMarker` already exists).
 
-### 2.2 Command arguments
+### 3.2 Command arguments
 
-`:FoldMarker` can accept six lower case alphabets as arguments: `l/a/b/s/c/d`.  It can also be executed with no argument, just as being executed with argument `l`.
+`:FoldMarker` can accept fourteen alphabets as arguments.  It can also be executed with no argument, just as being executed with argument `l`.  These arguments are classified into four groups:
 
-*   `l`: creat a pair of fold markers under cursor `Line`
-*   `a`: creat a pair of fold markers `Above` fold area
-*   `b`: creat a pair of fold markers `Below` fold area
-*   `s`: creat a pair of fold markers `Surrounding` Visual area
-*   `c`: `Creat` fold level
-*   `d`: `Delete` fold level
+Creat a pair of fold markers in the specified position:
 
-The plugin will show a brief help when the command is executed with a wrong argument, such as `:FoldMarker h`.
+*   `l/L`: creat a pair of fold markers under cursor `(L)ine`
+*   `a/A`: creat a pair of fold markers `(A)bove` fold area
+*   `b/B`: creat a pair of fold markers `(B)elow` fold area
+*   `s/S`: creat a pair of fold markers `(S)urrounding` the specified area
 
-### 2.3 Argument `l`
+Creat or delete fold levels:
 
-`:FoldMarker l` will creat a pair of fold markers under cursor line.  See above, 2.1.
+*   `c/C`: `(C)reat` fold levels
+*   `d`: `(D)elete` fold levels
 
-### 2.4 Argument `a`
+Delete fold markers:
+
+*   `r/R`: `(R)emove` the outermost/all fold markers in the specified area
+
+Read help:
+
+*   `h`: read `(H)elp` for command arguments
+
+### 3.3 Argument `l/L`
+
+`:FoldMarker l/L` will creat a pair of fold markers under cursor line.  See above, 3.1.
+
+Lower case arguments creat both fold markers and fold levels.  Upper case arguments creat fold markers without fold levels.  This rule applies to four pairs of arguments:
+
+*   l/L
+*   a/A
+*   b/B
+*   s/S
+
+### 3.4 Argument `a/A`
 
 If cursor is outside fold area, then `:FoldMarker a` will creat a pair of fold markers above cursor line.
 
@@ -103,15 +123,13 @@ Example(after):
     7
     8   }1
 
-### 2.5 Argument `b`
+### 3.5 Argument `b/B`
 
 `:FoldMarker b` works like `:FoldMarker a`, that is, creat a pair of fold markers below cursor line or fold area.
 
-### 2.6 Argument `s`
+### 3.6 Argument `s/S`
 
 First enter Visual mode, then choose at least two lines.  Execute `:FoldMarker s`, which will creat a pair of fold markers in the first and last line of Visual area.
-
-As long as markers `'<` and `'>` exist, and they are not in the same line, `:FoldMarker s` can also be executed in Normal mode.
 
 Example(before):
 
@@ -124,6 +142,10 @@ Execute commands:
 
     ggVG<esc>
     :FoldMarker s<cr>
+
+You can also execute this command in Normal mode:
+
+    :1,4FoldMarker s
 
 Example(after):
 
@@ -146,29 +168,19 @@ A new fold title will be created:
 
 If plugin reports error:
 
-    ERROR: Visual area not found!
+    ERROR: Command range only has one line!
 
-Refer to 3.4(Mark `'<` and `'>`).
-
-If plugin reports error:
-
-    ERROR: Visual area only has one line!
-
-Refer to 3.5(Number of lines in Visual area).
+Refer to 4.4(Command range).
 
 If plugin reports error:
 
-    ERROR: Visual area already has fold marker!
+    ERROR: Line X has fold marker!
 
-Refer to 3.6(Visual area contains fold markers).
+Refer to 4.5(Fold markers exist in specified area).
 
-### 2.7 Argument `d`
+### 3.7 Argument `d`
 
-Arguments `l/a/b/s/` will creat a pair of fold markers in the specific position.  Argument `c/d` will creat or delete fold level after fold markers.
-
-First let's discuss `:FoldMarker d`.
-
-First enter Visual mode, then choose text containing fold markers.  Execute `:FoldMarker d`, which will delete fold levels after fold markers.
+Those four pairs of arguments described above creat a pair of fold markers in the specific position.  Arguments `c/C/d` creat or delete fold level after fold markers.  First let's discuss `:FoldMarker d`.
 
 Example(before):
 
@@ -180,8 +192,7 @@ Example(before):
 
 Execute commands:
 
-    ggV3j<esc>
-    :FoldMarker d<cr>
+    :%FoldMarker d<cr>
 
 Example(after):
 
@@ -189,18 +200,18 @@ Example(after):
     2   SubTitle {
     3
     4   }
-    5   }1
+    5   }
 
-If fold markers have wrong formats, refer to 2.10(Fold marker pattern), fold levels after such markers will not be deleted.
+If fold markers have wrong formats, refer to 3.12(Fold marker pattern), fold levels after such markers will not be deleted.
 
-### 2.8 Argument `c`
+### 3.8 Argument `c/C`
 
 First enter Visual mode, then choose text containing fold markers.  Execute `:FoldMarker c`, which will do two things:
 
 *   Execute command `:FoldMarker d`.
 *   Creat fold levels after fold markers.
 
-### 2.9 Change fold level
+Change fold level
 
 `:FoldMarker c` can be used to change fold level.
 
@@ -230,7 +241,13 @@ Execute these commands to change a level two fold back to level one:
     ggVG<esc>
     :FoldMarker c<cr>
 
-### 2.10 Fold marker pattern
+### 3.9 Argument `r/R`
+
+### 3.10 Argument `h`
+
+### 3.11 Command range
+
+### 3.12 Fold marker pattern
 
 In order to make sure `:FoldMarker` to work properly, that is to say:
 
@@ -297,13 +314,13 @@ If there exist non-blank characters other than numbers after fold markers, such 
 
 `c/d` will not creat or delete fold levels after fold markers which have wrong pattern.
 
-## 3. Error messages
+## 4. Error messages
 
-### 3.1 Autoload functions
+### 4.1 Autoload functions
 
 If Vim reports error E117, E15 or E121, please confirm if `moveCursor.vim` exists in `~/.vim/autoload/` or `vimfiles/autoload/`.
 
-### 3.2 `foldmethod`
+### 4.2 `foldmethod`
 
 If plugin reports error:
 
@@ -313,7 +330,7 @@ Check current fold method by executing `:set foldmethod`.  Change fold method to
 
     :set foldmethod=marker<cr>
 
-### 3.3 `:FoldMarker` already exists
+### 4.3 `:FoldMarker` already exists
 
 If `:FoldMarker` does not creat a pair of fold markers, perhaps other plugins have already defined this command.
 
@@ -323,48 +340,21 @@ Add a new line to `.vimrc` to define new command name:
 
 The new command name must begin with capital alphabet.
 
-### 3.4 Mark `'<` and `'>`
+### 4.4 Command range
 
 If plugin reports error:
 
-    ERROR: Visual area not found!
+    ERROR: Command range only has one line!
 
-It means mark `'<` and `'>` does not exist or has already been deleted.  Refer to  Vim help, `:h E19`.
+Choose at least two lines in Visual mode or Normal mode, such as `:1,2FoldMarker s`, so that `:FoldMarker s` can work properly.
 
-This error will appear in three circumstances.
-
-marks do not exist:
-
-    :new test<cr>
-    :FoldMarker s<cr>
-
-marks have been deleted:
-
-    ggVG<esc>
-    :delmarks < <cr>
-    :FoldMarker s<cr>
-
-lines containing marks have been deleted:
-
-    ggVG<esc>
-    Gdd
-    :FoldMarker s<cr>
-
-### 3.5 Number of lines in Visual area
+### 4.5 Fold markers exist in specified area
 
 If plugin reports error:
 
-    ERROR: Visual area only has one line!
+    ERROR: Line X has fold marker!
 
-It means you have chosen only one line in Visual mode.  Choose at least two lines for `:FoldMarker s` to work properly.
-
-### 3.6 Visual area contains fold markers
-
-If plugin reports error:
-
-    ERROR: Visual area already has fold marker!
-
-It means there exists fold markers in the first or last line of Visual area.
+It means there exists fold markers in the first or last line of specified area.
 
 For example:
 
@@ -387,7 +377,7 @@ The plugin will NOT report error when you choose:
 *   Line 3-4
 *   Line 3-6
 
-## 4. User-defiend commands and key mappings
+## 5. User-defiend commands and key mappings
 
 You can define your own commands and key mappings by adding such lines into .vimrc:
 
@@ -408,66 +398,22 @@ You can define your own commands and key mappings by adding such lines into .vim
     vnoremap <silent> <a-=> :FoldMarker c<cr>
     vnoremap <silent> <a--> :FoldMarker d<cr>
 
-## 5. TODO list
-
-### 5.1 Do not move cursor line
-
-After executing commands `:FoldMarker l/a/b/s`, the cursor will stay in the first line of new fold area, then execute this command, `normal! zz`.
-
-I wonder if it is necessary to move cursor line to the middle of screen.  I plan to add more options by providing a new global variable:
-
-*   Do not move cursor line(unless the first line or last line of new fold area is outside screen)
-*   `normal! zz`
-*   `normal! zt`
-*   `normal! zb`
-
-### 5.2 Creat fold levels containing no fold markers
-
-Add four new arguments, which work like:
-
-    :FoldMarker l/a/b/s<cr>
-    :FoldMarker d<cr>
-
-Preserve four arguments: `L/A/B/S`.
-
-### 5.3 Use fold levels inside Visual area
-
-When creating new fold levels, count fold levels from fold markers inside Visual area.
-
-Example(before):
-
-    1   Title {3
-    2   SubTitle {2
-    3
-    4   }2
-    5   }1
-
-Execute commands:
-
-    :FoldMarker C<cr>
-
-Example(after):
-
-    1   Title {3
-    2   SubTitle {4
-    3
-    4   }4
-    5   }3
-
-Preserve argument: `C`.
-
-### 5.4 Delete fold markers inside Visual area
-
-*   Delete fold markers in the first and last line inside Visual area
-*   Delete all fold markers
-
-Preserve argument: `D`.
-
 ## 6. Version history
 
-*   1.0.0--Creat English readme
-*   0.10.0--Switch arguments `a` and `b`
-*   0.9.3--Add new global variable `g:ComName_FoldMarker` to customize command name
-*   0.9.2--`s:FoldMarker('surround')` will echo more error messages
-*   0.9.1--Change names for script variables
-*   0.9.0--The first stable version
+*   1.1.0
+    +   Fix: Change search pattern for script variable `s:FoldEnd`, so that the plugin can recognize fold markers such as `[[[`
+    +   Add: Add 8 new arguments, L/A/B/S/C/r/R/h
+    +   Add: Add a global variable `g:MoveFold_FoldMarker` to move new fold marker
+    +   Add: Let `:FoldMarker` accpet more ranges besides `'<` and `'>`, such as `:1,5FoldMarker`
+*   1.0.0
+    +   Creat English readme
+*   0.10.0
+    +   Switch arguments `a` and `b`
+*   0.9.3
+    +   Add new global variable `g:ComName_FoldMarker` to customize command name
+*   0.9.2
+    +   `s:FoldMarker('surround')` will echo more error messages
+*   0.9.1
+    +   Change names for script variables
+*   0.9.0
+    +   The first stable version
