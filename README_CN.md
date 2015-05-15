@@ -1,4 +1,4 @@
-foldMarker.vim 使用说明
+# foldMarker.vim 使用说明
 
 *   版本：1.1.0
 *   协议：GPLv3
