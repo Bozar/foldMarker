@@ -140,12 +140,11 @@ Example(before):
 
 Execute commands:
 
-    ggVG<esc>
-    :FoldMarker s<cr>
+    ggVG:FoldMarker s<cr>
 
 You can also execute this command in Normal mode:
 
-    :1,4FoldMarker s
+    :1,4FoldMarker s<cr>
 
 Example(after):
 
@@ -156,8 +155,7 @@ Example(after):
 
 Execute commands:
 
-    ggjVG<esc>
-    :FoldMarker s<cr>
+    :2,4FoldMarker s<cr>
 
 A new fold title will be created:
 
@@ -202,57 +200,127 @@ Example(after):
     4   }
     5   }
 
-If fold markers have wrong formats, refer to 3.12(Fold marker pattern), fold levels after such markers will not be deleted.
+If fold markers have wrong formats, refer to 3.13(Fold marker pattern), fold levels after such markers will not be deleted.
 
 ### 3.8 Argument `c/C`
 
-First enter Visual mode, then choose text containing fold markers.  Execute `:FoldMarker c`, which will do two things:
+Execute `:%FoldMarker c` for Example(after) in 3.7.  The plugin which will do two things:
 
-*   Execute command `:FoldMarker d`.
+*   Execute command `:%FoldMarker d`.
 *   Creat fold levels after fold markers.
 
-Change fold level
+The final result is the same as Example(before) in 3.7.
 
-`:FoldMarker c` can be used to change fold level.
+Now let's look at another text.
+
+Example(before):
+
+    1   Title {
+    2   SubTitle {3
+    3
+    4   }
+    5   }
+
+Execute command:
+
+    :%FoldMarker C<cr>
+
+Example(after):
+
+    1   Title {1
+    2   SubTitle {3
+    3
+    4   }3
+    5   }1
+
+`:%FoldMarker C` divides the text into two parts.
+
+Part one:
+
+*   Begin: the first line in command range(line 1)
+*   End: the first fold marker `{` contains fold level from top to bottom(line 2)
+
+Part two:
+
+*   Begin: the first fold marker `{` contains fold level from top to bottom(line 2)
+*   End: the last line in command range(line 5)
+
+For part one, execute command:
+
+    :1,2FoldMarker c<cr>
+
+For part two, first execute command:
+
+    :2,5FoldMarker d<cr>
+
+Then add the original fold level(3) to the end of line 2:
+
+    :2s/$/3/<cr>
+
+Creat fold levels in part two, use command such as:
+
+    :2,5s/{\|}$/\=foldlevel('.')/<cr>
+
+### 3.9 Argument `r/R`
+
+`:FoldMarker r` only deletes the outermost fold markers and fold levels inside command range, which are:
+
+*   the first `{` from top to bottom
+*   the first `}` from bottom to top
 
 Example(before):
 
     1   Title {1
-    2
+    2   SubTitle {2
     3
-    4   }1
+    4   }2
+    5   }1
 
-Execute these commands to change a level one fold into level two:
+Execute command:
 
-    ggyyp
-    ggVG<esc>
-    :FoldMarker c<cr>
-    ggdd
+    :%FoldMarker r<cr>
 
 Example(after):
 
-    1   Title {2
-    2
+    1   Title
+    2   SubTitle {2
     3
     4   }2
+    5
 
-Execute these commands to change a level two fold back to level one:
+If execute command:
 
-    ggVG<esc>
-    :FoldMarker c<cr>
+    :%FoldMarker R<cr>
 
-### 3.9 Argument `r/R`
+All fold markers and fold levels inside command range will be deleted.
 
 ### 3.10 Argument `h`
 
-### 3.11 Command range
+`:FoldMarker h` lists all acceptable arguments.
 
-### 3.12 Fold marker pattern
+### 3.11 Move new fold marker
+
+After you execute command `l/L/a/A/b/B` to creat a pair of fold markers, the cursor will stay in the beginning of fold area, where `{` lies, no more commands will be executed by default.  You can set the global variable `g:MoveFold_FoldMarker` to move new fold marker.
+
+*    `g:MoveFold_FoldMarker` = 0: do not move fold marker
+*    `g:MoveFold_FoldMarker` = 1: move fold marker to the top of screen (`zt`)
+*    `g:MoveFold_FoldMarker` = 2: move fold marker to the middle of screen (`zz`)
+*    `g:MoveFold_FoldMarker` = 3: move fold marker to the bottom of screen (`zb`)
+
+### 3.12 Command range
+
+As mentioned above(3.6-3.9), `:FoldMarker` can be executed in the specified line, that is, `:<line1>,<line2>FoldMarker`.
+
+*   `l/L/a/A/b/B`: execute command in Line <line1>
+*   `s/S/c/C/d/r/R`: execute command from Line <line1> to <line2>
+
+### 3.13 Fold marker pattern
 
 In order to make sure `:FoldMarker` to work properly, that is to say:
 
-*   `l/a/b/s` will creat a pair of fold markers in the right position
-*   `c/d` will creat/delete fold levels
+*   `l/L/a/A/b/B/s/S` will creat a pair of fold markers in the right position
+*   `c/C/d` will creat/delete fold levels
+*   `r/R` will creat/delete fold markers
 
 Fold markers and fold levels inserted by users should match the following pattern:
 
@@ -264,7 +332,7 @@ Brief summary for markers:
 *   `[]`: optional content
 *   `.`: join two parts without inserting any other characters
 
-New fold markers created by `l/a/b/s` match the following pattern:
+New fold markers created by `l/L/a/A/b/B/s/S` match the following pattern:
 
 *   `<`blank`>` . `[comment]` . `<`fold marker`>` . `<`fold level`>` . `<`$`>`
 
@@ -280,7 +348,7 @@ Let's discuss every part in detail.
 
 `[comment]`: Comments such as `"`, `#` and `%`.  There should not be blank characters inside `[comment]`, but more than one non-blank characters are allowed.
 
-`c/d` will not modify `[comment]`.  `l/a/b/s` will creat new `[comment]` before fold markers.
+`c/C/d/r/R` will not modify `[comment]`.  `l/L/a/A/b/B/s/S` will creat new `[comment]` before fold markers.
 
 Example(before):
 
@@ -312,7 +380,7 @@ If there exist non-blank characters other than numbers after fold markers, such 
 
 *   `<`blank`>` . `<`fold marker`>` . `<`fold level`>` . `<`$`>`
 
-`c/d` will not creat or delete fold levels after fold markers which have wrong pattern.
+`c/C/d/r/R` will not creat or delete fold levels after fold markers which have wrong pattern.
 
 ## 4. Error messages
 
@@ -379,24 +447,12 @@ The plugin will NOT report error when you choose:
 
 ## 5. User-defiend commands and key mappings
 
-You can define your own commands and key mappings by adding such lines into .vimrc:
+These user-defined commands and key mappings are for reference only:
 
-    command! -range FmAbove FoldMarker a
-    command! -range FmBelow FoldMarker b
-    command! -range FmLine FoldMarker l
-    command! -range FmSurround FoldMarker s
-    command! -range FmCreLevel FoldMarker c
-    command! -range FmDelLevel FoldMarker d
-
+    command! -range FmLine <line1>FoldMarker l
+    command! -range FmSurround <line1>,<line2>FoldMarker s
     nnoremap <silent> <tab> :FoldMarker b<cr>
-    nnoremap <silent> <s-tab> :FoldMarker a<cr>
-    nnoremap <silent> <c-tab> :FoldMarker l<cr>
-    vnoremap <silent> <c-tab> :FoldMarker s<cr>
-
-    nnoremap <silent> <a-=> :FoldMarker c<cr>
-    nnoremap <silent> <a--> :FoldMarker d<cr>
-    vnoremap <silent> <a-=> :FoldMarker c<cr>
-    vnoremap <silent> <a--> :FoldMarker d<cr>
+    vnoremap <silent> <a-=> :FoldMarker C<cr>
 
 ## 6. Version history
 
