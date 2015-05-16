@@ -18,7 +18,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ## 2. 下载并安装插件
 
-进入 [GitHub 仓库](https://github.com/Bozar/foldMarker)或 [Vim 官网](http://www.vim.org/scripts/script.php?script_id=5166) 下载插件。
+进入 [GitHub 仓库](https://github.com/Bozar/foldMarker) 或 [Vim 官网](http://www.vim.org/scripts/script.php?script_id=5166) 下载插件。
 
 把下面这两个文件复制到 `~/.vim/` 目录下（Windows 用户把文件复制到 `vimfiles/` 目录下）：
 
@@ -33,7 +33,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ### 3.1 第一次输入命令
 
-输入命令 `:FoldMarker`，在 cursor line 之下应该出现一对 fold markers。
+输入命令 `:FoldMarker`，在 cursor line 之下应该出现一对 fold marker。
 
 示例（之前）：
 
@@ -60,18 +60,18 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 请查阅 4.2（`foldmethod`）。
 
-如果 `:FoldMarker` 没有生成一对 fold markers，请查阅 4.3（`:FoldMarker` 命令已存在）。
+如果 `:FoldMarker` 没有生成一对 fold marker，请查阅 4.3（`:FoldMarker` 命令已存在）。
 
 ### 3.2 命令参数
 
 `:FoldMarker` 可以接受十四个字母作为参数，也可以不接受参数直接执行，此时效果和 `l` 参数相同。这些参数分为四类：
 
-在指定位置生成一对 fold markers：
+在指定位置生成一对 fold marker：
 
-*   `l/L`：在 cursor line 之下（`Line`）生成一对 fold markers。
-*   `a/A`：在 fold area 之上（`Above`）生成一对 fold markers。
-*   `b/B`：在 fold area 之下（`Below`）生成一对 fold markers。
-*   `s/S`：在指定范围内（`Surround`）生成一对 fold markers。
+*   `l/L`：在 cursor line 之下（`Line`）生成一对 fold marker。
+*   `a/A`：在 fold area 之上（`Above`）生成一对 fold marker。
+*   `b/B`：在 fold area 之下（`Below`）生成一对 fold marker。
+*   `s/S`：在指定范围内（`Surround`）生成一对 fold marker。
 
 添加或删除 fold level：
 
@@ -80,7 +80,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 删除 fold marker：
 
-*   `r/R`：在指定范围内删除最外层/所有的 fold markers。
+*   `r/R`：在指定范围内删除最外层/所有的 fold marker。
 
 查阅帮助：
 
@@ -88,9 +88,9 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ### 3.3 参数 `l/L`
 
-`:FoldMarker l/L` 在 cursor line 之下生成一对 fold markers。示例见上文，3.1。
+`:FoldMarker l/L` 在 cursor line 之下生成一对 fold marker。示例见上文，3.1。
 
-小写参数生成的 fold markers 之后跟着 fold levels，大写参数生成的 fold markers 之后没有 fold levels。这条规则适用于以下四对参数：
+小写参数生成的 fold marker 之后跟着 fold levels，大写参数生成的 fold marker 之后没有 fold levels。这条规则适用于以下四对参数：
 
 *   l/L
 *   a/A
@@ -99,9 +99,9 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ### 3.4 参数 `a/A`
 
-如果光标在 fold area 之外，那么 `:FoldMarker a` 在 cursor line 之上生成一对 fold markers。
+如果光标在 fold area 之外，那么 `:FoldMarker a` 在 cursor line 之上生成一对 fold marker。
 
-如果光标在 fold area 之内，那么 `:FoldMarker a` 在 fold area 之上生成一对 fold markers。
+如果光标在 fold area 之内，那么 `:FoldMarker a` 在 fold area 之上生成一对 fold marker。
 
 示例（之前）：
 
@@ -123,11 +123,11 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ### 3.5 参数 `b/B`
 
-`:FoldMarker b` 的作用和 `:FoldMarker a` 类似，即在 cursor line 之下，或者在 fold area 之下生成一对 fold markers。
+`:FoldMarker b` 的作用和 `:FoldMarker a` 类似，即在 cursor line 之下，或者在 fold area 之下生成一对 fold marker。
 
 ### 3.6 参数 `s/S`
 
-进入 Visual mode，选中至少两行，`:FoldMarker s` 将在 Visual area 的首行和尾行添加一对 fold markers。
+进入 Visual mode，选中至少两行，`:FoldMarker s` 将在 Visual area 的首行和尾行添加一对 fold marker。
 
 示例（之前）：
 
@@ -138,12 +138,11 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 执行命令：
 
-    ggVG<esc>
-    :FoldMarker s<cr>
+    ggVG:FoldMarker s<cr>
 
 或者在 Normal mode 下指定命令的执行范围：
 
-    :1,4FoldMarker s
+    :1,4FoldMarker s<cr>
 
 示例（之后）：
 
@@ -154,7 +153,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 如果执行命令：
 
-    :2,4FoldMarker s
+    :2,4FoldMarker s<cr>
 
 效果略有不同：
 
@@ -173,11 +172,11 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
     ERROR: Line X has fold marker!
 
-请查阅 4.5（指定区域包含 fold markers）。
+请查阅 4.5（指定区域包含 fold marker）。
 
 ### 3.7 参数 `d`
 
-上述四组参数能在指定位置生成一对 fold markers，参数 `c/C/d` 的作用是在 fold marker 之后添加或删除 fold level。先来讨论命令 `:FoldMarker d`。
+上述四组参数能在指定位置生成一对 fold marker，参数 `c/C/d` 的作用是在 fold marker 之后添加或删除 fold level。先来讨论命令 `:FoldMarker d`。
 
 示例（之前）：
 
@@ -187,7 +186,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
     4   }2
     5   }1
 
-输入命令：
+执行命令：
 
     :%FoldMarker d<cr>
 
@@ -199,57 +198,127 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
     4   }
     5   }
 
-如果 fold marker 格式错误，见下文 3.12（fold marker 的格式），那么 fold marker 之后的 fold level 不会被删除。
+如果 fold marker 格式错误，见下文 3.13（fold marker 的格式），那么 fold marker 之后的 fold level 不会被删除。
 
 ### 3.8 参数 `c/C`
 
-进入 Visual mode，选中含有 fold marker 的文本，`:FoldMarker c` 将执行两步操作：
+针对 3.7 的示例（之后）执行命令 `:%FoldMarker c`，插件将执行两步操作：
 
-*   执行命令 `:FoldMarker d`。
+*   执行命令 `:%FoldMarker d`。
 *   在 fold marker 之后添加 fold level。
 
-调整 fold level
+最终结果和 3.7 的示例（之前）相同。
 
-`:FoldMarker c` 还能调整 fold level。
+现在来看另一段文本。
+
+示例（之前）：
+
+    1   Title {
+    2   SubTitle {3
+    3
+    4   }
+    5   }
+
+执行命令：
+
+    :%FoldMarker C<cr>
+
+示例（之后）：
+
+    1   Title {1
+    2   SubTitle {3
+    3
+    4   }3
+    5   }1
+
+`:%FoldMarker C` 把文本分成两块区域。
+
+第一块区域：
+
+*   开始：命令范围的首行（第 1 行）。
+*   结束：从上往下第一个以 fold level 结尾的 fold marker `{`（第 2 行）。
+
+第二块区域：
+
+*   开始：从上往下第一个以 fold level 结尾的 fold marker 结束（第 2 行）。
+*   结束：命令范围的尾行（第 5 行）。
+
+对于第一块区域，执行命令：
+
+    :1,2FoldMarker c<cr>
+
+对于第二块区域，先执行命令：
+
+    :2,5FoldMarker d<cr>
+
+接着在第二行末尾添加初始的 fold level（3）：
+
+    :2s/$/3/<cr>
+
+最后向第二块区域的 fold marker 之后添加 fold level，使用类似这样的命令：
+
+    :2,5s/{\|}$/\=foldlevel('.')/<cr>
+
+### 3.9 参数 `r/R`
+
+先指定一个范围，`:FoldMarker r` 仅仅删除一对最外层的 fold marker 和 fold level，即：
+
+*   从范围的首行开始，向下搜索到的第一个 `{`。
+*   从范围的尾行开始，向上搜索到的第一个 `}`。
 
 示例（之前）：
 
     1   Title {1
-    2
+    2   SubTitle {2
     3
-    4   }1
+    4   }2
+    5   }1
 
-如果要把 1 级 fold 变成 2 级，可以执行以下命令：
+执行命令：
 
-    ggyyp
-    ggVG<esc>
-    :FoldMarker c<cr>
-    ggdd
+    :%FoldMarker r<cr>
 
 示例（之后）：
 
-    1   Title {2
-    2
+    1   Title
+    2   SubTitle {2
     3
     4   }2
+    5
 
-如果要把 2 级 fold 变回 1 级，可以这么做：
+如果执行命令：
 
-    ggVG<esc>
-    :FoldMarker c<cr>
+    :%FoldMarker R<cr>
 
-### 3.9 参数 `r/R`
+那么范围内所有的 fold marker 和 fold level 都会被删除。
 
 ### 3.10 参数 `h`
 
-### 3.11 命令的范围
+`:FoldMarker h` 列举出所有可接受的参数。
 
-### 3.12 fold marker 的格式
+### 3.11 移动新生成的 fold marker
+
+执行命令 `l/L/a/A/b/B` 生成一对 fold marker 之后，光标停留在 fold area 开头（即 `{` 所在的行），默认情况下不会执行更多命令。你可以设定全局变量 `g:MoveFold_FoldMarker`，移动新生成的 fold marker。
+
+*    `g:MoveFold_FoldMarker` = 0：不移动 fold marker
+*    `g:MoveFold_FoldMarker` = 1：移动到屏幕顶部（`zt`）
+*    `g:MoveFold_FoldMarker` = 2：移动到屏幕中间（`zz`）
+*    `g:MoveFold_FoldMarker` = 3：移动到屏幕底部（`zb`）
+
+### 3.12 命令的范围
+
+如前所述（3.6-3.9），`:FoldMarker` 可以在指定的范围内执行，即 `:<line1>,<line2>FoldMarker` 。
+
+*   `l/L/a/A/b/B`：在 <line1> 行执行命令。
+*   `s/S/c/C/d/r/R`：在 <line1> 行和 <line2> 行之间执行命令。
+
+### 3.13 fold marker 的格式
 
 为了确保 `:FoldMarker` 正常工作，即：
 
-*   `l/a/b/s` 可以在正确的位置生成新的 fold marker
-*   `c/d` 可以增加/删除 fold level
+*   `l/L/a/A/b/B/s/S` 可以在正确的位置生成新的 fold marker
+*   `c/C/d` 可以增加/删除 fold level
+*   `r/R` 可以增加/删除 fold marker
 
 用户输入的 fold marker 和 fold level 需要符合以下格式：
 
@@ -261,7 +330,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 *   `[]`：可选的内容
 *   `.`：两个部分之间不能插入其它字符
 
-`l/a/b/s` 生成的新 fold marker 符合以下格式：
+`l/L/a/A/b/B/s/S` 生成的新 fold marker 符合以下格式：
 
 *   `<`blank`>` . `[comment]` . `<`fold marker`>` . `<`fold level`>` . `<`$`>`
 
@@ -277,7 +346,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 `[comment]`。注释符号，比如 `"`、`#` 或 `%`。 `[comment]` 内不能包含空白字符，但是可以包含多个非空白字符。
 
-`c/d` 不会改动 `[comment]`， `l/a/b/s` 会在新生成的 fold marker 前添加 `[comment]`。
+`c/C/d/r/R` 不会改动 `[comment]`， `l/L/a/A/b/B/s/S` 会在新生成的 fold marker 前添加 `[comment]`。
 
 示例（之前）：
 
@@ -309,7 +378,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 *   `<`blank`>` . `<`fold marker`>` . `<`fold level`>` . `<`$`>`
 
-`c/d` 不会添加或删除格式错误的 fold marker 之后的 fold level。
+`c/C/d/r/R` 不会添加或删除格式错误的 fold marker 之后的 fold level。
 
 ## 4. 错误提示
 
@@ -329,7 +398,7 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ### 4.3 `:FoldMarker` 命令已存在
 
-如果 `:FoldMarker` 没有生成一对 fold markers，可能是因为其它插件已经定义了这个命令。
+如果 `:FoldMarker` 没有生成一对 fold marker，可能是因为其它插件已经定义了这个命令。
 
 请向 `.vimrc` 内添加一行，设置新的命令名：
 
@@ -376,24 +445,12 @@ foldMarker.vim 定义了一个新命令 `:FoldMarker` 。这个命令可以接�
 
 ## 5. 自定义命令和键映射
 
-我向 .vimrc 添加了以下命令和键映射：
+以下自定义命令和键映射仅供参考：
 
-    command! -range FmAbove FoldMarker a
-    command! -range FmBelow FoldMarker b
-    command! -range FmLine FoldMarker l
-    command! -range FmSurround FoldMarker s
-    command! -range FmCreLevel FoldMarker c
-    command! -range FmDelLevel FoldMarker d
-
+    command! -range FmLine <line1>FoldMarker l
+    command! -range FmSurround <line1>,<line2>FoldMarker s
     nnoremap <silent> <tab> :FoldMarker b<cr>
-    nnoremap <silent> <s-tab> :FoldMarker a<cr>
-    nnoremap <silent> <c-tab> :FoldMarker l<cr>
-    vnoremap <silent> <c-tab> :FoldMarker s<cr>
-
-    nnoremap <silent> <a-=> :FoldMarker c<cr>
-    nnoremap <silent> <a--> :FoldMarker d<cr>
-    vnoremap <silent> <a-=> :FoldMarker c<cr>
-    vnoremap <silent> <a--> :FoldMarker d<cr>
+    vnoremap <silent> <a-=> :FoldMarker C<cr>
 
 ## 6. 版本历史
 
