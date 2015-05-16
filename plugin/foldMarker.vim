@@ -1,24 +1,9 @@
 " foldMarker.vim
-" Last Update: May 14, Thu | 09:25:13 | 2015
+" Last Update: May 16, Sat | 10:08:04 | 2015
 
-" Version: 1.1.0-nightly
+" Version: 1.1.0
 " License: GPLv3
 " Author: Bozar
-
-" STATUS:
-" - fix bugs
-
-" DONE:
-" - fix: fold marker pattern
-" - add: move fold head
-" - add: creat fold marker without fold level
-" - delete fold markers
-" - use existing fold level
-" - accept command range other than `'<` and `'>`
-
-" WORKING:
-
-" TODO:
 
 " load once
 if !exists('g:loaded_foldMarker')
