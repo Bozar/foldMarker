@@ -77,7 +77,7 @@ Creat a pair of fold markers in the specified position:
 
 Creat or delete fold levels:
 
-*   `c/C`: `(C)reat` fold levels
+*   `c/C`: `(C)reat` absolute/relative fold levels
 *   `d`: `(D)elete` fold levels
 
 Delete fold markers:
@@ -101,9 +101,9 @@ Lower case arguments creat both fold markers and fold levels.  Upper case argume
 
 ### 3.4 Argument `a/A`
 
-If cursor is outside fold area, then `:FoldMarker a` will creat a pair of fold markers above cursor line.
+If cursor is outside fold area, `:FoldMarker a` will creat a pair of fold markers above cursor line.
 
-If cursor is inside fold area, then `:FoldMarker a` will creat a pair of fold markers above fold area.
+If cursor is inside fold area, `:FoldMarker a` will creat a pair of fold markers above fold area.
 
 Example(before):
 
@@ -311,8 +311,8 @@ After you execute command `l/L/a/A/b/B` to creat a pair of fold markers, the cur
 
 As mentioned above(3.6-3.9), `:FoldMarker` can be executed in the specified line, that is, `:<line1>,<line2>FoldMarker`.
 
-*   `l/L/a/A/b/B`: execute command in Line <line1>
-*   `s/S/c/C/d/r/R`: execute command from Line <line1> to <line2>
+*   `l/L/a/A/b/B`: execute command in Line `<`line1`>`
+*   `s/S/c/C/d/r/R`: execute command from Line `<`line1`>` to `<`line2`>`
 
 ### 3.13 Fold marker pattern
 
